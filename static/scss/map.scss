@@ -1,0 +1,126 @@
+@import "colorscheme.scss";
+
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.6rem;
+}
+
+p {
+    color: #000;
+    font-size: 2rem;
+}
+
+.contenedor {
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+h1,
+h2,
+h3 {
+    margin: 0 0 5rem 0;
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+h2 {
+    font-size: 3.6rem;
+}
+
+h3 {
+    font-size: 3.2rem;
+}
+
+.bg-primary-color {
+  background-color: $primary-color;
+}
+
+.custom-nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: $primary-color;
+
+    .nav-elem {
+      color: white;
+      font-weight: bold;
+    }
+}
+
+.screen_container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.custom-nav-bar {
+    padding: 2rem;
+}
+
+.map-container {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.filtro {
+  height: 100%;
+  flex-grow: 1;
+}
+
+.mapa {
+  height: 100%;
+  width: 650px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mapa-titulo {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.mapa-buscar {
+  font-size: 18px;
+  margin: 10px;
+  border-radius: 15px;
+  box-shadow: 2px 5px rgba(0, 0, 0, 0.1);
+  height: 5rem;
+}
+
+.mapa-imagen-container {
+  flex-grow: 1;
+}
+
+.empty-block {
+  height: 100%;
+  flex-grow: 1;
+}
