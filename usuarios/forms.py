@@ -23,9 +23,9 @@ class UbiacionForm(models.Model):
 class InstitucionEducativaForm(models.Model):
     class Meta:
         model = InstitucionEducativa
-        fields = exclude = ['user']
+        exclude = ['user']
 
 class EmpresaForm(models.Model):
     class Meta:
         model = Empresa
-        fields = exclude = ['user']
+        exclude = ['user']
