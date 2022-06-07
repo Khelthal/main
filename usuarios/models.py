@@ -1,15 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser
 
-TIPO_USUARIO = [
-    ('0', 'Invitado'), 
-    ('1', 'Institucion Educativa'),
-    ('2', 'Investigador'),
-    ('3', 'Empresa'),
-]
+class TipoUsuario(models.Model):
+    tipo = models.TextField()
 
 class User(AbstractUser):
-    tipo_usuario = models.PositiveSmallIntegerField(choices=TIPO_USUARIO)
+    tipo_usuario = models.ForeignKey(TipoUsuario, on_delete=models.DO_NOTHING)
 
 class InstitucionEducativa(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
