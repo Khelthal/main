@@ -24,8 +24,12 @@ inputBox.onkeyup = (e)=>{
             // passing return data inside li tag
             return data = `<li>${data}</li>`;
         });
-        searchWrapper.classList.add("active"); //show autocomplete box
-        showSuggestions(emptyArray);
+        if (emptyArray.length) {
+            searchWrapper.classList.add("active"); //show autocomplete box
+            showSuggestions(emptyArray);
+        } else {
+            searchWrapper.classList.remove("active"); //hide autocomplete box
+        }
         let allList = suggBox.querySelectorAll("li");
         for (let i = 0; i < allList.length; i++) {
             //adding onclick attribute in all li tag
@@ -49,11 +53,6 @@ function select(element){
 
 function showSuggestions(list){
     let listData;
-    if(!list.length){
-        userValue = inputBox.value;
-        listData = `<li>${userValue}</li>`;
-    }else{
-      listData = list.join('');
-    }
+    listData = list.join('');
     suggBox.innerHTML = listData;
 }

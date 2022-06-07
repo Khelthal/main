@@ -45,50 +45,8 @@
     </nav>
 
     <div class="map-container">
-      <div class="filtro">
-        <div class="filtro-titulo">
-          Filtros
-        </div>
-        <div class="filtro-form">
-          <form>
-            <p>Interés</p>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
-                checked>
-              <label class="form-check-label" for="exampleRadios1">
-                Investigadores
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-              <label class="form-check-label" for="exampleRadios2">
-                Grupos Académicos
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
-              <label class="form-check-label" for="exampleRadios3">
-                Instituciones Educativas
-              </label>
-            </div>
-            <hr>
-            <p>Etiquetas</p>
-            <div class="form-group">
-              <select multiple class="form-control" id="exampleFormControlSelect2">
-                <option>Plagas</option>
-                <option>Frijol</option>
-                <option>Verdura</option>
-                <option>Minería</option>
-                <option>Roedores</option>
-              </select>
-            </div>
-            <hr>
-            <p>Localización Específica</p>
-          </form>
-        </div>
-      </div>
 
-      <div class="mapa">
+      <div class="mapa-header">
         <div class="mapa-titulo">
           Sistema Estatal de Investigadores
         </div>
@@ -102,10 +60,57 @@
             <div class="icon"><i class="fas fa-search"></i></div>
           </div>
         </div>
+      </div>
+
+      <div class="mapa">
+        <div class="filtro">
+          <div class="filtro-titulo">
+            Filtros
+          </div>
+          <div class="filtro-form">
+            <form>
+              <p>Interés</p>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
+                  checked>
+                <label class="form-check-label" for="exampleRadios1">
+                  Investigadores
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                <label class="form-check-label" for="exampleRadios2">
+                  Grupos Académicos
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
+                <label class="form-check-label" for="exampleRadios3">
+                  Instituciones Educativas
+                </label>
+              </div>
+              <hr>
+              <p>Etiquetas</p>
+              <div class="form-group">
+                <select multiple class="form-control" id="exampleFormControlSelect2">
+                  <option>Plagas</option>
+                  <option>Frijol</option>
+                  <option>Verdura</option>
+                  <option>Minería</option>
+                  <option>Roedores</option>
+                </select>
+              </div>
+              <hr>
+              <p>Localización Específica</p>
+            </form>
+          </div>
+        </div>
+
         <div class="mapa-imagen-container" id="map">
         </div>
       </div>
     </div>
+
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary-color custom-nav-bar">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
