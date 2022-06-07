@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import TipoUsuario, Ubicacion
+from .models import TipoUsuario, Ubicacion, InstitucionEducativa
 
 class UserForm(forms.ModelForm):
     repassword = forms.CharField()
@@ -18,3 +18,8 @@ class UbiacionForm(models.Model):
     class Meta:
         model = Ubicacion
         fields = '__all__'
+
+class InstitucionEducativaForm(models.Model):
+    class Meta:
+        model = InstitucionEducativa
+        fields = exclude = ['user']
