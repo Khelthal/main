@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class VisitantesConfig(AppConfig):
+class VinculacionConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'visitantes'
+    name = 'vinculacion'
