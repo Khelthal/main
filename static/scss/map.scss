@@ -101,6 +101,7 @@ h3 {
   z-index: 10000;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
 }
 
 .filtro-titulo {
