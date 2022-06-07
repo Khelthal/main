@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_sass',
     'vinculacion',
     'usuarios',
+    'investigadores',
 ]
 
 MIDDLEWARE = [
