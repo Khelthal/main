@@ -6,6 +6,9 @@ class NivelInvestigador(models.Model):
     nivel = models.IntegerField()
     descripcion = models.TextField()
 
+    def __str__(self):
+        return "Nivel " + str(self.nivel)
+
 class Investigador(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     ubicacion = models.ForeignKey(Ubicacion, on_delete=models.DO_NOTHING, blank=True, null=True)

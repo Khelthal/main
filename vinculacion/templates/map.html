@@ -136,6 +136,23 @@
           "{{categoria}}",
         {%endfor%}
     ];
+
+    let usuarios = [
+        {% for usuario in usuarios %}
+          {
+                username : "{{usuario.user.username}}",
+                latitud : "{{usuario.ubicacion.latitud}}",
+                longitud : "{{usuario.ubicacion.longitud}}",
+                tipoUsuario : "{{usuario.user.tipo_usuario}}"
+          },
+        {% endfor %}
+    ];
+
+    usuarios.forEach(function showInMap(usuario) {
+      L.marker([usuario.latitud, usuario.longitud]).addTo(map)
+        .bindPopup(usuario.tipoUsuario)
+        .openPopup();
+    });
   </script>
 </body>
 
