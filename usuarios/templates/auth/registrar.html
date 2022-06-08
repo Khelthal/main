@@ -22,7 +22,13 @@
                 <a href="{% url 'usuarios:login' %}"><button class="sign-up-btn">Iniciar Sesion</button></a>
             </div>
         </div>
-        <form class="form">
+        {% if form.errors %}
+            <div class="alert alert-warning">
+            {{form.errors}}
+            </div>
+        {% endif %}
+        <form class="form" method="post">
+            {% csrf_token %}
             <h2 class="create-account">Crear una cuenta</h2>
             <div class="iconos">
                 <div class="border-icon">
@@ -45,8 +51,8 @@
             </select>
             <input type="text" placeholder="Nombre">
             <input type="email" placeholder="Email">
-            <input type="password" placeholder="Contraseña">
-            <input type="password" placeholder="Confirma Contraseña">
+            <input type="password" name="password" laceholder="Contraseña">
+            <input type="password" name="repassword" placeholder="Confirma Contraseña">
             <input type="button" value="Registrarse">
         </form>
     </div>

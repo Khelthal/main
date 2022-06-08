@@ -15,7 +15,27 @@
 
 <body class="body-login">
     <div class="container-form sign-in active">
-        <form class="form">
+        {% if form.errors %}
+            {% comment %} {{form.errors}} {% endcomment %}
+            <div class="alert alert-warning">
+            Verifica tus datos de acceso.
+            </div>
+        {% endif %}
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger">
+                        {{message}}
+                    </div>
+                {% else %}
+                    <div class="alert alert-success">
+                        {{message}}
+                    </div>
+                {% endif %}  
+            {% endfor %}
+        {% endif %}
+        <form class="form" method="post">
+            {% csrf_token %}
             <h2 class="create-account">Iniciar Sesion</h2>
             <div class="iconos">
                 <div class="border-icon">
@@ -30,7 +50,7 @@
             </div>
             <p class="cuenta-gratis">¿Aun no tienes una cuenta?</p>
             <input type="email" placeholder="Email">
-            <input type="password" placeholder="Contraseña">
+            <input type="password" name="password" placeholder="Contraseña">
             <input type="button" value="Iniciar Sesion">
         </form>
         <div class="welcome-back">
