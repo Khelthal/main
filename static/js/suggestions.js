@@ -69,6 +69,6 @@ function showSuggestions(list){
 
 function freeSuggestion(opt) {
   suggestions.push(opt.value);
-  etiquetas.onchange();
   opt.parentNode.remove(opt);
+  etiquetas.onchange();
 }

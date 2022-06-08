@@ -20,6 +20,10 @@ function showUsersInMap() {
     },
   ];
 
+  let etiquetas_activas = Array.from(etiquetas.options).map(function (option) {
+    return option.text;
+  });
+
   let desiredUsers = usuarios.filter(function (usuario) {
     let desired = false;
     filtros.forEach(function (f) {
@@ -34,6 +38,19 @@ function showUsersInMap() {
 
     return desired;
   });
+
+  desiredUsers = desiredUsers.filter(function (usuario) {
+    let desired = false;
+
+    etiquetas_activas.forEach(function (etiqueta) {
+      if (usuario.username.toLocaleLowerCase() == etiqueta.toLocaleLowerCase()) {
+        desired = true;
+      }
+    });
+
+    return desired;
+  });
+
   desiredUsers.forEach(function (usuario) {
     let marker = L.marker([usuario.latitud, usuario.longitud])
     marker.addTo(map)
