@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block titulo %}
+    {{accion}} investigador
+{% endblock titulo %}
+
+{% block contenido %}
+    <h1>{{accion}} investigador</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input class="btn btn-success" type="submit" 
+        {% if accion == 'Nuevo' %}
+            value="Agregar"
+        {% else %}
+            value="Guardar"
+        {% endif %}
+        >
+        <a class="btn btn-primary" href="{% url 'investigadores:lista' %}">Regresar</a>
+
+    </form>
+
+{% endblock contenido %}
+
+{% block scripts %}
+    {% comment %} <script src="{% static 'dist/js/pages/dashboard3.js' %}"></script> {% endcomment %}
+{% endblock scripts %}
