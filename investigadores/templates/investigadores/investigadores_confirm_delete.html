@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+    <form method="post" class="form">
+        {% csrf_token %}
+        <p>¿Deseas eliminar el investigador <b>{{object}}</b>?</p>
+        <input type="submit" value="Eliminar" class="btn btn-danger">
+        <a class="btn btn-secondary" href="{% url 'investigadores:lista' %}">Regresar</a>
+    </form>
+{% endblock contenido %}
