@@ -70,25 +70,26 @@
           <div class="filtro-form">
             <form>
               <p>Interés</p>
+
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
-                  checked>
-                <label class="form-check-label" for="exampleRadios1">
+                <input class="form-check-input" type="checkbox" value="" id="filtro_investigadores" onchange="reloadUsersInMap()">
+                <label class="form-check-label" for="flexCheckDefault">
                   Investigadores
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                <label class="form-check-label" for="exampleRadios2">
-                  Grupos Académicos
+                <input class="form-check-input" type="checkbox" value="" id="filtro_empresas" onchange="reloadUsersInMap()">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Empresas
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
-                <label class="form-check-label" for="exampleRadios3">
+                <input class="form-check-input" type="checkbox" value="" id="filtro_instituciones" onchange="reloadUsersInMap()">
+                <label class="form-check-label" for="flexCheckChecked">
                   Instituciones Educativas
                 </label>
               </div>
+
               <hr>
               <p>Etiquetas</p>
               <div class="form-group">
@@ -130,29 +131,25 @@
   </main>
   <script src="{% static 'js/map.js' %}"></script>
   <script src="{% static 'js/suggestions.js' %}"></script>
+  <script src="{% static 'js/ubicaciones.js' %}"></script>
   <script>
     let suggestions = [
-        {%for categoria in categorias%}
-          "{{categoria}}",
-        {%endfor%}
+      {%for categoria in categorias %}
+    "{{categoria}}",
+      {% endfor %}
     ];
 
     let usuarios = [
-        {% for usuario in usuarios %}
-          {
-                username : "{{usuario.user.username}}",
-                latitud : "{{usuario.ubicacion.latitud}}",
-                longitud : "{{usuario.ubicacion.longitud}}",
-                tipoUsuario : "{{usuario.user.tipo_usuario}}"
-          },
-        {% endfor %}
+      {% for usuario in usuarios %}
+    {
+      username: "{{usuario.user.username}}",
+        latitud : "{{usuario.ubicacion.latitud}}",
+          longitud : "{{usuario.ubicacion.longitud}}",
+            tipoUsuario : "{{usuario.user.tipo_usuario}}"
+    },
+    {% endfor %}
     ];
-
-    usuarios.forEach(function showInMap(usuario) {
-      L.marker([usuario.latitud, usuario.longitud]).addTo(map)
-        .bindPopup(usuario.tipoUsuario)
-        .openPopup();
-    });
+    showUsersInMap();
   </script>
 </body>
 
