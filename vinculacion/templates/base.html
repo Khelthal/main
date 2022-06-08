@@ -18,7 +18,6 @@
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="{% static 'css/map.css' %}">
-  <link rel="stylesheet" href="{% static 'css/investigadores.css' %}">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
     integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
     crossorigin="" />
@@ -37,7 +36,7 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav custom-nav">
           <a class="nav-elem" href="{% url 'vinculacion:dashboard' %}">Inicio</a>
-          <a class="nav-elem" href="{% url 'investigadores:lista' %}">Investigadores</a>
+          <a class="nav-elem" href="{% url 'investigadores:lista_investigador' %}">Investigadores</a>
           <a class="nav-elem" href="#">Grupos Académicos</a>
           <a class="nav-elem" href="#">Universidades</a>
           <a class="nav-elem" href="#">Instituciones / Empresas</a>
@@ -45,10 +44,8 @@
       </div>
     </nav>
 
-    <div class="data_container">
     {% block contenido %}
     {% endblock %}
-    </div>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary-color custom-nav-bar">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"

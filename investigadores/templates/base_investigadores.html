@@ -25,6 +25,7 @@
   <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
     integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
     crossorigin=""></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -37,10 +38,8 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav custom-nav">
           <a class="nav-elem" href="{% url 'vinculacion:dashboard' %}">Inicio</a>
-          <a class="nav-elem" href="{% url 'investigadores:lista' %}">Investigadores</a>
-          <a class="nav-elem" href="#">Grupos Académicos</a>
-          <a class="nav-elem" href="#">Universidades</a>
-          <a class="nav-elem" href="#">Instituciones / Empresas</a>
+          <a class="nav-elem" href="{% url 'investigadores:lista_investigador' %}">Investigadores</a>
+          <a class="nav-elem" href="{% url 'investigadores:lista_investigacion' %}">Investigaciones</a>
         </div>
       </div>
     </nav>

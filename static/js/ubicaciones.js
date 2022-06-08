@@ -20,6 +20,8 @@ function showUsersInMap() {
     },
   ];
 
+  let checker = (arr, target) => target.every(v => arr.includes(v));
+
   let etiquetas_activas = Array.from(etiquetas.options).map(function (option) {
     return option.text;
   });
@@ -40,15 +42,7 @@ function showUsersInMap() {
   });
 
   desiredUsers = desiredUsers.filter(function (usuario) {
-    let desired = false;
-
-    etiquetas_activas.forEach(function (etiqueta) {
-      if (usuario.username.toLocaleLowerCase() == etiqueta.toLocaleLowerCase()) {
-        desired = true;
-      }
-    });
-
-    return desired;
+    return checker(usuario.etiquetas, etiquetas_activas);
   });
 
   desiredUsers.forEach(function (usuario) {

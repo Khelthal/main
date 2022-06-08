@@ -17,8 +17,8 @@
       </div>
 
       <nav class="navegacion">
-          <a href="#" class="navegacion__link">Iniciar Sesión</a>
-          <a href="#" class="navegacion__link">Crear Cuenta</a>
+        <a href="{% url 'usuarios:login' %}" class="navegacion__link">Iniciar Sesión</a>
+        <a href="{% url 'usuarios:registrar' %}" class="navegacion__link">Crear Cuenta</a>
           <a href="#" class="navegacion__link navegacion__link--registrar">Registrar Institución</a>
       </nav>
   </header>

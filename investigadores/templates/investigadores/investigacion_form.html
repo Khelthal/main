@@ -10,7 +10,7 @@
 
 <div class="card" style="width: 90rem;">
   <div class="card-body">
-    <h2>{{accion}} investigador</h2>
+    <h2>{{accion}} investigacion</h2>
 
     <form method="post">
         {% csrf_token %}
@@ -22,14 +22,10 @@
             value="Guardar"
         {% endif %}
         >
-        <a class="btn btn-primary" href="{% url 'investigadores:lista_investigador' %}">Regresar</a>
+        <a class="btn btn-primary" href="{% url 'investigadores:lista_investigacion' %}">Regresar</a>
 
     </form>
   </div>
 </div>
 
 {% endblock contenido %}
-
-{% block scripts %}
-    {% comment %} <script src="{% static 'dist/js/pages/dashboard3.js' %}"></script> {% endcomment %}
-{% endblock scripts %}

@@ -46,8 +46,10 @@ function select(element){
     let opt = document.createElement('option');
     opt.value = selectData;
     opt.innerHTML = selectData;
+    let newId = `opcion_${suggestions.length}`;
+    opt.setAttribute('id', newId);
     opt.onclick = function () {
-      freeSuggestion(this);
+      freeSuggestion(newId);
     };
     etiquetas.appendChild(opt);
     etiquetas.onchange();
@@ -67,7 +69,9 @@ function showSuggestions(list){
     suggBox.innerHTML = listData;
 }
 
-function freeSuggestion(opt) {
+function freeSuggestion(id) {
+  console.log(id);
+  opt = document.getElementById(id);
   suggestions.push(opt.value);
   opt.parentNode.remove(opt);
   etiquetas.onchange();

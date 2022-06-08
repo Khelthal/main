@@ -1,0 +1,38 @@
+{% extends 'base_investigadores.html' %}
+
+{% block contenido %}
+<div class="card" style="width: 90rem;">
+  <div class="card-body">
+
+    <a class="btn btn-outline-success btn-sm" href="{% url 'investigadores:nuevo_investigador' %}">Nuevo Investigador</a>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">Email</th>
+          <th scope="col">Nivel</th>
+          <th scope="col">CURP</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for investigador in investigadores %}
+          <tr>
+            <td>{{investigador.user.username}}</td>
+            <td>{{investigador.user.email}}</td>
+            <td>{{investigador.nivel.nivel}} <i class="fa fa-star" aria-hidden="true"></i></td>
+            <td>{{investigador.curp}}</td>
+            <td>
+              <a class="btn btn-outline-primary btn-sm" href="{% url 'investigadores:editar_investigador' investigador.pk %}">Editar</a>
+              <a class="btn btn-outline-danger btn-sm" href="{% url 'investigadores:eliminar_investigador' investigador.pk %}">Eliminar</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+  </div>
+</div>
+{% endblock %}

@@ -86,7 +86,13 @@
     username: "{{usuario.user.username}}",
       latitud : "{{usuario.ubicacion.latitud}}",
         longitud : "{{usuario.ubicacion.longitud}}",
-          tipoUsuario : "{{usuario.user.tipo_usuario}}"
+          tipoUsuario : "{{usuario.user.tipo_usuario}}",
+            etiquetas : [
+            {% for investigacion in usuario.investigacion_set.all %}
+                {% for categoria in investigacion.categorias.all %}
+                "{{categoria}}",
+                {% endfor %}
+            {% endfor %}],
   },
   {% endfor %}
     ];
