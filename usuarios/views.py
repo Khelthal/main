@@ -2,7 +2,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic.edit import CreateView
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from django.contrib.messages.views import SuccessMessageMixin
 
 from .forms import UserForm
@@ -18,3 +19,9 @@ class RegistrarView(SuccessMessageMixin, CreateView):
     form_class = UserForm
     success_url = reverse_lazy('usuarios:login')
     success_message = "%(username)s se registró de manera exitosa"
+
+    def form_valid(self, form):
+        user = form.save()
+        user.save()
+
+        return super().form_valid(form)
