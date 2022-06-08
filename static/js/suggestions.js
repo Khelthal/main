@@ -3,6 +3,7 @@ const searchWrapper = document.querySelector(".search-input");
 const inputBox = searchWrapper.querySelector("input");
 const suggBox = searchWrapper.querySelector(".autocom-box");
 const icon = searchWrapper.querySelector(".icon");
+const etiquetas = document.getElementById('etiquetas');
 let linkTag = searchWrapper.querySelector("a");
 let webLink;
 
@@ -42,7 +43,16 @@ inputBox.onkeyup = (e)=>{
 
 function select(element){
     let selectData = element.textContent;
-    inputBox.value = selectData;
+    let opt = document.createElement('option');
+    opt.value = selectData;
+    opt.innerHTML = selectData;
+    opt.onclick = function () {
+      freeSuggestion(this);
+    };
+    etiquetas.appendChild(opt);
+    etiquetas.onchange();
+    suggestions.splice(suggestions.indexOf(selectData), 1);
+    inputBox.value = "";
     icon.onclick = ()=>{
         webLink = `https://www.google.com/search?q=${selectData}`;
         linkTag.setAttribute("href", webLink);
@@ -55,4 +65,10 @@ function showSuggestions(list){
     let listData;
     listData = list.join('');
     suggBox.innerHTML = listData;
+}
+
+function freeSuggestion(opt) {
+  suggestions.push(opt.value);
+  etiquetas.onchange();
+  opt.parentNode.remove(opt);
 }
