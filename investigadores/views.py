@@ -13,6 +13,25 @@ def lista(request):
     investigadores = Investigador.objects.all()
     return render(request, "lista.html", {"investigadores":investigadores})
 
+class NuevoInvestigadorView(LoginRequiredMixin, CreateView):
+    model = Investigador
+    # fields = '__all__'
+    form_class = InvestigadorForm
+    extra_context = {'accion':'Nuevo'}
+    success_url = reverse_lazy('investigador:lista')
+    
+    def form_valid(self,form):
+        try:
+            form.save()
+            messages.success(self.request, 'Se creó el investigador')
+        except:
+            messages.error(self.request, 'Error al guardar los cambios')
+
+        return HttpResponseRedirect(self.success_url)
+        
+    def form_invalid(self, form):
+        messages.error(self.request,"Hubo uno o más errores en el formulario")
+
 class EliminarInvestigadorView(LoginRequiredMixin,DeleteView):
     model = Investigador
     extra_context = {'accion':'Eliminar'}
