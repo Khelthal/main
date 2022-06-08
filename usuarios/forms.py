@@ -1,4 +1,3 @@
-from attr import fields
 from django import forms
 from django.contrib.auth.models import User
 
@@ -15,17 +14,17 @@ class TipoUsuarioForm(forms.ModelForm):
         model = TipoUsuario
         fields = '__all__'
 
-class UbiacionForm(models.Model):
+class UbiacionForm(forms.ModelForm):
     class Meta:
         model = Ubicacion
         fields = '__all__'
 
-class InstitucionEducativaForm(models.Model):
+class InstitucionEducativaForm(forms.ModelForm):
     class Meta:
         model = InstitucionEducativa
         exclude = ['user']
 
-class EmpresaForm(models.Model):
+class EmpresaForm(forms.ModelForm):
     class Meta:
         model = Empresa
         exclude = ['user']
