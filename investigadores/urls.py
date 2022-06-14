@@ -13,4 +13,6 @@ urlpatterns = [
     path('investigaciones/nueva', NuevaInvestigacionView.as_view(), name='nueva_investigacion'),
     path('investigadores/eliminar/<int:pk>', EliminarInvestigacionView.as_view(), name='eliminar_investigacion'),
     path('investigadores/editar/<int:id>', editar_investigacion, name='editar_investigacion'),
+
+    path('investigadores', Investigadores.as_view(), name='investigadores')
 ]

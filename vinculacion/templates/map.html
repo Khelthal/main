@@ -29,31 +29,34 @@
         <form>
           <p>Interés</p>
 
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="filtro_investigadores"
-              onchange="reloadUsersInMap()">
-            <label class="form-check-label" for="flexCheckDefault">
-              Investigadores
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="filtro_empresas" onchange="reloadUsersInMap()">
-            <label class="form-check-label" for="flexCheckDefault">
-              Empresas
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="filtro_instituciones"
-              onchange="reloadUsersInMap()">
-            <label class="form-check-label" for="flexCheckChecked">
-              Instituciones Educativas
-            </label>
+          <div id="filtro_tipo_usuario">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="filtro_investigadores"
+                onchange="recargarUsuariosMapa()">
+              <label class="form-check-label" for="flexCheckDefault">
+                Investigador
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="filtro_empresas"
+                onchange="recargarUsuariosMapa()">
+              <label class="form-check-label" for="flexCheckDefault">
+                Empresa
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="filtro_instituciones"
+                onchange="recargarUsuariosMapa()">
+              <label class="form-check-label" for="flexCheckChecked">
+                Institución Educativa
+              </label>
+            </div>
           </div>
 
           <hr>
           <p>Etiquetas</p>
           <div class="form-group">
-            <select multiple class="form-control" id="etiquetas" onchange="reloadUsersInMap()">
+            <select multiple class="form-control" id="etiquetas" onchange="recargarUsuariosMapa()">
             </select>
           </div>
           <hr>
@@ -70,32 +73,5 @@
 
 
 {% block scripts %}
-<script src="{% static 'js/map.js' %}"></script>
-<script src="{% static 'js/suggestions.js' %}"></script>
-<script src="{% static 'js/ubicaciones.js' %}"></script>
-<script>
-  let suggestions = [
-    {%for categoria in categorias %}
-  "{{categoria}}",
-    {% endfor %}
-    ];
-
-  let usuarios = [
-    {% for usuario in usuarios %}
-  {
-    username: "{{usuario.user.username}}",
-      latitud : "{{usuario.ubicacion.latitud}}",
-        longitud : "{{usuario.ubicacion.longitud}}",
-          tipoUsuario : "{{usuario.user.tipo_usuario}}",
-            etiquetas : [
-            {% for investigacion in usuario.investigacion_set.all %}
-                {% for categoria in investigacion.categorias.all %}
-                "{{categoria}}",
-                {% endfor %}
-            {% endfor %}],
-  },
-  {% endfor %}
-    ];
-  showUsersInMap();
-</script>
+<script src="{% static 'js/vinculacion.js' %}"></script>
 {% endblock %}

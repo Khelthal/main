@@ -14,6 +14,9 @@ class Ubicacion(models.Model):
     latitud = models.FloatField()
     longitud = models.FloatField()
 
+    def __str__(self):
+        return f"({self.latitud}, {self.longitud})"
+
 class InstitucionEducativa(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     nombre_institucion = models.CharField(max_length=80)

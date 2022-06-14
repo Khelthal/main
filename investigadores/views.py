@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.edit import DeleteView, CreateView
+from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.http.response import JsonResponse
+import json
 
 from investigadores.models import Investigador, Investigacion
 from investigadores.forms import InvestigadorForm, InvestigacionForm
@@ -110,3 +113,20 @@ def editar_investigacion(request, id):
     else:
         form = InvestigacionForm(instance=investigacion)
     return render(request, 'investigadores/investigacion_form.html', {'form':form, 'accion':'Modificar','a': id})
+
+class Investigadores(View):
+
+    def get(self, request):
+        investigadores = list(Investigador.objects.all())
+
+        def investigador_to_dic(investigador):
+            return {
+                    "username": investigador.user.username,
+                    "latitud": investigador.ubicacion.latitud,
+                    "longitud": investigador.ubicacion.longitud,
+                    "tipoUsuario": str(investigador.user.tipo_usuario),
+            }
+
+        investigadores = list(map(investigador_to_dic, investigadores))
+
+        return JsonResponse(list(investigadores), safe = False)
