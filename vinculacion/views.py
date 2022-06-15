@@ -17,3 +17,6 @@ def dashboard(request):
     usuarios.extend(list(empresas))
     usuarios.extend(list(instituciones))
     return render(request, "vinculacion/map.html", {"categorias":categorias, "usuarios":usuarios})
+
+def empresas(request):
+    return render(request, "vinculacion/empresas.html")

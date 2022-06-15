@@ -1,0 +1,134 @@
+{% extends 'vinculacion/base.html' %}
+{% load static %}
+
+{% block extraresources %}
+<link rel="stylesheet" href="{% static 'css/app.css' %}">
+<title>Empresas</title>
+{% endblock %}
+
+{% block contenido%}
+<main class="empresas">
+    <h2 class="empresas__heading">Empresas que utilizan nuestros servicios</h2>
+    <div class="empresas__grid contenedor">
+        <div class="empresa">
+            <div class="empresa__grid">
+                <div class="empresa__imagen">
+                    <img src="{% static 'img/logo_ensaladas.png'%}" alt="logo empresa">
+                </div>
+
+                <div class="empresa__contenido">
+                    <img src="{% static 'img/estrellas.png'%}" alt="calificación empresa">
+
+                    <h3 class="empresa__nombre">Green Ensaladas</h3>
+                    <p class="empresa__descripcion">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo eos ullam mollitia et sit sequi est perspiciatis qui, ex, iure sed! Ducimus magnam eveniet fugit atque maxime architecto necessitatibus esse.</p>
+                </div>
+            </div>
+        </div> <!--.empresa-->
+
+        <div class="empresa">
+            <div class="empresa__grid">
+                <div class="empresa__imagen">
+                    <img src="{% static 'img/Meta-Logo.png'%}" alt="logo empresa">
+                </div>
+
+                <div class="empresa__contenido">
+                    <img src="{% static 'img/estrellas.png'%}" alt="calificación empresa">
+
+                    <h3 class="empresa__nombre">Meta</h3>
+                    <p class="empresa__descripcion">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo eos ullam mollitia et sit sequi est perspiciatis qui, ex, iure sed! Ducimus magnam eveniet fugit atque maxime architecto necessitatibus esse.</p>
+                </div>
+            </div>
+        </div> <!--.empresa-->
+
+        <div class="empresa">
+            <div class="empresa__grid">
+                <div class="empresa__imagen">
+                    <img src="{% static 'img/CIA.png'%}" alt="logo empresa">
+                </div>
+
+                <div class="empresa__contenido">
+                    <img src="{% static 'img/estrellas.png'%}" alt="calificación empresa">
+
+                    <h3 class="empresa__nombre">MK Ultra</h3>
+                    <p class="empresa__descripcion">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo eos ullam mollitia et sit sequi est perspiciatis qui, ex, iure sed! Ducimus magnam eveniet fugit atque maxime architecto necessitatibus esse.</p>
+                </div>
+            </div>
+        </div> <!--.empresa-->
+
+        <div class="empresa">
+            <div class="empresa__grid">
+                <div class="empresa__imagen">
+                    <img src="{% static 'img/flopas'%}" alt="logo empresa">
+                </div>
+
+                <div class="empresa__contenido">
+                    <img src="{% static 'img/estrellas.png'%}" alt="calificación empresa">
+
+                    <h3 class="empresa__nombre">Flopas contables y asociados</h3>
+                    <p class="empresa__descripcion">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo eos ullam mollitia et sit sequi est perspiciatis qui, ex, iure sed! Ducimus magnam eveniet fugit atque maxime architecto necessitatibus esse.</p>
+                </div>
+            </div>
+        </div> <!--.empresa-->
+
+        <div class="empresa">
+            <div class="empresa__grid">
+                <div class="empresa__imagen">
+                    <img src="./GG_files/logotipo-de-mineria-meiner-emblema-casco-y-pico-y-roca-de-carbon-ilustracion-vectorial-kd4w97.jpg" alt="logo empresa">
+                </div>
+
+                <div class="empresa__contenido">
+                    <img src="{% static 'img/estrellas.png'%}" alt="calificación empresa">
+
+                    <h3 class="empresa__nombre">Minera Lagunas Limpias</h3>
+                    <p class="empresa__descripcion">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo eos ullam mollitia et sit sequi est perspiciatis qui, ex, iure sed! Ducimus magnam eveniet fugit atque maxime architecto necessitatibus esse.</p>
+                </div>
+            </div>
+        </div> <!--.empresa-->
+
+        <div class="empresa">
+            <div class="empresa__grid">
+                <div class="empresa__imagen">
+                    <img src="{% static 'img/doniapelos.png'%}" alt="logo empresa">
+                </div>
+
+                <div class="empresa__contenido">
+                    <img src="{% static 'img/estrellas.png'%}" alt="calificación empresa">
+
+                    <h3 class="empresa__nombre">Gorditas doña pelos</h3>
+                    <p class="empresa__descripcion">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo eos ullam mollitia et sit sequi est perspiciatis qui, ex, iure sed! Ducimus magnam eveniet fugit atque maxime architecto necessitatibus esse.</p>
+                </div>
+            </div>
+        </div> <!--.empresa-->
+
+        <div class="empresa">
+            <div class="empresa__grid">
+                <div class="empresa__imagen">
+                    <img src="{% static 'img/tesla-ok.jpg'%}" alt="logo empresa">
+                </div>
+
+                <div class="empresa__contenido">
+                    <img src="{% static 'img/estrellas.png'%}" alt="calificación empresa">
+
+                    <h3 class="empresa__nombre">Tesla</h3>
+                    <p class="empresa__descripcion">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo eos ullam mollitia et sit sequi est perspiciatis qui, ex, iure sed! Ducimus magnam eveniet fugit atque maxime architecto necessitatibus esse.</p>
+                </div>
+            </div>
+        </div> <!--.empresa-->
+
+        <div class="empresa">
+            <div class="empresa__grid">
+                <div class="empresa__imagen">
+                    <img src="{% static 'img/miopesoft.jpg'%}" alt="logo empresa">
+                </div>
+
+                <div class="empresa__contenido">
+                    <img src="{% static 'img/estrellas.png'%}" alt="calificación empresa">
+
+                    <h3 class="empresa__nombre">MiopeSoft</h3>
+                    <p class="empresa__descripcion">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo eos ullam mollitia et sit sequi est perspiciatis qui, ex, iure sed! Ducimus magnam eveniet fugit atque maxime architecto necessitatibus esse.</p>
+                </div>
+            </div>
+        </div> <!--.empresa-->
+    </div>
+</main>
+{%endblock%}
