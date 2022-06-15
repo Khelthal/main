@@ -5,7 +5,7 @@ from usuarios.models import Empresa, InstitucionEducativa
 
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+    return render(request, "vinculacion/index.html")
 
 def dashboard(request):
     categorias = Categoria.objects.all()
@@ -16,4 +16,4 @@ def dashboard(request):
     usuarios.extend(list(investigadores))
     usuarios.extend(list(empresas))
     usuarios.extend(list(instituciones))
-    return render(request, "map.html", {"categorias":categorias, "usuarios":usuarios})
+    return render(request, "vinculacion/map.html", {"categorias":categorias, "usuarios":usuarios})

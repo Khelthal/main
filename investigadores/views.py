@@ -14,7 +14,7 @@ from investigadores.forms import InvestigadorForm, InvestigacionForm
 
 def lista(request):
     investigadores = Investigador.objects.all()
-    return render(request, "investigadores.html", {"investigadores":investigadores})
+    return render(request, "investigadores/investigadores.html", {"investigadores":investigadores})
 
 class NuevoInvestigadorView(LoginRequiredMixin, CreateView):
     model = Investigador
@@ -65,7 +65,7 @@ def editar_investigador(request, id):
 
 def investigaciones(request):
     investigaciones = Investigacion.objects.all()
-    return render(request, 'investigaciones.html', {'investigaciones':investigaciones})
+    return render(request, 'investigadores/investigaciones.html', {'investigaciones':investigaciones})
 
 class NuevaInvestigacionView(LoginRequiredMixin, CreateView):
     model = Investigacion
