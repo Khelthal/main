@@ -1,30 +1,26 @@
+
+// Datos globales 
 interface User {
   username: string,
   latitud: number,
   longitud: number,
   tipoUsuario: string,
-  etiquetas: Array<string>,
+  categorias: Array<string>,
 }
 
-const searchWrapper: HTMLElement = document.querySelector(".search-input");
-const inputBox: HTMLInputElement = searchWrapper.querySelector("input");
-const suggBox: HTMLElement = searchWrapper.querySelector(".autocom-box");
-const icon: HTMLElement = searchWrapper.querySelector(".icon");
 const etiquetas: HTMLElement = document.getElementById("etiquetas");
-let linkTag = searchWrapper.querySelector("a");
-let webLink;
-
 var suggestions: Array<string> = ["Software", "Frijol"];
 var usuarios: Array<User> = [];
-var markers: Array<L.Marker> = [];
-var map = L.map('map', {
-  center: L.latLng(22.7613421, -102.5828555),
-  zoom: 7,
+var icons: Array<L.Icon> = ["grey", "green", "blue", "violet", "gold"].map((color: string) => {
+  return new L.Icon({
+      iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
 });
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-var filtros_tipo_usuario: HTMLElement = document.getElementById('filtro_tipo_usuario');
 
 function obtenerUsuarios(): void {
   let url: string = "http://localhost:8000/investigadores/investigadores";
@@ -39,11 +35,27 @@ function obtenerUsuarios(): void {
       investigadores.forEach((investigador: User) => {
         usuarios.push(investigador);
       });
-    }).then(_ => mostrarUsuariosMapa());
+      suggestions = investigadores.map((investigador: User) => {
+        return investigador.categorias;
+    }).reduce((previous: Array<string>, current: Array<string>) => previous.concat(current),
+    []);
+    suggestions = Array.from(new Set<string>(suggestions));
+    }).then(() => mostrarUsuariosMapa());
 }
 
+//Mapa
+var markers: Array<L.Marker> = [];
+var mapa = L.map('map', {
+  center: L.latLng(22.7613421, -102.5828555),
+  zoom: 7,
+});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(mapa);
+var filtros_tipo_usuario: HTMLElement = document.getElementById('filtro_tipo_usuario');
+
 function mostrarUsuariosMapa(): void {
-  let filtros: Array<string> = [].slice.call(filtros_tipo_usuario.children).map((div: HTMLElement) => {
+  let filtros: Array<string> = Array.from(filtros_tipo_usuario.children).map((div: HTMLElement) => {
     let input = div.children[0] as HTMLInputElement;
     let label = div.children[1];
     return {
@@ -52,16 +64,34 @@ function mostrarUsuariosMapa(): void {
     };
   }).filter((datos_filtro: { filtro: string, activo: boolean }) => datos_filtro.activo)
     .map((datos_filtro: { filtro: string, activo: boolean }) => datos_filtro.filtro);
+  
+  let etiquetasRequeridas: Array<string> = Array.from(etiquetas.children).map((etiqueta: HTMLOptionElement) => {
+    return etiqueta.value;
+  });
 
   let usuarios_filtrados = usuarios.filter((usuario: User) => {
     return filtros.indexOf(usuario.tipoUsuario) != -1;
   });
 
-  usuarios_filtrados.forEach(crearPinMapa);
+  usuarios_filtrados.forEach((usuario: User) => {
+    let precision: number = usuario.categorias.map((categoria: string) => {
+      if(etiquetasRequeridas.indexOf(categoria) != -1) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }).reduce((previous: number, current: number) => previous + current, 0);
+    
+    if (precision > 0) {
+      precision = Math.floor((icons.length - 1) * (precision / etiquetasRequeridas.length));
+      console.log(precision);
+      crearPinMapa(usuario, precision);
+    }
+  });
 }
 
 function limpiarUsuariosMapa(): void {
-  markers.forEach((marker: L.Marker) => map.removeLayer(marker));
+  markers.forEach((marker: L.Marker) => mapa.removeLayer(marker));
   markers = [];
 }
 
@@ -70,21 +100,21 @@ function recargarUsuariosMapa(): void {
   mostrarUsuariosMapa();
 }
 
-function crearPinMapa(usuario: User): void {
-  let marker: L.Marker = L.marker([usuario.latitud, usuario.longitud]);
-  marker.addTo(map).bindPopup(usuario.username);
-  markers.push(marker);
+function crearPinMapa(usuario: User, precision: number): void {
+  let m: L.Marker = L.marker([usuario.latitud, usuario.longitud], {icon: icons[precision]});
+  m.addTo(mapa).bindPopup(usuario.username);
+  markers.push(m);
 }
+
+//Sugerencias
+const searchWrapper: HTMLElement = document.querySelector(".search-input");
+const inputBox: HTMLInputElement = searchWrapper.querySelector("input");
+const suggBox: HTMLElement = searchWrapper.querySelector(".autocom-box");
 
 inputBox.onkeyup = (e) => {
   let userData = (e.target as HTMLInputElement).value; //user enetered data
-  let emptyArray = [];
+  let emptyArray: Array<string> = [];
   if (userData) {
-    icon.onclick = () => {
-      webLink = `https://www.google.com/search?q=${userData}`;
-      linkTag.setAttribute("href", webLink);
-      linkTag.click();
-    }
     emptyArray = suggestions.filter((data) => {
       //filtering array value and user characters to lowercase and return only those words which are start with user enetered chars
       return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
@@ -109,37 +139,28 @@ inputBox.onkeyup = (e) => {
   }
 }
 
-function select(element) {
+function select(element: HTMLElement) {
   let selectData = element.textContent;
   let opt = document.createElement('option');
   opt.value = selectData;
   opt.innerHTML = selectData;
-  let newId = `opcion_${suggestions.length}`;
-  opt.setAttribute('id', newId);
-  opt.onclick = function() {
-    freeSuggestion(event);
-  };
+  opt.setAttribute("onclick", "freeSuggestion(this)")
   etiquetas.appendChild(opt);
   suggestions.splice(suggestions.indexOf(selectData), 1);
   inputBox.value = "";
-  icon.onclick = () => {
-    webLink = `https://www.google.com/search?q=${selectData}`;
-    linkTag.setAttribute("href", webLink);
-    linkTag.click();
-  }
   searchWrapper.classList.remove("active");
+  recargarUsuariosMapa();
 }
 
-function showSuggestions(list) {
-  let listData;
-  listData = list.join('');
+function showSuggestions(list: Array<string>) {
+  let listData: string = list.join('');
   suggBox.innerHTML = listData;
 }
 
-function freeSuggestion(event) {
-  let opt: HTMLOptionElement = document.getElementById(event.target.id) as HTMLOptionElement;
+function freeSuggestion(opt: HTMLOptionElement) {
   suggestions.push(opt.value);
   opt.remove();
+  recargarUsuariosMapa();
 }
 
 obtenerUsuarios();

@@ -1,21 +1,16 @@
-const searchWrapper = document.querySelector(".search-input");
-const inputBox = searchWrapper.querySelector("input");
-const suggBox = searchWrapper.querySelector(".autocom-box");
-const icon = searchWrapper.querySelector(".icon");
 const etiquetas = document.getElementById("etiquetas");
-let linkTag = searchWrapper.querySelector("a");
-let webLink;
 var suggestions = ["Software", "Frijol"];
 var usuarios = [];
-var markers = [];
-var map = L.map('map', {
-    center: L.latLng(22.7613421, -102.5828555),
-    zoom: 7,
+var icons = ["grey", "green", "blue", "violet", "gold"].map((color) => {
+    return new L.Icon({
+        iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
 });
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-var filtros_tipo_usuario = document.getElementById('filtro_tipo_usuario');
 function obtenerUsuarios() {
     let url = "http://localhost:8000/investigadores/investigadores";
     fetch(url, {
@@ -28,10 +23,24 @@ function obtenerUsuarios() {
         investigadores.forEach((investigador) => {
             usuarios.push(investigador);
         });
-    }).then(_ => mostrarUsuariosMapa());
+        suggestions = investigadores.map((investigador) => {
+            return investigador.categorias;
+        }).reduce((previous, current) => previous.concat(current), []);
+        suggestions = Array.from(new Set(suggestions));
+    }).then(() => mostrarUsuariosMapa());
 }
+//Mapa
+var markers = [];
+var mapa = L.map('map', {
+    center: L.latLng(22.7613421, -102.5828555),
+    zoom: 7,
+});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(mapa);
+var filtros_tipo_usuario = document.getElementById('filtro_tipo_usuario');
 function mostrarUsuariosMapa() {
-    let filtros = [].slice.call(filtros_tipo_usuario.children).map((div) => {
+    let filtros = Array.from(filtros_tipo_usuario.children).map((div) => {
         let input = div.children[0];
         let label = div.children[1];
         return {
@@ -40,33 +49,49 @@ function mostrarUsuariosMapa() {
         };
     }).filter((datos_filtro) => datos_filtro.activo)
         .map((datos_filtro) => datos_filtro.filtro);
+    let etiquetasRequeridas = Array.from(etiquetas.children).map((etiqueta) => {
+        return etiqueta.value;
+    });
     let usuarios_filtrados = usuarios.filter((usuario) => {
         return filtros.indexOf(usuario.tipoUsuario) != -1;
     });
-    usuarios_filtrados.forEach(crearPinMapa);
+    usuarios_filtrados.forEach((usuario) => {
+        let precision = usuario.categorias.map((categoria) => {
+            if (etiquetasRequeridas.indexOf(categoria) != -1) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }).reduce((previous, current) => previous + current, 0);
+        if (precision > 0) {
+            precision = Math.floor((icons.length - 1) * (precision / etiquetasRequeridas.length));
+            console.log(precision);
+            crearPinMapa(usuario, precision);
+        }
+    });
 }
 function limpiarUsuariosMapa() {
-    markers.forEach((marker) => map.removeLayer(marker));
+    markers.forEach((marker) => mapa.removeLayer(marker));
     markers = [];
 }
 function recargarUsuariosMapa() {
     limpiarUsuariosMapa();
     mostrarUsuariosMapa();
 }
-function crearPinMapa(usuario) {
-    let marker = L.marker([usuario.latitud, usuario.longitud]);
-    marker.addTo(map).bindPopup(usuario.username);
-    markers.push(marker);
+function crearPinMapa(usuario, precision) {
+    let m = L.marker([usuario.latitud, usuario.longitud], { icon: icons[precision] });
+    m.addTo(mapa).bindPopup(usuario.username);
+    markers.push(m);
 }
+//Sugerencias
+const searchWrapper = document.querySelector(".search-input");
+const inputBox = searchWrapper.querySelector("input");
+const suggBox = searchWrapper.querySelector(".autocom-box");
 inputBox.onkeyup = (e) => {
     let userData = e.target.value; //user enetered data
     let emptyArray = [];
     if (userData) {
-        icon.onclick = () => {
-            webLink = `https://www.google.com/search?q=${userData}`;
-            linkTag.setAttribute("href", webLink);
-            linkTag.click();
-        };
         emptyArray = suggestions.filter((data) => {
             //filtering array value and user characters to lowercase and return only those words which are start with user enetered chars
             return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
@@ -97,29 +122,20 @@ function select(element) {
     let opt = document.createElement('option');
     opt.value = selectData;
     opt.innerHTML = selectData;
-    let newId = `opcion_${suggestions.length}`;
-    opt.setAttribute('id', newId);
-    opt.onclick = function () {
-        freeSuggestion(event);
-    };
+    opt.setAttribute("onclick", "freeSuggestion(this)");
     etiquetas.appendChild(opt);
     suggestions.splice(suggestions.indexOf(selectData), 1);
     inputBox.value = "";
-    icon.onclick = () => {
-        webLink = `https://www.google.com/search?q=${selectData}`;
-        linkTag.setAttribute("href", webLink);
-        linkTag.click();
-    };
     searchWrapper.classList.remove("active");
+    recargarUsuariosMapa();
 }
 function showSuggestions(list) {
-    let listData;
-    listData = list.join('');
+    let listData = list.join('');
     suggBox.innerHTML = listData;
 }
-function freeSuggestion(event) {
-    let opt = document.getElementById(event.target.id);
+function freeSuggestion(opt) {
     suggestions.push(opt.value);
     opt.remove();
+    recargarUsuariosMapa();
 }
 obtenerUsuarios();

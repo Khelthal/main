@@ -120,11 +120,17 @@ class Investigadores(View):
         investigadores = list(Investigador.objects.all())
 
         def investigador_to_dic(investigador):
+            investigaciones = Investigacion.objects.filter(autores=investigador.pk)
+            categorias = []
+            for investigacion in investigaciones:
+                categorias.extend(list(map(lambda categoria: str(categoria),investigacion.categorias.all())))
+                
             return {
                     "username": investigador.user.username,
                     "latitud": investigador.ubicacion.latitud,
                     "longitud": investigador.ubicacion.longitud,
                     "tipoUsuario": str(investigador.user.tipo_usuario),
+                    "categorias": categorias
             }
 
         investigadores = list(map(investigador_to_dic, investigadores))
