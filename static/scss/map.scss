@@ -301,3 +301,105 @@ h3 {
   color: #644bff;
   cursor: pointer;
 }
+
+.contenedor-investigadores {
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.descripcion-investigadores {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.titulo-investigadores {
+  align-self: auto;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.descripcion-foto {
+  width: 600px;
+  padding: 20px;
+}
+
+.descripcion-info {
+  width: 600px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.descripcion-texto {
+  text-align: justify;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.descripcion-boton {
+  height: 80px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.btn-descripcion {
+  color: white;
+  font-weight: bold;
+  background-color: $primary-color;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.lista-investigadores {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.carta-investigador {
+  background-color: #455A64;
+  margin: 20px;
+  padding: 20px;
+  display: flex;
+  width: 600px;
+  height: 200px;
+  border-radius: 20px;
+  display: flex;
+
+  p {
+    color: white;
+    font-size: 16px;
+    margin: 0px;
+  }
+}
+
+.foto-carta {
+  width: 100px;
+  height: 100%;
+  margin-right: 20px;
+  font-size: 55px;
+  display: flex;
+  justify-content: center;
+}
+
+.icono-usuario {
+  color: white;
+}
+
+.datos-carta {
+  overflow: scroll;
+}
+
+.investigador-estrellas {
+  color: #FCCB00;
+  font-size: 25px;
+}
