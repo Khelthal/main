@@ -409,6 +409,8 @@ h3 {
 .empresas {
     background-color: #eceeef;
     padding: 5rem 0;
+    height: 100%;
+    overflow: scroll;
   }
   .empresas__heading {
     text-align: center;
