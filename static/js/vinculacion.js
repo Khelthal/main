@@ -1,5 +1,5 @@
 const etiquetas = document.getElementById("etiquetas");
-var suggestions = ["Software", "Frijol"];
+var suggestions = [];
 var usuarios = [];
 var icons = ["grey", "green", "blue", "violet", "gold"].map((color) => {
     return new L.Icon({
@@ -11,6 +11,7 @@ var icons = ["grey", "green", "blue", "violet", "gold"].map((color) => {
         shadowSize: [41, 41]
     });
 });
+var precisionMinima = icons.length - 1;
 function obtenerUsuarios() {
     let url = "http://localhost:8000/investigadores/investigadores";
     fetch(url, {
@@ -66,8 +67,9 @@ function mostrarUsuariosMapa() {
         }).reduce((previous, current) => previous + current, 0);
         if (precision > 0) {
             precision = Math.floor((icons.length - 1) * (precision / etiquetasRequeridas.length));
-            console.log(precision);
-            crearPinMapa(usuario, precision);
+            if (precision >= precisionMinima) {
+                crearPinMapa(usuario, precision);
+            }
         }
     });
 }
@@ -138,4 +140,24 @@ function freeSuggestion(opt) {
     opt.remove();
     recargarUsuariosMapa();
 }
+//Precision
+const precisionInput = document.getElementById("precision");
+const precisionBar = document.getElementById("barra-precision");
+function cambiarPrecision(elementoPrecision) {
+    precisionMinima = +elementoPrecision.value;
+    recargarUsuariosMapa();
+    actualizarBarraPrecision();
+}
+function actualizarBarraPrecision() {
+    let nivelesPrecision = Array.from(precisionBar.children).map((nivelPrecision) => {
+        return nivelPrecision;
+    });
+    nivelesPrecision.forEach((nivelPrecision) => {
+        nivelPrecision.classList.remove("activo");
+    });
+    for (let i = 0; i < (nivelesPrecision.length - precisionMinima); i++) {
+        nivelesPrecision[i].classList.add("activo");
+    }
+}
 obtenerUsuarios();
+actualizarBarraPrecision();

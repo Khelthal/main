@@ -57,9 +57,24 @@
 
         <hr>
 
+        <p>Precisión</p>
+
+        <input type="hidden" id="precision" value="4">
+
+        <div class="barra-precision" id="barra-precision">
+          <button type="button" class="nivel-precision nivel-4" onclick="cambiarPrecision(this)" value="4">100%</button>
+          <button type="button" class="nivel-precision nivel-3" onclick="cambiarPrecision(this)" value="3">75%</button>
+          <button type="button" class="nivel-precision nivel-2" onclick="cambiarPrecision(this)" value="2">50%</button>
+          <button type="button" class="nivel-precision nivel-1" onclick="cambiarPrecision(this)" value="1">25%</button>
+          <button type="button" class="nivel-precision nivel-0" onclick="cambiarPrecision(this)" value="0">0%</button>
+        </div>
+
+        <hr>
+
         <p>Etiquetas</p>
         <div class="etiquetas" id="etiquetas">
         </div>
+
 
       </div>
 

@@ -9,7 +9,7 @@ interface User {
 }
 
 const etiquetas: HTMLElement = document.getElementById("etiquetas");
-var suggestions: Array<string> = ["Software", "Frijol"];
+var suggestions: Array<string> = [];
 var usuarios: Array<User> = [];
 var icons: Array<L.Icon> = ["grey", "green", "blue", "violet", "gold"].map((color: string) => {
   return new L.Icon({
@@ -21,6 +21,7 @@ var icons: Array<L.Icon> = ["grey", "green", "blue", "violet", "gold"].map((colo
       shadowSize: [41, 41]
     });
 });
+var precisionMinima = icons.length - 1;
 
 function obtenerUsuarios(): void {
   let url: string = "http://localhost:8000/investigadores/investigadores";
@@ -84,8 +85,9 @@ function mostrarUsuariosMapa(): void {
     
     if (precision > 0) {
       precision = Math.floor((icons.length - 1) * (precision / etiquetasRequeridas.length));
-      console.log(precision);
-      crearPinMapa(usuario, precision);
+      if (precision >= precisionMinima) {
+        crearPinMapa(usuario, precision);
+      }
     }
   });
 }
@@ -139,7 +141,7 @@ inputBox.onkeyup = (e) => {
   }
 }
 
-function select(element: HTMLElement) {
+function select(element: HTMLElement): void {
   let selectData = element.textContent;
   let opt = document.createElement('a');
   opt.className = "btn btn-outline-danger btn-sm etiqueta";
@@ -152,15 +154,39 @@ function select(element: HTMLElement) {
   recargarUsuariosMapa();
 }
 
-function showSuggestions(list: Array<string>) {
+function showSuggestions(list: Array<string>): void {
   let listData: string = list.join('');
   suggBox.innerHTML = listData;
 }
 
-function freeSuggestion(opt: HTMLElement) {
+function freeSuggestion(opt: HTMLElement): void {
   suggestions.push(opt.textContent.trim());
   opt.remove();
   recargarUsuariosMapa();
 }
 
+//Precision
+const precisionInput: HTMLInputElement = document.getElementById("precision") as HTMLInputElement;
+const precisionBar: HTMLDivElement = document.getElementById("barra-precision") as HTMLDivElement;
+
+function cambiarPrecision(elementoPrecision: HTMLButtonElement): void {
+  precisionMinima = +elementoPrecision.value;
+  recargarUsuariosMapa();
+  actualizarBarraPrecision();
+}
+
+function actualizarBarraPrecision(): void {
+  let nivelesPrecision: Array<HTMLButtonElement> = Array.from(precisionBar.children).map((nivelPrecision: HTMLElement) => {
+    return nivelPrecision as HTMLButtonElement;
+  });
+  nivelesPrecision.forEach((nivelPrecision: HTMLButtonElement) => {
+    nivelPrecision.classList.remove("activo");
+  });
+  
+  for (let i = 0; i < (nivelesPrecision.length - precisionMinima); i++) {
+    nivelesPrecision[i].classList.add("activo");
+  }
+}
+
 obtenerUsuarios();
+actualizarBarraPrecision();

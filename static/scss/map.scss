@@ -152,10 +152,50 @@ h3 {
   bottom: 0;
 }
 
+.barra-precision {
+  width: 100%;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.nivel-precision {
+  background: none;
+  color: inherit;
+  border: 1px solid lightgray;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  flex: 1 1 0px;
+}
+
+.nivel-0.activo {
+  background-color: #CBCBCB;
+}
+
+.nivel-1.activo {
+  background-color: #81D87A;
+}
+
+.nivel-2.activo {
+  background-color: #72B4E3;
+  
+}
+
+.nivel-3.activo {
+  background-color: #D47EF8;
+}
+
+.nivel-4.activo {
+  background-color: #F1E37D;
+}
+
 .etiquetas {
   border: 1px solid lightgray;
   height: 100px;
   border-radius: 5px;
+  overflow: scroll;
 }
 
 .etiqueta {
