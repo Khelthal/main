@@ -65,8 +65,8 @@ function mostrarUsuariosMapa(): void {
   }).filter((datos_filtro: { filtro: string, activo: boolean }) => datos_filtro.activo)
     .map((datos_filtro: { filtro: string, activo: boolean }) => datos_filtro.filtro);
   
-  let etiquetasRequeridas: Array<string> = Array.from(etiquetas.children).map((etiqueta: HTMLOptionElement) => {
-    return etiqueta.value;
+  let etiquetasRequeridas: Array<string> = Array.from(etiquetas.children).map((etiqueta: HTMLElement) => {
+    return etiqueta.textContent.trim();
   });
 
   let usuarios_filtrados = usuarios.filter((usuario: User) => {
@@ -141,8 +141,8 @@ inputBox.onkeyup = (e) => {
 
 function select(element: HTMLElement) {
   let selectData = element.textContent;
-  let opt = document.createElement('option');
-  opt.value = selectData;
+  let opt = document.createElement('a');
+  opt.className = "btn btn-outline-danger btn-sm etiqueta";
   opt.innerHTML = selectData;
   opt.setAttribute("onclick", "freeSuggestion(this)")
   etiquetas.appendChild(opt);
@@ -157,8 +157,8 @@ function showSuggestions(list: Array<string>) {
   suggBox.innerHTML = listData;
 }
 
-function freeSuggestion(opt: HTMLOptionElement) {
-  suggestions.push(opt.value);
+function freeSuggestion(opt: HTMLElement) {
+  suggestions.push(opt.textContent.trim());
   opt.remove();
   recargarUsuariosMapa();
 }

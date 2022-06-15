@@ -50,7 +50,7 @@ function mostrarUsuariosMapa() {
     }).filter((datos_filtro) => datos_filtro.activo)
         .map((datos_filtro) => datos_filtro.filtro);
     let etiquetasRequeridas = Array.from(etiquetas.children).map((etiqueta) => {
-        return etiqueta.value;
+        return etiqueta.textContent.trim();
     });
     let usuarios_filtrados = usuarios.filter((usuario) => {
         return filtros.indexOf(usuario.tipoUsuario) != -1;
@@ -119,8 +119,8 @@ inputBox.onkeyup = (e) => {
 };
 function select(element) {
     let selectData = element.textContent;
-    let opt = document.createElement('option');
-    opt.value = selectData;
+    let opt = document.createElement('a');
+    opt.className = "btn btn-outline-danger btn-sm etiqueta";
     opt.innerHTML = selectData;
     opt.setAttribute("onclick", "freeSuggestion(this)");
     etiquetas.appendChild(opt);
@@ -134,7 +134,7 @@ function showSuggestions(list) {
     suggBox.innerHTML = listData;
 }
 function freeSuggestion(opt) {
-    suggestions.push(opt.value);
+    suggestions.push(opt.textContent.trim());
     opt.remove();
     recargarUsuariosMapa();
 }

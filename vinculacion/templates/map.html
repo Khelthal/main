@@ -14,10 +14,7 @@
 {% block contenido %}
 <div class="map-container">
 
-  <div class="mapa-header">
-    <div class="mapa-titulo">
-      Sistema Estatal de Investigadores
-    </div>
+  <div class="search-side">
     <div class="wrapper">
       <div class="search-input">
         <a href="" target="_blank" hidden></a>
@@ -28,52 +25,48 @@
         <div class="icon"><i class="fa fa-search"></i></div>
       </div>
     </div>
+
+    <div class="filtros-container">
+
+      <div class="filtros">
+        <p>Interés</p>
+
+        <div id="filtro_tipo_usuario">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="filtro_investigadores"
+              onchange="recargarUsuariosMapa()">
+            <label class="form-check-label" for="flexCheckDefault">
+              Investigador
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="filtro_empresas"
+              onchange="recargarUsuariosMapa()">
+            <label class="form-check-label" for="flexCheckDefault">
+              Empresa
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="filtro_instituciones"
+              onchange="recargarUsuariosMapa()">
+            <label class="form-check-label" for="flexCheckChecked">
+              Institución Educativa
+            </label>
+          </div>
+        </div>
+
+        <hr>
+
+        <p>Etiquetas</p>
+        <div class="etiquetas" id="etiquetas">
+        </div>
+
+      </div>
+
+    </div>
   </div>
 
   <div class="mapa">
-    <div class="filtro">
-      <div class="filtro-titulo">
-        Filtros
-      </div>
-      <div class="filtro-form">
-        <form>
-          <p>Interés</p>
-
-          <div id="filtro_tipo_usuario">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="filtro_investigadores"
-                onchange="recargarUsuariosMapa()">
-              <label class="form-check-label" for="flexCheckDefault">
-                Investigador
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="filtro_empresas"
-                onchange="recargarUsuariosMapa()">
-              <label class="form-check-label" for="flexCheckDefault">
-                Empresa
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="filtro_instituciones"
-                onchange="recargarUsuariosMapa()">
-              <label class="form-check-label" for="flexCheckChecked">
-                Institución Educativa
-              </label>
-            </div>
-          </div>
-
-          <hr>
-          <p>Etiquetas</p>
-          <div class="form-group">
-            <select multiple class="form-control" id="etiquetas">
-            </select>
-          </div>
-          <hr>
-        </form>
-      </div>
-    </div>
-
     <div class="mapa-imagen-container" id="map">
     </div>
   </div>
