@@ -17,3 +17,15 @@ def dashboard(request):
     usuarios.extend(list(empresas))
     usuarios.extend(list(instituciones))
     return render(request, "vinculacion/map.html", {"categorias":categorias, "usuarios":usuarios})
+
+def investigadores(request):
+    investigadores = Investigador.objects.all()
+    categorias = []
+    for investigador in investigadores:
+        categorias_investigador = set()
+        for investigacion in investigador.investigacion_set.all():
+            for categoria in investigacion.categorias.all():
+                categorias_investigador.add(categoria.nombre)
+        categorias.append(list(categorias_investigador))
+
+    return render(request, "vinculacion/investigadores_lista.html", {"investigadores":zip(investigadores, categorias)})

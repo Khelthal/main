@@ -21,7 +21,7 @@ var icons: Array<L.Icon> = ["grey", "green", "blue", "violet", "gold"].map((colo
       shadowSize: [41, 41]
     });
 });
-var precisionMinima = icons.length - 1;
+var precisionMinima = 2;
 
 function obtenerUsuarios(): void {
   let url: string = "http://localhost:8000/investigadores/investigadores";

@@ -6,4 +6,5 @@ app_name = "vinculacion"
 urlpatterns = [
     path('', index, name='index'),
     path('dashboard', dashboard, name='dashboard'),
+    path('investigadores', investigadores, name='investigadores'),
 ]

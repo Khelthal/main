@@ -11,7 +11,7 @@ var icons = ["grey", "green", "blue", "violet", "gold"].map((color) => {
         shadowSize: [41, 41]
     });
 });
-var precisionMinima = icons.length - 1;
+var precisionMinima = 2;
 function obtenerUsuarios() {
     let url = "http://localhost:8000/investigadores/investigadores";
     fetch(url, {

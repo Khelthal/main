@@ -34,21 +34,21 @@
         <div id="filtro_tipo_usuario">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="filtro_investigadores"
-              onchange="recargarUsuariosMapa()">
+              onchange="recargarUsuariosMapa()" checked>
             <label class="form-check-label" for="flexCheckDefault">
               Investigador
             </label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="filtro_empresas"
-              onchange="recargarUsuariosMapa()">
+              onchange="recargarUsuariosMapa()" checked>
             <label class="form-check-label" for="flexCheckDefault">
               Empresa
             </label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="filtro_instituciones"
-              onchange="recargarUsuariosMapa()">
+              onchange="recargarUsuariosMapa()" checked>
             <label class="form-check-label" for="flexCheckChecked">
               Institución Educativa
             </label>
@@ -59,7 +59,7 @@
 
         <p>Precisión</p>
 
-        <input type="hidden" id="precision" value="4">
+        <input type="hidden" id="precision" value="2">
 
         <div class="barra-precision" id="barra-precision">
           <button type="button" class="nivel-precision nivel-4" onclick="cambiarPrecision(this)" value="4">100%</button>
