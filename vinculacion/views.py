@@ -37,3 +37,8 @@ def noticias(request):
     noticias = ["", "", ""]
 
     return render(request, "vinculacion/noticias.html", {"noticias":noticias})
+
+def noticia(request):
+    noticia = {"":""}
+
+    return render(request, "vinculacion/noticia.html", {"noticia":noticia})
