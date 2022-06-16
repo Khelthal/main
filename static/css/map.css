@@ -324,7 +324,7 @@ h3 {
   justify-content: center;
 }
 
-.titulo-investigadores {
+.titulo-seccion {
   align-self: auto;
   font-size: 24px;
   font-weight: bold;
@@ -408,4 +408,60 @@ h3 {
 .investigador-estrellas {
   color: #FCCB00;
   font-size: 25px;
+}
+
+.noticias-contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+}
+
+.noticias-lista {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.carta-noticia {
+  height: 400px;
+  display: flex;
+  margin: 40px;
+}
+
+.noticia-imagen {
+  width: 400px;
+}
+
+.noticia-info {
+  width: 400px;
+}
+
+.noticia-titulo {
+  font-weight: bold;
+  font-size: 20px;
+  margin: 0px;
+}
+
+.noticia-titulo::after {
+  content: "";
+  display: block;
+  width: 15rem;
+  height: 0.5rem;
+  background-color: #71b100;
+  margin: 1.5rem 0;
+}
+
+.noticia-datos {
+  color: gray;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.noticia-texto {
+  text-align: justify;
 }

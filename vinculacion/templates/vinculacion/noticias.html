@@ -1,0 +1,28 @@
+{% extends 'vinculacion/base.html' %}
+{% load static %}
+
+{% block contenido %}
+
+<div class="noticias-contenedor">
+  <h2 class="titulo-seccion">Noticias</h2>
+
+  <div class="noticias-lista">
+    {% for noticia in noticias %}
+    <div class="carta-noticia">
+      <div class="noticia-imagen">
+        <img src="{% static 'img/noticia.png' %}" alt="">
+      </div>
+
+      <div class="noticia-info">
+        <h2 class="noticia-titulo">Becas para el desarrollo de proyectos LABSOL</h2>
+        <p class="noticia-datos">Escrito el: por: </p>
+        <p class="noticia-texto">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie justo et mi
+          elementum, nec elementum nibh aliquam. Duis sollicitudin risus sit amet leo consectetur, at euismod est
+          porttitor.</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

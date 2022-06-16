@@ -32,3 +32,8 @@ def investigadores(request):
         categorias.append(list(categorias_investigador))
 
     return render(request, "vinculacion/investigadores_lista.html", {"investigadores":zip(investigadores, categorias)})
+
+def noticias(request):
+    noticias = ["", "", ""]
+
+    return render(request, "vinculacion/noticias.html", {"noticias":noticias})
