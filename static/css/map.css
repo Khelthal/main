@@ -434,11 +434,17 @@ h3 {
 }
 
 .noticia-imagen {
+  margin: auto;
   width: 400px;
 }
 
 .noticia-info {
   width: 400px;
+}
+
+.noticia-detalle {
+  margin: auto;
+  width: 60%;
 }
 
 .noticia-titulo {
