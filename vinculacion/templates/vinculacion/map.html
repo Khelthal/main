@@ -14,7 +14,8 @@
 {% block contenido %}
 <div class="map-container">
 
-  <div class="search-side">
+  <div class="search-side" id="search-side">
+    <button type="button" class="btn btn-outline-primary filtro-btn-in" onclick="hideSearchSide()"><i class="fa fa-bars"></i></button>
     <div class="wrapper">
       <div class="search-input">
         <a href="" target="_blank" hidden></a>
@@ -82,6 +83,7 @@
   </div>
 
   <div class="mapa">
+    <button type="button" class="btn btn-outline-dark btn-light filtro-btn-out hide-element" id="filtro-btn-out" onclick="showSearchSide()"><i class="fa fa-bars"></i></button>
     <div class="mapa-imagen-container" id="map">
     </div>
   </div>
@@ -92,4 +94,5 @@
 
 {% block scripts %}
 <script src="{% static 'js/vinculacion.js' %}"></script>
+<script src="{% static 'js/display_filtros.js' %}"></script>
 {% endblock %}
