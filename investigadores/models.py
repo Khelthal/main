@@ -1,6 +1,7 @@
 from django.db import models
 from vinculacion.models import Categoria
 from usuarios.models import User
+from investigadores.validators import *
 
 class NivelInvestigador(models.Model):
     nivel = models.IntegerField()
@@ -12,7 +13,7 @@ class NivelInvestigador(models.Model):
 class Investigador(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     nivel = models.ForeignKey(NivelInvestigador, on_delete=models.DO_NOTHING)
-    curp = models.TextField()
+    curp = models.CharField(max_length=18, validators=[curp_validador])
     latitud = models.FloatField()
     longitud = models.FloatField()
 

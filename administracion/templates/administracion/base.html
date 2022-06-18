@@ -7,14 +7,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Mazer Admin Dashboard</title>
+
+    {% block extracss %}
+    {% endblock %}
     
     <link rel="stylesheet" href="{% static 'dist/assets/css/main/app.css' %}">
     <link rel="stylesheet" href="{% static 'dist/assets/css/main/app-dark.css' %}">
     <link rel="shortcut icon" href="{% static 'dist/assets/images/logo/favicon.svg' %}" type="image/x-icon">
     <link rel="shortcut icon" href="{% static 'dist/assets/images/logo/favicon.png' %}" type="image/png">
-        
-    {% block extracss %}
-    {% endblock %}
     
 <link rel="stylesheet" href="{% static 'dist/assets/css/shared/iconly.css' %}">
 
@@ -63,13 +63,13 @@
                         <a href="{% url 'administracion:usuarios_lista' %}">Usuarios</a>
                     </li>
                     <li class="submenu-item ">
-                        <a href="#">Investigadores</a>
+                        <a href="{% url 'administracion:investigadores_lista' %}">Investigadores</a>
                     </li>
                     <li class="submenu-item ">
-                        <a href="#">Empresas</a>
+                        <a href="{% url 'administracion:empresas_lista' %}">Empresas</a>
                     </li>
                     <li class="submenu-item ">
-                        <a href="#">Instituciones Educativas</a>
+                        <a href="{% url 'administracion:instituciones_educativas_lista' %}">Instituciones Educativas</a>
                     </li>
                 </ul>
             </li>

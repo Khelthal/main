@@ -41,7 +41,7 @@
                         <tr>
                             <td>{{usuario.username}}</td>
                             <td>{{usuario.email}}</td>
-                            <td>{% if usuario.tipo_usuario %} {{usuario.tipo_usuario}} {% else %} Invitado {% endif %}</td>
+                            <td>{% if usuario.tipo_usuario %} usuario.tipo_usuario {% else %} Invitado {% endif %}</td>
                             <td>{% if usuario.is_active %} Activo {% else %} Inactivo {% endif %}</td>
                             <td>
                                 <a href=""><span class="badge bg-info">Editar</span></a>

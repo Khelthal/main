@@ -38,8 +38,8 @@ class Investigadores(View):
                 
             return {
                     "username": investigador.user.username,
-                    "latitud": investigador.ubicacion.latitud,
-                    "longitud": investigador.ubicacion.longitud,
+                    "latitud": investigador.latitud,
+                    "longitud": investigador.longitud,
                     "tipoUsuario": str(investigador.user.tipo_usuario),
                     "categorias": categorias
             }

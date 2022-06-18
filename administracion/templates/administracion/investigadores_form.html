@@ -1,0 +1,127 @@
+{% extends 'administracion/base.html' %}
+{% load static %}
+
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'dist/assets/css/pages/form-element-select.css' %}">
+{% endblock %}
+
+{% block contenido %}
+    <!-- Basic Vertical form layout section start -->
+    <section id="basic-vertical-layouts">
+        <div class="row match-height">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Nuevo investigador</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="form form-vertical" method="POST">
+                            {% csrf_token %}
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="id_user">Usuario</label>
+                                            <select class="choices form-select" id="id_user" name="user">
+                                                {% for value, text in form.user.field.choices %}
+                                                    <option value="{{value}}">{{text}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="id_nivel">Nivel</label>
+                                            <select class="choices form-select" id="id_nivel" name="nivel">
+                                                {% for value, text in form.nivel.field.choices %}
+                                                    <option value="{{value}}">{{text}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group has-icon-left">
+                                            <label for="id_curp">CURP</label>
+                                            <div class="position-relative">
+                                                {{form.curp}}
+                                                <div class="form-control-icon">
+                                                    <i class="bi bi-person"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group has-icon-left">
+                                            <label for="id_codigo_postal">Código Postal</label>
+                                            <div class="position-relative">
+                                                {{form.codigo_postal}}
+                                                {{form.codigo_postal.errors}}
+                                                <div class="form-control-icon">
+                                                    <i class="bi bi-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group has-icon-left">
+                                            <label for="id_municipio">Municipio</label>
+                                            <div class="position-relative">
+                                                {{form.municipio}}
+                                                <div class="form-control-icon">
+                                                    <i class="bi bi-map"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group has-icon-left">
+                                            <label for="id_colonia">Colonia</label>
+                                            <div class="position-relative">
+                                                {{form.colonia}}
+                                                <div class="form-control-icon">
+                                                    <i class="bi bi-house"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group has-icon-left">
+                                            <label for="id_calle">Calle</label>
+                                            <div class="position-relative">
+                                                {{form.calle}}
+                                                <div class="form-control-icon">
+                                                    <i class="bi bi-square"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group has-icon-left">
+                                            <label for="id_numero_exterior">Número Exterior</label>
+                                            <div class="position-relative">
+                                                {{form.numero_exterior}}
+                                                <div class="form-control-icon">
+                                                    <i class="bi bi-bell"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary me-1 mb-1">Crear</button>
+                                        <button type="reset"
+                                            class="btn btn-light-secondary me-1 mb-1">Reiniciar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- // Basic Vertical form layout section end -->
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'dist/assets/js/extensions/form-element-select.js' %}"></script>
+{% endblock %}

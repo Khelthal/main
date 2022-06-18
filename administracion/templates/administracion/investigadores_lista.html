@@ -10,10 +10,10 @@
 <section class="section">
     <div class="card">
         <div class="card-header">
-            Crear nuevo usuario
+            Crear nuevo investigador
         </div>
         <div class="card-body">
-            <a href=""><span class="badge bg-success">Crear</span></a>
+            <a href="{% url 'administracion:investigadores_nuevo' %}"><span class="badge bg-success">Crear</span></a>
         </div>
     </div>
 
@@ -31,18 +31,18 @@
                     <tr>
                         <th>Username</th>
                         <th>Email</th>
-                        <th>Tipo Usuario</th>
+                        <th>Nivel</th>
                         <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for usuario in usuarios %}
+                    {% for investigador in investigadores %}
                         <tr>
-                            <td>{{usuario.username}}</td>
-                            <td>{{usuario.email}}</td>
-                            <td>{% if usuario.tipo_usuario %} {{usuario.tipo_usuario}} {% else %} Invitado {% endif %}</td>
-                            <td>{% if usuario.is_active %} Activo {% else %} Inactivo {% endif %}</td>
+                            <td>{{investigador.user.username}}</td>
+                            <td>{{investigador.user.email}}</td>
+                            <td>{{investigador.user.nivel}}</td>
+                            <td>{% if investigador.user.is_active %} Activo {% else %} Inactivo {% endif %}</td>
                             <td>
                                 <a href=""><span class="badge bg-info">Editar</span></a>
                                 <a href=""><span class="badge bg-danger">Eliminar</span></a>
