@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'vinculacion',
     'usuarios',
     'investigadores',
+    'empresas',
+    'instituciones_educativas',
+    'administracion',
 ]
 
 MIDDLEWARE = [

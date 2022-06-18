@@ -13,7 +13,7 @@ var icons = ["grey", "green", "blue", "violet", "gold"].map((color) => {
 });
 var precisionMinima = 2;
 function obtenerUsuarios() {
-    let url = "http://localhost:8000/investigadores/investigadores";
+    let url = "http://localhost:8000/investigadores/fetch";
     fetch(url, {
         method: 'GET',
         headers: {
@@ -83,7 +83,7 @@ function recargarUsuariosMapa() {
 }
 function crearPinMapa(usuario, precision) {
     let m = L.marker([usuario.latitud, usuario.longitud], { icon: icons[precision] });
-    m.addTo(mapa).bindPopup(usuario.username);
+    m.addTo(mapa).bindPopup(`<h3>${usuario.tipoUsuario}: ${usuario.username}</h3><p>Hola</p>`);
     markers.push(m);
 }
 //Sugerencias

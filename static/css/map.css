@@ -123,7 +123,7 @@ h3 {
 }
 
 .search-side {
-  width: 500px;
+  width: 380px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -204,7 +204,6 @@ h3 {
 }
 
 .mapa {
-  width: 100%;
   height: 100%;
   display: flex;
   position: relative;
@@ -434,6 +433,11 @@ h3 {
   font-size: 25px;
 }
 
+/*
+ =============
+  Noticias
+ =============
+*/
 .noticias-contenedor {
   display: flex;
   flex-direction: column;
@@ -455,6 +459,12 @@ h3 {
   height: 400px;
   display: flex;
   margin: 40px;
+  transition: transform 200ms;
+}
+
+.carta-noticia:hover {
+  transform: scale(1.1);
+  transition: transform 200ms;
 }
 
 .noticia-imagen {
@@ -495,3 +505,9 @@ h3 {
   margin: auto;
   width: 60%;
 }
+
+/*
+ =============
+  Perfil
+ =============
+*/

@@ -24,7 +24,7 @@ var icons: Array<L.Icon> = ["grey", "green", "blue", "violet", "gold"].map((colo
 var precisionMinima = 2;
 
 function obtenerUsuarios(): void {
-  let url: string = "http://localhost:8000/investigadores/investigadores";
+  let url: string = "http://localhost:8000/investigadores/fetch";
 
   fetch(url, {
     method: 'GET',
@@ -104,7 +104,7 @@ function recargarUsuariosMapa(): void {
 
 function crearPinMapa(usuario: User, precision: number): void {
   let m: L.Marker = L.marker([usuario.latitud, usuario.longitud], {icon: icons[precision]});
-  m.addTo(mapa).bindPopup(usuario.username);
+  m.addTo(mapa).bindPopup(`<h3>${usuario.tipoUsuario}: ${usuario.username}</h3><p>Hola</p>`);
   markers.push(m);
 }
 
