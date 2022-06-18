@@ -10,7 +10,14 @@
 <section class="section">
     <div class="card">
         <div class="card-header">
-            Crear nuevo usuario
+            <h4 class="card-title">Crear nuevo usuario</h4>
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger">{{message}}</div>
+                {% else %}
+                    <div class="alert alert-success">{{message}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
         <div class="card-body">
             <a href=""><span class="badge bg-success">Crear</span></a>
@@ -23,7 +30,7 @@
 <section class="section">
     <div class="card">
         <div class="card-header">
-            Usuarios
+            <h4 class="card-title">Usuarios</h4>
         </div>
         <div class="card-body">
             <table class="table" id="table1">
