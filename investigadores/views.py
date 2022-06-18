@@ -7,11 +7,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.http.response import JsonResponse
+from django.contrib.auth.decorators import login_required
 import json
 
 from investigadores.models import Investigador, Investigacion
 from investigadores.forms import InvestigadorForm, InvestigacionForm
 
+@login_required
 def investigadores_lista(request):
     investigadores = Investigador.objects.all()
     categorias = []
