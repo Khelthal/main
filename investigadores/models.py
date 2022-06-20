@@ -30,4 +30,5 @@ class Investigacion(models.Model):
         return self.titulo
 
 class GrupoInvestigacion(models.Model):
-    integrantes = models.ManyToManyField(Investigador)
+    administradores = models.ManyToManyField(Investigador, related_name='%(class)s_administradores')
+    integrantes = models.ManyToManyField(Investigador, related_name='%(class)s_integrantes')
