@@ -5,7 +5,7 @@ from investigadores.models import Investigador
 from empresas.models import Empresa
 from instituciones_educativas.models import InstitucionEducativa
 from django.views.generic import CreateView, UpdateView, DeleteView
-from administracion.forms import FormInvestigador
+from administracion.forms import *
 from django.contrib import messages
 import requests
 import json
@@ -71,7 +71,7 @@ class InvestigadorNuevo(CreateView):
 
 class InvestigadorEditar(UpdateView):
     model = Investigador
-    form_class = FormInvestigador
+    form_class = FormInvestigadorUpdate
     success_url = reverse_lazy('administracion:investigadores_lista')
     template_name = "administracion/investigadores_form.html"
     extra_context = { "accion": "Editar" }

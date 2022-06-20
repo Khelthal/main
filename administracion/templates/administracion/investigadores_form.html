@@ -26,6 +26,7 @@
                             {% csrf_token %}
                             <div class="form-body">
                                 <div class="row">
+                                    {% if accion == "Crear" %}
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="id_user">Usuario</label>
@@ -42,6 +43,7 @@
                                             {% endfor %}
                                         </div>
                                     </div>
+                                    {% endif %}
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="id_nivel">Nivel</label>
