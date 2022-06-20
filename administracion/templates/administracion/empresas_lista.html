@@ -10,10 +10,17 @@
 <section class="section">
     <div class="card">
         <div class="card-header">
-            Crear nuevo usuario
+            <h4 class="card-title">Registrar nueva empresa</h4>
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger">{{message}}</div>
+                {% else %}
+                    <div class="alert alert-success">{{message}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
         <div class="card-body">
-            <a href=""><span class="badge bg-success">Crear</span></a>
+            <a href="{% url 'administracion:empresas_nuevo' %}"><span class="badge bg-success">Crear</span></a>
         </div>
     </div>
 
@@ -23,29 +30,25 @@
 <section class="section">
     <div class="card">
         <div class="card-header">
-            Usuarios
+            <h4 class="card-title">Empresas</h4>
         </div>
         <div class="card-body">
             <table class="table" id="table1">
                 <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Tipo Usuario</th>
-                        <th>Status</th>
+                        <th>Encargado</th>
+                        <th>Nombre empresa</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for usuario in usuarios %}
+                    {% for empresa in empresas %}
                         <tr>
-                            <td>{{usuario.username}}</td>
-                            <td>{{usuario.email}}</td>
-                            <td>{% if usuario.tipo_usuario %} usuario.tipo_usuario {% else %} Invitado {% endif %}</td>
-                            <td>{% if usuario.is_active %} Activo {% else %} Inactivo {% endif %}</td>
+                            <td>{{empresa.encargado.username}}</td>
+                            <td>{{empresa.nombre_empresa}}</td>
                             <td>
-                                <a href=""><span class="badge bg-info">Editar</span></a>
-                                <a href=""><span class="badge bg-danger">Eliminar</span></a>
+                                <a href="{% url 'administracion:empresas_editar' empresa.pk %}"><span class="badge bg-info">Editar</span></a>
+                                <a href="{% url 'administracion:empresas_eliminar' empresa.pk %}"><span class="badge bg-danger">Eliminar</span></a>
                             </td>
                         </tr>
                     {% endfor %}

@@ -20,6 +20,9 @@ urlpatterns = [
     
     #Empresas
     path('empresas/lista', empresas_lista, name='empresas_lista'),
+    path('empresas/nuevo', EmpresaNuevo.as_view(), name='empresas_nuevo'),
+    path('empresas/editar/<int:pk>', EmpresaEditar.as_view(), name='empresas_editar'),
+    path('empresas/eliminar/<int:pk>', EmpresaEliminar.as_view(), name='empresas_eliminar'),
     
     #Instituciones Educativas
     path('instituciones_educativas/lista', instituciones_educativas_lista, name='instituciones_educativas_lista'),
