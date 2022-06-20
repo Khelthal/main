@@ -7,6 +7,6 @@ urlpatterns = [
     path('', index, name='index'),
     path('dashboard', dashboard, name='dashboard'),
     path('noticias', noticias, name='noticias'),
-    path('noticia', noticia, name='noticia'),
+    path('noticias/<int:pk>', noticia, name='noticia'),
     path('perfil', perfil, name='perfil')
 ]
