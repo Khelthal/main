@@ -21,7 +21,7 @@ class Investigador(models.Model):
         return self.user.username
 
 class Investigacion(models.Model):
-    titulo = models.TextField()
+    titulo = models.CharField(max_length=100)
     categorias = models.ManyToManyField(Categoria)
     autores = models.ManyToManyField(Investigador)
     contenido = models.TextField()

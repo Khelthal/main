@@ -3,6 +3,24 @@ from investigadores.models import Investigador
 from usuarios.models import User
 from administracion.validators import *
 
+class FormUser(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'email']
+
+        widgets = {
+            'username': forms.TextInput(attrs={'class':'form-control'}),
+            'email': forms.TextInput(attrs={'class':'form-control'}),
+            'password': forms.PasswordInput(attrs={'class':'form-control'}),
+        }
+
+    def save(self, commit=True):
+        user = super(FormUser, self).save(commit=False)
+        user.set_password(self.cleaned_data['password'])
+        if commit:
+            user.save()
+        return user
+
 class FormInvestigador(forms.ModelForm):
     codigo_postal = forms.CharField(max_length=5, validators=[cp_validator])
     municipio = forms.CharField(max_length=100)

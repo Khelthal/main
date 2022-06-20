@@ -8,6 +8,9 @@ urlpatterns = [
 
     #Usuarios
     path('usuarios/lista', usuarios_lista, name='usuarios_lista'),
+    path('usuarios/nuevo', UsuarioNuevo.as_view(), name='usuarios_nuevo'),
+    path('usuarios/editar/<int:pk>', UsuarioEditar.as_view(), name='usuarios_editar'),
+    path('usuarios/eliminar/<int:pk>', UsuarioEliminar.as_view(), name='usuarios_eliminar'),
     
     #Investigadores
     path('investigadores/lista', investigadores_lista, name='investigadores_lista'),

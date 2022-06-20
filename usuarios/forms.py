@@ -2,8 +2,6 @@ from django import forms
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-from .models import TipoUsuario
-
 class UserForm(forms.ModelForm):
     repassword = forms.CharField()
     class Meta:
@@ -22,8 +20,3 @@ class UserForm(forms.ModelForm):
             raise forms.ValidationError('Las contraseñas son diferentes; favor de verificar')
         
         return self.data['password']
-
-class TipoUsuarioForm(forms.ModelForm):
-    class Meta:
-        model = TipoUsuario
-        fields = '__all__'

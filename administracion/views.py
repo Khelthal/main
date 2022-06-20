@@ -13,9 +13,31 @@ import json
 def dashboard(request):
     return render(request, "administracion/dashboard.html")
 
+# Usuarios
+
 def usuarios_lista(request):
     usuarios = User.objects.all()
     return render(request, "administracion/usuarios_lista.html", {"usuarios":usuarios})
+
+class UsuarioNuevo(CreateView):
+    model = User
+    form_class = FormUser
+    success_url = reverse_lazy('administracion:usuarios_lista')
+    template_name = "administracion/usuarios_form.html"
+    extra_context = { "accion": "Crear" }
+
+class UsuarioEditar(UpdateView):
+    model = User
+    form_class = FormUser
+    success_url = reverse_lazy('administracion:usuarios_lista')
+    template_name = "administracion/usuarios_form.html"
+    extra_context = { "accion": "Editar" }
+
+class UsuarioEliminar(DeleteView):
+    model = User
+    success_url = reverse_lazy('administracion:usuarios_lista')
+    template_name = "administracion/confirm_delete.html"
+    extra_context = { "nombre_modelo": "usuario" }
 
 # Investigadores
 
@@ -116,7 +138,8 @@ class InvestigadorEditar(UpdateView):
 class InvestigadorEliminar(DeleteView):
     model = Investigador
     success_url = reverse_lazy('administracion:investigadores_lista')
-    template_name = "administracion/investigadores_confirm_delete.html"
+    template_name = "administracion/confirm_delete.html"
+    extra_context = { "nombre_modelo": "investigador" }
 
     def post(self, request, *args, **kwargs):
         investigador = self.get_object()
