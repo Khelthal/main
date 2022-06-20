@@ -13,3 +13,6 @@ class Noticia(models.Model):
     fecha = models.DateField(verbose_name="Fecha")
     escritor = models.ForeignKey('usuarios.User',verbose_name="Escritor", on_delete=models.DO_NOTHING)
     imagen = models.ImageField(upload_to="noticias/", verbose_name="Imagen")
+
+    def __str__(self):
+        return self.titulo
