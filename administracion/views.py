@@ -262,3 +262,106 @@ class EmpresaEliminar(DeleteView):
 def instituciones_educativas_lista(request):
     instituciones_educativas = InstitucionEducativa.objects.all()
     return render(request, "administracion/instituciones_educativas_lista.html", {"instituciones_educativas":instituciones_educativas})
+
+class InstitucionEducativaNuevo(CreateView):
+    model = InstitucionEducativa
+    form_class = FormInstitucionEducativa
+    success_url = reverse_lazy('administracion:instituciones_educativas_lista')
+    template_name = "administracion/instituciones_educativas_form.html"
+    extra_context = { "accion": "Crear" }
+
+    def form_valid(self, form):
+        institucion_educativa = form.save(commit=False)
+        codigo_postal = form.cleaned_data['codigo_postal']
+        municipio = form.cleaned_data['municipio']
+        colonia = form.cleaned_data['colonia']
+        calle = form.cleaned_data['calle']
+        numero_exterior = form.cleaned_data['numero_exterior']
+        
+        headers = {
+            'User-agent': 'Script de consulta de ubicacion'
+        }
+        r = requests.get(f"https://nominatim.openstreetmap.org/search?street='{numero_exterior} {calle}'&city={municipio}&country=Mexico&state=Zacatecas&postalcode={codigo_postal}&format=json", headers=headers)
+        
+        if r.status_code != 200:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return redirect('administracion:instituciones_educativas_nuevo')
+
+        data = json.loads(r.text)
+        
+        if len(data) == 0:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return redirect('administracion:instituciones_educativas_nuevo')
+            
+        data = data[0]
+
+        if "lat" not in data or "lon" not in data:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return redirect('administracion:instituciones_educativas_nuevo')
+        
+        institucion_educativa.latitud = float(data["lat"])
+        institucion_educativa.longitud = float(data["lon"])
+        institucion_educativa.encargado.tipo_usuario = TipoUsuario.objects.get(tipo="Institucion Educativa")
+        
+        institucion_educativa.save()
+        institucion_educativa.encargado.save()
+
+        messages.success(self.request, "Institución Educativa registrada correctamente")
+        return redirect('administracion:instituciones_educativas_lista')
+
+class InstitucionEducativaEditar(UpdateView):
+    model = InstitucionEducativa
+    form_class = FormInstitucionEducativaUpdate
+    success_url = reverse_lazy('administracion:instituciones_educativas_lista')
+    template_name = "administracion/instituciones_educativas_form.html"
+    extra_context = { "accion": "Editar" }
+
+    def form_valid(self, form):
+        institucion_educativa = form.save(commit=False)
+        codigo_postal = form.cleaned_data['codigo_postal']
+        municipio = form.cleaned_data['municipio']
+        colonia = form.cleaned_data['colonia']
+        calle = form.cleaned_data['calle']
+        numero_exterior = form.cleaned_data['numero_exterior']
+        
+        headers = {
+            'User-agent': 'Script de consulta de ubicacion'
+        }
+        r = requests.get(f"https://nominatim.openstreetmap.org/search?street='{numero_exterior} {calle}'&city={municipio}&country=Mexico&state=Zacatecas&postalcode={codigo_postal}&format=json", headers=headers)
+        
+        if r.status_code != 200:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return redirect('administracion:instituciones_educativas_nuevo')
+
+        data = json.loads(r.text)
+        
+        if len(data) == 0:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return redirect('administracion:instituciones_educativas_nuevo')
+            
+        data = data[0]
+
+        if "lat" not in data or "lon" not in data:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return redirect('administracion:instituciones_educativas_nuevo')
+        
+        institucion_educativa.latitud = float(data["lat"])
+        institucion_educativa.longitud = float(data["lon"])
+        
+        institucion_educativa.save()
+
+        messages.success(self.request, "Institución Educativa actualizada correctamente")
+        return redirect('administracion:instituciones_educativas_lista')
+        
+class InstitucionEducativaEliminar(DeleteView):
+    model = InstitucionEducativa
+    success_url = reverse_lazy('administracion:instituciones_educativas_lista')
+    template_name = "administracion/confirm_delete.html"
+    extra_context = { "nombre_modelo": "institución educativa" }
+
+    def post(self, request, *args, **kwargs):
+        institucion_educativa = self.get_object()
+        institucion_educativa.encargado.tipo_usuario = None
+        institucion_educativa.encargado.save()
+
+        return self.delete(request, *args, **kwargs)

@@ -2,6 +2,7 @@ from django import forms
 from usuarios.models import User
 from investigadores.models import Investigador
 from empresas.models import Empresa
+from instituciones_educativas.models import InstitucionEducativa
 from administracion.validators import *
 
 class FormUser(forms.ModelForm):
@@ -115,6 +116,57 @@ class FormEmpresaUpdate(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FormEmpresaUpdate, self).__init__(*args, **kwargs)
         self.fields["nombre_empresa"].widget.attrs['class'] = 'form-control'
+        self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
+        self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
+        self.fields["municipio"].widget.attrs['class'] = 'form-control'
+        self.fields["municipio"].widget.attrs['placeholder'] = 'Ingresa tu municipio de contacto'
+        self.fields["colonia"].widget.attrs['class'] = 'form-control'
+        self.fields["colonia"].widget.attrs['placeholder'] = 'Ingresa tu colonia de contacto'
+        self.fields["calle"].widget.attrs['class'] = 'form-control'
+        self.fields["calle"].widget.attrs['placeholder'] = 'Ingresa tu calle de contacto'
+        self.fields["numero_exterior"].widget.attrs['class'] = 'form-control'
+        self.fields["numero_exterior"].widget.attrs['placeholder'] = 'Ingresa tu número exterior de contacto'
+
+class FormInstitucionEducativa(forms.ModelForm):
+    codigo_postal = forms.CharField(max_length=5, validators=[cp_validator])
+    municipio = forms.CharField(max_length=100)
+    colonia = forms.CharField(max_length=100)
+    calle = forms.CharField(max_length=100)
+    numero_exterior = forms.IntegerField(min_value=0)
+    
+    class Meta:
+        model = InstitucionEducativa
+        exclude = ['latitud', 'longitud']
+
+    def __init__(self, *args, **kwargs):
+        super(FormInstitucionEducativa, self).__init__(*args, **kwargs)
+        self.fields["encargado"].queryset = User.objects.filter(tipo_usuario__isnull=True)
+        self.fields["nombre_institucion"].widget.attrs['class'] = 'form-control'
+        self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
+        self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
+        self.fields["municipio"].widget.attrs['class'] = 'form-control'
+        self.fields["municipio"].widget.attrs['placeholder'] = 'Ingresa tu municipio de contacto'
+        self.fields["colonia"].widget.attrs['class'] = 'form-control'
+        self.fields["colonia"].widget.attrs['placeholder'] = 'Ingresa tu colonia de contacto'
+        self.fields["calle"].widget.attrs['class'] = 'form-control'
+        self.fields["calle"].widget.attrs['placeholder'] = 'Ingresa tu calle de contacto'
+        self.fields["numero_exterior"].widget.attrs['class'] = 'form-control'
+        self.fields["numero_exterior"].widget.attrs['placeholder'] = 'Ingresa tu número exterior de contacto'
+
+class FormInstitucionEducativaUpdate(forms.ModelForm):
+    codigo_postal = forms.CharField(max_length=5, validators=[cp_validator])
+    municipio = forms.CharField(max_length=100)
+    colonia = forms.CharField(max_length=100)
+    calle = forms.CharField(max_length=100)
+    numero_exterior = forms.IntegerField(min_value=0)
+    
+    class Meta:
+        model = InstitucionEducativa
+        exclude = ['latitud', 'longitud', 'encargado']
+
+    def __init__(self, *args, **kwargs):
+        super(FormInstitucionEducativaUpdate, self).__init__(*args, **kwargs)
+        self.fields["nombre_institucion"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
         self.fields["municipio"].widget.attrs['class'] = 'form-control'

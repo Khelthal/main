@@ -26,4 +26,7 @@ urlpatterns = [
     
     #Instituciones Educativas
     path('instituciones_educativas/lista', instituciones_educativas_lista, name='instituciones_educativas_lista'),
+    path('instituciones_educativas/nuevo', InstitucionEducativaNuevo.as_view(), name='instituciones_educativas_nuevo'),
+    path('instituciones_educativas/editar/<int:pk>', InstitucionEducativaEditar.as_view(), name='instituciones_educativas_editar'),
+    path('instituciones_educativas/eliminar/<int:pk>', InstitucionEducativaEliminar.as_view(), name='instituciones_educativas_eliminar'),
 ]
