@@ -13,22 +13,29 @@ var icons = ["grey", "green", "blue", "violet", "gold"].map((color) => {
 });
 var precisionMinima = 2;
 function obtenerUsuarios() {
-    let url = "http://localhost:8000/investigadores/fetch";
-    fetch(url, {
+    let urls = ["investigadores", "empresas", "instituciones_educativas"].map((model) => `http://localhost:8000/${model}/fetch`);
+    Promise.all(urls.map((url) => fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(res => res.json()).catch(error => console.error('Error:', error))
-        .then((investigadores) => {
-        investigadores.forEach((investigador) => {
-            usuarios.push(investigador);
+    }).then(res => res.json()))).then((usuarios_tipos) => {
+        usuarios_tipos.forEach((usuarios_tipo) => {
+            usuarios_tipo.forEach((usuario) => {
+                usuarios.push(usuario);
+            });
         });
-        suggestions = investigadores.map((investigador) => {
-            return investigador.categorias;
-        }).reduce((previous, current) => previous.concat(current), []);
-        suggestions = Array.from(new Set(suggestions));
     }).then(() => mostrarUsuariosMapa());
+    let categorias_url = "http://localhost:8000/categorias/fetch";
+    fetch(categorias_url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+        .then((categorias) => {
+        categorias.forEach((categoria) => suggestions.push(categoria.nombre));
+    });
 }
 //Mapa
 var markers = [];

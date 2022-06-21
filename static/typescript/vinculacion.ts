@@ -8,6 +8,10 @@ interface User {
   categorias: Array<string>,
 }
 
+interface Categoria {
+  nombre: string,
+}
+
 const etiquetas: HTMLElement = document.getElementById("etiquetas");
 var suggestions: Array<string> = [];
 var usuarios: Array<User> = [];
@@ -24,24 +28,34 @@ var icons: Array<L.Icon> = ["grey", "green", "blue", "violet", "gold"].map((colo
 var precisionMinima = 2;
 
 function obtenerUsuarios(): void {
-  let url: string = "http://localhost:8000/investigadores/fetch";
-
-  fetch(url, {
+  let urls: Array<string> = ["investigadores", "empresas", "instituciones_educativas"].map((model: string) => `http://localhost:8000/${model}/fetch`);
+  
+  Promise.all(urls.map((url: string) => fetch(
+    url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then(res => res.json()))).then((usuarios_tipos: Array<Array<User>>) => {
+    usuarios_tipos.forEach((usuarios_tipo: Array<User>) => {
+      usuarios_tipo.forEach((usuario: User) => {
+        usuarios.push(usuario);
+      });
+    });
+  }).then(() => mostrarUsuariosMapa());
+  
+  let categorias_url = "http://localhost:8000/categorias/fetch";
+  
+  fetch(categorias_url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     }
-  }).then(res => res.json()).catch(error => console.error('Error:', error))
-    .then((investigadores: Array<User>) => {
-      investigadores.forEach((investigador: User) => {
-        usuarios.push(investigador);
-      });
-      suggestions = investigadores.map((investigador: User) => {
-        return investigador.categorias;
-    }).reduce((previous: Array<string>, current: Array<string>) => previous.concat(current),
-    []);
-    suggestions = Array.from(new Set<string>(suggestions));
-    }).then(() => mostrarUsuariosMapa());
+  }).then(res => res.json())
+  .then((categorias: Array<Categoria>) => {
+    categorias.forEach((categoria: Categoria) => suggestions.push(categoria.nombre));
+  });
 }
 
 //Mapa

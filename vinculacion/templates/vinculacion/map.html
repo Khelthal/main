@@ -33,27 +33,15 @@
         <p>Interés</p>
 
         <div id="filtro_tipo_usuario">
+          {% for tipo_usuario, tipo_usuario_snake_case in tipos_usuario  %}
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="filtro_investigadores"
+            <input class="form-check-input" type="checkbox" value="" id="filtro_{{tipo_usuario_snake_case}}"
               onchange="recargarUsuariosMapa()" checked>
             <label class="form-check-label" for="flexCheckDefault">
-              Investigador
+              {{tipo_usuario}}
             </label>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="filtro_empresas"
-              onchange="recargarUsuariosMapa()" checked>
-            <label class="form-check-label" for="flexCheckDefault">
-              Empresa
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="filtro_instituciones"
-              onchange="recargarUsuariosMapa()" checked>
-            <label class="form-check-label" for="flexCheckChecked">
-              Institución Educativa
-            </label>
-          </div>
+          {% endfor %}
         </div>
 
         <hr>

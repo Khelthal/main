@@ -8,5 +8,6 @@ urlpatterns = [
     path('dashboard', dashboard, name='dashboard'),
     path('noticias', noticias, name='noticias'),
     path('noticia', noticia, name='noticia'),
-    path('perfil', perfil, name='perfil')
+    path('perfil', perfil, name='perfil'),
+    path('categorias/fetch', Categorias.as_view(), name='categorias_fetch')
 ]
