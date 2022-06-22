@@ -29,4 +29,10 @@ urlpatterns = [
     path('instituciones_educativas/nuevo', InstitucionEducativaNuevo.as_view(), name='instituciones_educativas_nuevo'),
     path('instituciones_educativas/editar/<int:pk>', InstitucionEducativaEditar.as_view(), name='instituciones_educativas_editar'),
     path('instituciones_educativas/eliminar/<int:pk>', InstitucionEducativaEliminar.as_view(), name='instituciones_educativas_eliminar'),
+    
+    #Categorias
+    path('categorias/lista', categorias_lista, name='categorias_lista'),
+    path('categorias/nuevo', CategoriaNuevo.as_view(), name='categorias_nuevo'),
+    path('categorias/editar/<int:pk>', CategoriaEditar.as_view(), name='categorias_editar'),
+    path('categorias/eliminar/<int:pk>', CategoriaEliminar.as_view(), name='categorias_eliminar'),
 ]

@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from usuarios.models import User, TipoUsuario
 from investigadores.models import Investigador
 from empresas.models import Empresa
+from vinculacion.models import Categoria
 from instituciones_educativas.models import InstitucionEducativa
 from django.views.generic import CreateView, UpdateView, DeleteView
 from administracion.forms import *
@@ -365,3 +366,29 @@ class InstitucionEducativaEliminar(DeleteView):
         institucion_educativa.encargado.save()
 
         return self.delete(request, *args, **kwargs)
+
+# Categorias
+
+def categorias_lista(request):
+    categorias = Categoria.objects.all()
+    return render(request, "administracion/categorias_lista.html", {"categorias":categorias})
+
+class CategoriaNuevo(CreateView):
+    model = Categoria
+    form_class = FormCategoria
+    success_url = reverse_lazy('administracion:categorias_lista')
+    template_name = "administracion/categorias_form.html"
+    extra_context = { "accion": "Crear" }
+
+class CategoriaEditar(UpdateView):
+    model = Categoria
+    form_class = FormCategoria
+    success_url = reverse_lazy('administracion:categorias_lista')
+    template_name = "administracion/categorias_form.html"
+    extra_context = { "accion": "Editar" }
+
+class CategoriaEliminar(DeleteView):
+    model = Categoria
+    success_url = reverse_lazy('administracion:categorias_lista')
+    template_name = "administracion/confirm_delete.html"
+    extra_context = { "nombre_modelo": "categoria" }

@@ -2,6 +2,7 @@ from django import forms
 from usuarios.models import User
 from investigadores.models import Investigador
 from empresas.models import Empresa
+from vinculacion.models import Categoria
 from instituciones_educativas.models import InstitucionEducativa
 from administracion.validators import *
 
@@ -177,3 +178,13 @@ class FormInstitucionEducativaUpdate(forms.ModelForm):
         self.fields["calle"].widget.attrs['placeholder'] = 'Ingresa tu calle de contacto'
         self.fields["numero_exterior"].widget.attrs['class'] = 'form-control'
         self.fields["numero_exterior"].widget.attrs['placeholder'] = 'Ingresa tu número exterior de contacto'
+
+class FormCategoria(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = '__all__'
+
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class':'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class':'form-control'}),
+        }
