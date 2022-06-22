@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from vinculacion.models import Categoria
+from vinculacion.models import Categoria, Noticia
 from investigadores.models import Investigador
 
 # Create your views here.
@@ -14,7 +14,7 @@ def dashboard(request):
 
 @login_required
 def noticias(request):
-    noticias = ["", "", ""]
+    noticias = Noticia.objects.all().order_by('fecha').values()
 
     return render(request, "vinculacion/noticias.html", {"noticias":noticias})
 
