@@ -6,7 +6,6 @@ from usuarios.models import TipoUsuario
 from django.http.response import JsonResponse
 
 # Create your views here.
-@login_required
 def index(request):
     return render(request, "vinculacion/index.html")
 
