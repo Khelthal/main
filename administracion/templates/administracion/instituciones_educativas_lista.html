@@ -10,7 +10,7 @@
 <section class="section">
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Registrar nueva empresa</h4>
+            <h4 class="card-title">Registrar nueva institución educativa</h4>
             {% for message in messages %}
                 {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
                     <div class="alert alert-danger">{{message}}</div>
@@ -20,7 +20,7 @@
             {% endfor %}
         </div>
         <div class="card-body">
-            <a href="{% url 'administracion:empresas_nuevo' %}"><span class="badge bg-success">Crear</span></a>
+            <a href="{% url 'administracion:instituciones_educativas_nuevo' %}"><span class="badge bg-success">Crear</span></a>
         </div>
     </div>
 
@@ -30,7 +30,7 @@
 <section class="section">
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Empresas</h4>
+            <h4 class="card-title">Instituciones Educativas</h4>
         </div>
         <div class="card-body">
             <table class="table" id="table1">
@@ -42,13 +42,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for empresa in empresas %}
+                    {% for institucion_educativa in instituciones_educativas %}
                         <tr>
-                            <td>{{empresa.encargado.username}}</td>
-                            <td>{{empresa.nombre_empresa}}</td>
+                            <td>{{institucion_educativa.encargado.username}}</td>
+                            <td>{{institucion_educativa.nombre_institucion}}</td>
                             <td>
-                                <a href="{% url 'administracion:empresas_editar' empresa.pk %}"><span class="badge bg-info">Editar</span></a>
-                                <a href="{% url 'administracion:empresas_eliminar' empresa.pk %}"><span class="badge bg-danger">Eliminar</span></a>
+                                <a href="{% url 'administracion:instituciones_educativas_editar' institucion_educativa.pk %}"><span class="badge bg-info">Editar</span></a>
+                                <a href="{% url 'administracion:instituciones_educativas_eliminar' institucion_educativa.pk %}"><span class="badge bg-danger">Eliminar</span></a>
                             </td>
                         </tr>
                     {% endfor %}

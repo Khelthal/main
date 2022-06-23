@@ -10,7 +10,7 @@
 <section class="section">
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Registrar nueva empresa</h4>
+            <h4 class="card-title">Crear nueva cateogría</h4>
             {% for message in messages %}
                 {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
                     <div class="alert alert-danger">{{message}}</div>
@@ -20,7 +20,7 @@
             {% endfor %}
         </div>
         <div class="card-body">
-            <a href="{% url 'administracion:empresas_nuevo' %}"><span class="badge bg-success">Crear</span></a>
+            <a href="{% url 'administracion:categorias_nuevo' %}"><span class="badge bg-success">Crear</span></a>
         </div>
     </div>
 
@@ -30,25 +30,25 @@
 <section class="section">
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Empresas</h4>
+            <h4 class="card-title">Usuarios</h4>
         </div>
         <div class="card-body">
             <table class="table" id="table1">
                 <thead>
                     <tr>
-                        <th>Encargado</th>
-                        <th>Nombre empresa</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for empresa in empresas %}
+                    {% for categoria in categorias %}
                         <tr>
-                            <td>{{empresa.encargado.username}}</td>
-                            <td>{{empresa.nombre_empresa}}</td>
+                            <td>{{categoria.nombre}}</td>
+                            <td>{{categoria.descripcion}}</td>
                             <td>
-                                <a href="{% url 'administracion:empresas_editar' empresa.pk %}"><span class="badge bg-info">Editar</span></a>
-                                <a href="{% url 'administracion:empresas_eliminar' empresa.pk %}"><span class="badge bg-danger">Eliminar</span></a>
+                                <a href="{% url 'administracion:categorias_editar' categoria.pk %}"><span class="badge bg-info">Editar</span></a>
+                                <a href="{% url 'administracion:categorias_eliminar' categoria.pk %}"><span class="badge bg-danger">Eliminar</span></a>
                             </td>
                         </tr>
                     {% endfor %}

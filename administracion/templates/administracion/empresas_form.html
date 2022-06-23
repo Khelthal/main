@@ -11,7 +11,7 @@
         <div class="row match-height">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">{{accion}} investigador</h4>
+                    <h4 class="card-title">{{accion}} empresa</h4>
                     {% for message in messages %}
                         {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
                             <div class="alert alert-danger">{{message}}</div>
@@ -29,40 +29,24 @@
                                     {% if accion == "Crear" %}
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="id_user">Usuario</label>
-                                            <select class="choices form-select" id="id_user" name="user">
-                                                {% for value, text in form.user.field.choices %}
+                                            <label for="id_encargado">Encargado</label>
+                                            <select class="choices form-select" id="id_encargado" name="encargado">
+                                                {% for value, text in form.encargado.field.choices %}
                                                     <option value="{{value}}">{{text}}</option>
                                                 {% endfor %}
                                             </select>
-                                            {% for error in form.user.errors %}
+                                            {% for error in form.encargado.errors %}
                                                 <div class="alert alert-danger">{{error}}</div>
                                             {% endfor %}
                                         </div>
                                     </div>
                                     {% endif %}
                                     <div class="col-12">
-                                        <div class="form-group">
-                                            <label for="id_nivel">Nivel</label>
-                                            <select class="choices form-select" id="id_nivel" name="nivel">
-                                                {% if accion != "Crear" %}
-                                                    <option value="{{object.nivel.pk}}">{{object.nivel}}</option>
-                                                {% endif %}
-                                                {% for value, text in form.nivel.field.choices %}
-                                                    <option value="{{value}}">{{text}}</option>
-                                                {% endfor %}
-                                            </select>
-                                            {% for error in form.nivel.errors %}
-                                                <div class="alert alert-danger">{{error}}</div>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
                                         <div class="form-group has-icon-left">
-                                            <label for="id_curp">CURP</label>
+                                            <label for="id_nombre_empresa">Nombre empresa</label>
                                             <div class="position-relative">
-                                                {{form.curp}}
-                                                {% for error in form.curp.errors %}
+                                                {{form.nombre_empresa}}
+                                                {% for error in form.username.errors %}
                                                     <div class="alert alert-danger">{{error}}</div>
                                                 {% endfor %}
                                                 <div class="form-control-icon">

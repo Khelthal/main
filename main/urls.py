@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('vinculacion.urls')),
     path('usuarios/', include('usuarios.urls')),
     path('investigadores/', include('investigadores.urls')),
-    path('empleados/', include('empresas.urls')),
+    path('empresas/', include('empresas.urls')),
+    path('instituciones_educativas/', include('instituciones_educativas.urls')),
     path('administracion/', include('administracion.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

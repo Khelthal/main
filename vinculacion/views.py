@@ -1,17 +1,19 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from usuarios.models import User
+from usuarios.models import TipoUsuario
 from vinculacion.models import Categoria, Noticia
-from investigadores.models import Investigador
+from django.views import View
+from django.http.response import JsonResponse
 
 # Create your views here.
-@login_required
 def index(request):
     return render(request, "vinculacion/index.html")
 
 @login_required
 def dashboard(request):
-    return render(request, "vinculacion/map.html")
+    tipos_usuario = TipoUsuario.objects.all()
+    tipos_usuario_snake_case = ["_".join(t.tipo.split()).lower() for t in tipos_usuario]
+    return render(request, "vinculacion/map.html", {"tipos_usuario":zip(tipos_usuario, tipos_usuario_snake_case)})
 
 @login_required
 def noticias(request):
@@ -28,3 +30,10 @@ def noticia(request, id):
 @login_required
 def perfil(request):
     return render(request, "vinculacion/perfil.html")
+
+class Categorias(View):
+    def get(self, request):
+        categorias = Categoria.objects.all()
+        categorias = [{"nombre":categoria.nombre} for categoria in categorias]
+
+        return JsonResponse(categorias, safe = False)

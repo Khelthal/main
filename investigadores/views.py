@@ -1,17 +1,10 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic.edit import DeleteView, CreateView
 from django.views import View
-from django.shortcuts import render, redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib import messages
-from django.http import HttpResponseRedirect
 from django.http.response import JsonResponse
 from django.contrib.auth.decorators import login_required
-import json
 
 from investigadores.models import Investigador, Investigacion
-from investigadores.forms import InvestigadorForm, InvestigacionForm
 
 @login_required
 def investigadores_lista(request):

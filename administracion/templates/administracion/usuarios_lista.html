@@ -20,7 +20,7 @@
             {% endfor %}
         </div>
         <div class="card-body">
-            <a href=""><span class="badge bg-success">Crear</span></a>
+            <a href="{% url 'administracion:usuarios_nuevo' %}"><span class="badge bg-success">Crear</span></a>
         </div>
     </div>
 
@@ -51,8 +51,8 @@
                             <td>{% if usuario.tipo_usuario %} {{usuario.tipo_usuario}} {% else %} Invitado {% endif %}</td>
                             <td>{% if usuario.is_active %} Activo {% else %} Inactivo {% endif %}</td>
                             <td>
-                                <a href=""><span class="badge bg-info">Editar</span></a>
-                                <a href=""><span class="badge bg-danger">Eliminar</span></a>
+                                <a href="{% url 'administracion:usuarios_editar' usuario.pk %}"><span class="badge bg-info">Editar</span></a>
+                                <a href="{% url 'administracion:usuarios_eliminar' usuario.pk %}"><span class="badge bg-danger">Eliminar</span></a>
                             </td>
                         </tr>
                     {% endfor %}
