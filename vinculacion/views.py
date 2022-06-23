@@ -20,8 +20,8 @@ def noticias(request):
     return render(request, "vinculacion/noticias.html", {"noticias":noticias})
 
 @login_required
-def noticia(request):
-    noticia = {"":""}
+def noticia(request, id):
+    noticia = Noticia.objects.get(id = id)
 
     return render(request, "vinculacion/noticia.html", {"noticia":noticia})
 

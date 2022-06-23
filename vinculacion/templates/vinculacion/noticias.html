@@ -8,17 +8,19 @@
 
   <div class="noticias-lista">
     {% for noticia in noticias %}
-      <div class="carta-noticia">
-        <div class="noticia-imagen">
-          <img src="{{MEDIA_URL}}/{{noticia.imagen}}" alt="">
-        </div>
+      <a href="{% url 'vinculacion:noticia' noticia.id %}">
+        <div class="carta-noticia">
+          <div class="noticia-imagen">
+            <img src="{{MEDIA_URL}}/{{noticia.imagen}}" alt="">
+          </div>
 
-        <div class="noticia-info">
-          <h2 class="noticia-titulo">{{noticia.titulo}}</h2>
-          <p class="noticia-datos">Escrito el: {{noticia.fecha}} por {{noticia.escritor}}</p>
-          <p class="noticia-texto">{{noticia.contenido|truncatechars:255}}</p>
+          <div class="noticia-info">
+            <h2 class="noticia-titulo">{{noticia.titulo}}</h2>
+            <p class="noticia-datos">Escrito el: {{noticia.fecha}} por {{noticia.escritor}}</p>
+            <p class="noticia-texto">{{noticia.contenido|truncatechars:255}}</p>
+          </div>
         </div>
-      </div>
+      </a>
     {% endfor %}
   </div>
 </div>
