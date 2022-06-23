@@ -8,11 +8,25 @@ from instituciones_educativas.models import InstitucionEducativa
 from django.views.generic import CreateView, UpdateView, DeleteView
 from administracion.forms import *
 from django.contrib import messages
+import datetime
 import requests
 import json
 
 def dashboard(request):
-    return render(request, "administracion/dashboard.html")
+    usuarios = User.objects.all()
+    usuarios_mes = {}
+    
+    for usuario in usuarios:
+        mes_registro = "{}-{:02d}".format(usuario.date_joined.year, usuario.date_joined.month)
+        if mes_registro not in usuarios_mes:
+            usuarios_mes[mes_registro] = 0
+        usuarios_mes[mes_registro] += 1
+    
+    registros_mes = [(k, v) for k, v in usuarios_mes.items()]
+    registros_mes = sorted(registros_mes, key=lambda val: datetime.datetime.strptime(val[0], '%Y-%m'))
+    print(registros_mes)
+
+    return render(request, "administracion/dashboard.html", {"registros_mes":registros_mes})
 
 # Usuarios
 
