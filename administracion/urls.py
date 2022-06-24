@@ -35,4 +35,10 @@ urlpatterns = [
     path('categorias/nuevo', CategoriaNuevo.as_view(), name='categorias_nuevo'),
     path('categorias/editar/<int:pk>', CategoriaEditar.as_view(), name='categorias_editar'),
     path('categorias/eliminar/<int:pk>', CategoriaEliminar.as_view(), name='categorias_eliminar'),
+    
+    #Investigaciones
+    path('investigaciones/lista', investigaciones_lista, name='investigaciones_lista'),
+    path('investigaciones/nuevo', InvestigacionNuevo.as_view(), name='investigaciones_nuevo'),
+    path('investigaciones/editar/<int:pk>', InvestigacionEditar.as_view(), name='investigaciones_editar'),
+    path('investigaciones/eliminar/<int:pk>', InvestigacionEliminar.as_view(), name='investigaciones_eliminar'),
 ]

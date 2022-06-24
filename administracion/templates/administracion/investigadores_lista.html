@@ -48,7 +48,7 @@
                         <tr>
                             <td>{{investigador.user.username}}</td>
                             <td>{{investigador.user.email}}</td>
-                            <td>{{investigador.user.nivel}}</td>
+                            <td>{{investigador.nivel}}</td>
                             <td>{% if investigador.user.is_active %} Activo {% else %} Inactivo {% endif %}</td>
                             <td>
                                 <a href="{% url 'administracion:investigadores_editar' investigador.pk %}"><span class="badge bg-info">Editar</span></a>

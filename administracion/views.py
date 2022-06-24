@@ -411,3 +411,29 @@ class CategoriaEliminar(DeleteView):
     success_url = reverse_lazy('administracion:categorias_lista')
     template_name = "administracion/confirm_delete.html"
     extra_context = { "nombre_modelo": "categoria" }
+
+# Investigaciones
+
+def investigaciones_lista(request):
+    investigaciones = Investigacion.objects.all()
+    return render(request, "administracion/investigaciones_lista.html", {"investigaciones":investigaciones})
+
+class InvestigacionNuevo(CreateView):
+    model = Investigacion
+    form_class = FormInvestigacion
+    success_url = reverse_lazy('administracion:investigaciones_lista')
+    template_name = "administracion/investigaciones_form.html"
+    extra_context = { "accion": "Crear" }
+
+class InvestigacionEditar(UpdateView):
+    model = Investigacion
+    form_class = FormInvestigacion
+    success_url = reverse_lazy('administracion:investigaciones_lista')
+    template_name = "administracion/investigaciones_form.html"
+    extra_context = { "accion": "Editar" }
+
+class InvestigacionEliminar(DeleteView):
+    model = Investigacion
+    success_url = reverse_lazy('administracion:investigaciones_lista')
+    template_name = "administracion/confirm_delete.html"
+    extra_context = { "nombre_modelo": "investigacion" }

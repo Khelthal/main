@@ -1,6 +1,6 @@
 from django import forms
 from usuarios.models import User
-from investigadores.models import Investigador
+from investigadores.models import Investigador, Investigacion
 from empresas.models import Empresa
 from vinculacion.models import Categoria
 from instituciones_educativas.models import InstitucionEducativa
@@ -187,4 +187,16 @@ class FormCategoria(forms.ModelForm):
         widgets = {
             'nombre': forms.TextInput(attrs={'class':'form-control'}),
             'descripcion': forms.Textarea(attrs={'class':'form-control'}),
+        }
+
+class FormInvestigacion(forms.ModelForm):
+    class Meta:
+        model = Investigacion
+        fields = '__all__'
+
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class':'form-control'}),
+            'categorias': forms.SelectMultiple(attrs={'class':'choices form-select multiple-remove'}),
+            'autores': forms.SelectMultiple(attrs={'class':'choices form-select multiple-remove'}),
+            'contenido': forms.Textarea(attrs={'class':'form-control'}),
         }

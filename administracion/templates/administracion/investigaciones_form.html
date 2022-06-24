@@ -11,7 +11,7 @@
         <div class="row match-height">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">{{accion}} categoría</h4>
+                    <h4 class="card-title">{{accion}} investigación</h4>
                     {% for message in messages %}
                         {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
                             <div class="alert alert-danger">{{message}}</div>
@@ -28,10 +28,10 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group has-icon-left">
-                                            <label for="id_nombre">Nombre</label>
+                                            <label for="id_titulo">Título</label>
                                             <div class="position-relative">
-                                                {{form.nombre}}
-                                                {% for error in form.nombre.errors %}
+                                                {{form.titulo}}
+                                                {% for error in form.titulo.errors %}
                                                     <div class="alert alert-danger">{{error}}</div>
                                                 {% endfor %}
                                                 <div class="form-control-icon">
@@ -41,11 +41,33 @@
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <div class="form-group has-icon-left">
-                                            <label for="id_descripcion">Descripción</label>
+                                        <div class="form-group">
+                                            <label for="id_categorias">Categorías</label>
                                             <div class="position-relative">
-                                                {{form.descripcion}}
-                                                {% for error in form.descripcion.errors %}
+                                                {{form.categorias}}
+                                                {% for error in form.categorias.errors %}
+                                                    <div class="alert alert-danger">{{error}}</div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="id_autores">Autores</label>
+                                            <div class="position-relative">
+                                                {{form.autores}}
+                                                {% for error in form.autores.errors %}
+                                                    <div class="alert alert-danger">{{error}}</div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group has-icon-left">
+                                            <label for="id_contenido">Contenido</label>
+                                            <div class="position-relative">
+                                                {{form.contenido}}
+                                                {% for error in form.contenido.errors %}
                                                     <div class="alert alert-danger">{{error}}</div>
                                                 {% endfor %}
                                                 <div class="form-control-icon">
