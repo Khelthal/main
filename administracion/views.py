@@ -15,18 +15,23 @@ import json
 def dashboard(request):
     usuarios = User.objects.all()
     usuarios_mes = {}
+    usuarios_tipo = {}
     
     for usuario in usuarios:
         mes_registro = "{}-{:02d}".format(usuario.date_joined.year, usuario.date_joined.month)
         if mes_registro not in usuarios_mes:
             usuarios_mes[mes_registro] = 0
         usuarios_mes[mes_registro] += 1
+        tipo_usuario = usuario.tipo_usuario if usuario.tipo_usuario else "Visitante"
+        if tipo_usuario not in usuarios_tipo:
+            usuarios_tipo[tipo_usuario] = 0
+        usuarios_tipo[tipo_usuario] += 1
     
     registros_mes = [(k, v) for k, v in usuarios_mes.items()]
     registros_mes = sorted(registros_mes, key=lambda val: datetime.datetime.strptime(val[0], '%Y-%m'))
-    print(registros_mes)
+    print(usuarios_tipo)
 
-    return render(request, "administracion/dashboard.html", {"registros_mes":registros_mes})
+    return render(request, "administracion/dashboard.html", {"registros_mes":registros_mes, "usuarios_tipo":usuarios_tipo.items()})
 
 # Usuarios
 

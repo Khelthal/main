@@ -1,10 +1,8 @@
-var areaOptions;
-
-function initAreaOptions(series, categories) {
-  areaOptions = {
+function renderizarGraficaUsuariosMes(series, categories) {
+  let areaOptions = {
      series: [
        {
-         name: "series1",
+         name: "Usuarios registrados",
          data: series,
        },
      ],
@@ -29,6 +27,30 @@ function initAreaOptions(series, categories) {
      },
    };  
 
-  var chart = new ApexCharts(document.querySelector('#chart'), areaOptions)
-  chart.render()  
+  let usuariosMesChart = new ApexCharts(document.querySelector('#usuarios-mes'), areaOptions)
+  usuariosMesChart.render()  
+}
+
+function renderizarGraficaUsuariosDistribucion(series, labels) {
+  let options = {
+    series: series,
+    chart: {
+    type: 'donut',
+  },
+  labels: labels,
+  responsive: [{
+    breakpoint: 480,
+    options: {
+      chart: {
+        width: 200
+      },
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }]
+  };
+
+  let chart = new ApexCharts(document.querySelector("#usuarios-distribucion"), options);
+  chart.render();
 }
