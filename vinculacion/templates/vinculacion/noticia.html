@@ -6,20 +6,16 @@
 <div class="noticias-contenedor">
   <h2 class="titulo-seccion">Nota</h2>
 
-  <h2 class="noticia-titulo">Becas para el desarrollo de proyectos LABSOL</h2>
+  <h2 class="noticia-titulo">{{noticia.titulo}}</h2>
 
   <div class="noticia">
     <div class="noticia-imagen">
-      <img src="{% static 'img/noticia.png' %}" alt="">
+      <img src="{{MEDIA_URL}}/{{noticia.imagen}}" alt="">
     </div>
 
     <div class="noticia-detalle">
-      <p class="noticia-datos">Escrito el: por: </p>
-      <p class="noticia-texto">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non tincidunt sapien. Duis vitae nisi viverra, blandit nulla eget, vestibulum nunc. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris pellentesque pulvinar elit, cursus sollicitudin est semper quis. Aenean viverra pulvinar ex, vel cursus enim ultrices vitae. Proin volutpat ligula vitae felis faucibus dapibus. Etiam in justo felis.</br>
-        Sed venenatis a velit ac aliquam. Nullam tristique eros magna, id interdum magna interdum non. Aenean dapibus sollicitudin posuere. Praesent quis molestie mi. Proin sed sodales metus. Sed imperdiet risus tristique velit sagittis, vel mollis nulla sodales. Nulla luctus, lorem vel cursus rhoncus, lorem dolor imperdiet ipsum, sed convallis odio massa ornare orci. Vivamus pharetra neque sit amet nunc luctus, vitae luctus odio vulputate. Mauris scelerisque, odio eget imperdiet condimentum, massa ipsum malesuada erat, quis porta ligula metus eu ipsum. Praesent sed lacus a tortor dignissim venenatis. Nunc sollicitudin, mauris eget lobortis ultrices, ex ligula suscipit orci, sed condimentum orci dui sit amet felis. Nulla at feugiat felis, ac mattis velit. Fusce efficitur et mauris eu fermentum. Duis quis sagittis dolor. Phasellus condimentum molestie arcu, vel lacinia dui commodo vel. Suspendisse ac sollicitudin dolor, non tincidunt tellus.</br>
-        Donec hendrerit quis lorem quis venenatis. Ut mattis auctor luctus. Donec et ullamcorper lectus. Sed eu pulvinar felis, in luctus nisl. Etiam convallis nunc nisi, eget dignissim sem porttitor quis. Phasellus tincidunt fringilla orci, id euismod tortor dictum eget. Aenean nisl mauris, tempus et dignissim in, tincidunt non nisl. Donec hendrerit sapien sit amet rutrum faucibus. Aliquam iaculis leo felis, et lacinia turpis imperdiet vitae. Vivamus eget orci eu ipsum cursus porttitor sed sed massa.  
-      </p>
+      <p class="noticia-datos">Escrito el: {{noticia.fecha}} por: {{noticia.escritor}}</p>
+      <p class="noticia-texto">{{noticia.contenido}}</p>
     </div>
   </div>
 </div>
