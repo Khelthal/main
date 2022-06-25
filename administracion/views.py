@@ -17,7 +17,16 @@ def dashboard(request):
     usuarios_mes = {}
     usuarios_tipo = {}
     
+    fecha_actual = datetime.datetime.now()
+    mes_actual = "{}-{:02d}".format(fecha_actual.year, fecha_actual.month)
+    usuarios_activos_mes = 0
+    
     for usuario in usuarios:
+        if usuario.last_login:
+            mes_ultimo_login = "{}-{:02d}".format(usuario.last_login.year, usuario.last_login.month)
+            if mes_actual == mes_ultimo_login:
+                usuarios_activos_mes += 1
+           
         mes_registro = "{}-{:02d}".format(usuario.date_joined.year, usuario.date_joined.month)
         if mes_registro not in usuarios_mes:
             usuarios_mes[mes_registro] = 0
@@ -29,9 +38,11 @@ def dashboard(request):
     
     registros_mes = [(k, v) for k, v in usuarios_mes.items()]
     registros_mes = sorted(registros_mes, key=lambda val: datetime.datetime.strptime(val[0], '%Y-%m'))
-    print(usuarios_tipo)
+    actividad_usuarios = [("Activos este mes", usuarios_activos_mes), ("Inactivos este mes", len(usuarios) - usuarios_activos_mes)]
+    
+    print(actividad_usuarios)
 
-    return render(request, "administracion/dashboard.html", {"registros_mes":registros_mes, "usuarios_tipo":usuarios_tipo.items()})
+    return render(request, "administracion/dashboard.html", {"registros_mes":registros_mes, "usuarios_tipo":usuarios_tipo.items(), "actividad_usuarios":actividad_usuarios})
 
 # Usuarios
 

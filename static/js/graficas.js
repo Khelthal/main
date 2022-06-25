@@ -54,3 +54,27 @@ function renderizarGraficaUsuariosDistribucion(series, labels) {
   let chart = new ApexCharts(document.querySelector("#usuarios-distribucion"), options);
   chart.render();
 }
+
+function renderizarGraficaActividadUsuarios(series, labels) {
+  let options = {
+    series: series,
+    chart: {
+    type: 'donut',
+  },
+  labels: labels,
+  responsive: [{
+    breakpoint: 480,
+    options: {
+      chart: {
+        width: 200
+      },
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }]
+  };
+
+  let chart = new ApexCharts(document.querySelector("#actividad-usuarios"), options);
+  chart.render();
+}
