@@ -9,6 +9,7 @@ class TipoUsuario(models.Model):
 
 class User(AbstractUser):
     tipo_usuario = models.ForeignKey(TipoUsuario, on_delete=models.DO_NOTHING, null=True, blank=True)
+    email = models.EmailField(unique=True)
     aprobado = models.BooleanField(default=False)
 
     def __str__(self):
