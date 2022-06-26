@@ -2,52 +2,57 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title></title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/app.css'%}">
-  </head>
-  <body>
 
-    <header class="header contenedor">
-      <div class="header__logo">
-          <img src="{% static 'img/labsol.png' %}" alt="logo labsol">
-      </div>
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/app.css'%}">
+</head>
 
-      <nav class="navegacion">
-        <a href="{% url 'usuarios:login' %}" class="navegacion__link">Iniciar Sesión</a>
-        <a href="{% url 'usuarios:registrar' %}" class="navegacion__link">Crear Cuenta</a>
-          <a href="#" class="navegacion__link navegacion__link--registrar">Registrar Institución</a>
-      </nav>
+<body>
+
+  <header class="header contenedor">
+    <div class="header__logo">
+      <img src="{% static 'img/labsol.png' %}" alt="logo labsol">
+    </div>
+
+    <nav class="navegacion">
+      <a href="{% url 'usuarios:login' %}" class="navegacion__link">Iniciar Sesión</a>
+      <a href="{% url 'usuarios:registrar' %}" class="navegacion__link">Crear Cuenta</a>
+      <a href="#" class="navegacion__link navegacion__link--registrar">Registrar Institución</a>
+    </nav>
   </header>
 
   <section class="contenedor formulario">
-      <div class="formulario__grid">
-          <div class="formulario__contenido">
-              <h2 class="formulario__heading">Encuentra y vicula con los mejores investigadores y universidades del estado</h2>
-              <form class="formulario__buscar">
-                  <div class="formulario__campo">
-                      <label for="etiquetas" class="formulario__label">Areas a buscar</label>
-                      <input id="etiquetas" class="formulario__input" placeholder="Informatica, Ciencias de la Salud">
-                  </div>
-                  <div class="formulario__campo">
-                      <label for="zona" class="formulario__label">Municipio</label>
-                      <input id="zona" class="formulario__input" placeholder="Jerez">
-                  </div>
-                  <input type="submit" class="formulario__submit" value="Buscar">
-              </form>
+    <div class="formulario__grid">
+      <div class="formulario__contenido">
+        <h2 class="formulario__heading">Encuentra y vincula con los mejores investigadores y universidades del estado
+        </h2>
+        <form class="formulario__buscar">
+          <div class="formulario__campo">
+            <label for="etiquetas" class="formulario__label">Areas a buscar</label>
+            <input id="etiquetas" class="formulario__input" placeholder="Informatica, Ciencias de la Salud">
           </div>
-          <div class="formulario__imagen-contenedor">
-              <img class="formulario__imagen" src="{% static 'img/InvestigadorIndex.jpg' %}" alt="dibujo investigador">
+          <div class="formulario__campo">
+            <label for="zona" class="formulario__label">Municipio</label>
+            <input id="zona" class="formulario__input" placeholder="Jerez">
           </div>
+          <input type="submit" class="formulario__submit" value="Buscar">
+        </form>
       </div>
+      <div class="formulario__imagen-contenedor">
+        <img class="formulario__imagen" src="{% static 'img/InvestigadorIndex.jpg' %}" alt="dibujo investigador">
+      </div>
+    </div>
   </section>
 
   <div class="pasos">
-      <img class="pasos__wave" src="{% static 'img/wave.svg'%}" alt="imagen wave" style="">
+    <img class="pasos__wave" src="{% static 'img/wave.svg'%}" alt="imagen wave" style="">
   </div>
 
-  </body>
+</body>
+
 </html>

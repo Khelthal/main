@@ -9,6 +9,7 @@ class TipoUsuario(models.Model):
 
 class User(AbstractUser):
     tipo_usuario = models.ForeignKey(TipoUsuario, on_delete=models.DO_NOTHING, null=True, blank=True)
+    aprobado = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return self.username

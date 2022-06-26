@@ -29,7 +29,15 @@ def noticia(request, id):
 
 @login_required
 def perfil(request):
-    return render(request, "vinculacion/perfil.html")
+    usuario = request.user
+
+    if not usuario.tipo_usuario:
+        return render(request, "vinculacion/perfil_seleccionar.html")
+    
+    if not usuario.aprobado:
+        return render(request, "vinculacion/perfil_pendiente.html")
+
+    return render(request, "vinculacion/perfil_investigador.html")
 
 class Categorias(View):
     def get(self, request):

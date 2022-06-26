@@ -115,6 +115,7 @@ class InvestigadorNuevo(CreateView):
         investigador.latitud = float(data["lat"])
         investigador.longitud = float(data["lon"])
         investigador.user.tipo_usuario = TipoUsuario.objects.get(tipo="Investigador")
+        investigador.user.aprobado = True
         
         investigador.save()
         investigador.user.save()
@@ -175,6 +176,7 @@ class InvestigadorEliminar(DeleteView):
     def post(self, request, *args, **kwargs):
         investigador = self.get_object()
         investigador.user.tipo_usuario = None
+        investigador.user.aprobado = False
         investigador.user.save()
 
         return self.delete(request, *args, **kwargs)
@@ -224,6 +226,7 @@ class EmpresaNuevo(CreateView):
         empresa.latitud = float(data["lat"])
         empresa.longitud = float(data["lon"])
         empresa.encargado.tipo_usuario = TipoUsuario.objects.get(tipo="Empresa")
+        empresa.encargado.aprobado = True
         
         empresa.save()
         empresa.encargado.save()
@@ -284,6 +287,7 @@ class EmpresaEliminar(DeleteView):
     def post(self, request, *args, **kwargs):
         empresa = self.get_object()
         empresa.encargado.tipo_usuario = None
+        empresa.encargado.aprobado = False
         empresa.encargado.save()
 
         return self.delete(request, *args, **kwargs)
@@ -333,6 +337,7 @@ class InstitucionEducativaNuevo(CreateView):
         institucion_educativa.latitud = float(data["lat"])
         institucion_educativa.longitud = float(data["lon"])
         institucion_educativa.encargado.tipo_usuario = TipoUsuario.objects.get(tipo="Institucion Educativa")
+        institucion_educativa.encargado.aprobado = True
         
         institucion_educativa.save()
         institucion_educativa.encargado.save()
@@ -393,6 +398,7 @@ class InstitucionEducativaEliminar(DeleteView):
     def post(self, request, *args, **kwargs):
         institucion_educativa = self.get_object()
         institucion_educativa.encargado.tipo_usuario = None
+        institucion_educativa.engargado.aprobado = False
         institucion_educativa.encargado.save()
 
         return self.delete(request, *args, **kwargs)

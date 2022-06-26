@@ -33,7 +33,7 @@ class FormInvestigador(forms.ModelForm):
     
     class Meta:
         model = Investigador
-        exclude = ['latitud', 'longitud']
+        exclude = ['latitud', 'longitud', 'aprobado']
 
     def __init__(self, *args, **kwargs):
         super(FormInvestigador, self).__init__(*args, **kwargs)
@@ -60,7 +60,7 @@ class FormInvestigadorUpdate(forms.ModelForm):
     
     class Meta:
         model = Investigador
-        exclude = ['latitud', 'longitud', 'user']
+        exclude = ['latitud', 'longitud', 'user', 'aprobado']
 
     def __init__(self, *args, **kwargs):
         super(FormInvestigadorUpdate, self).__init__(*args, **kwargs)
@@ -86,7 +86,7 @@ class FormEmpresa(forms.ModelForm):
     
     class Meta:
         model = Empresa
-        exclude = ['latitud', 'longitud']
+        exclude = ['latitud', 'longitud', 'aprobado']
 
     def __init__(self, *args, **kwargs):
         super(FormEmpresa, self).__init__(*args, **kwargs)
@@ -112,7 +112,7 @@ class FormEmpresaUpdate(forms.ModelForm):
     
     class Meta:
         model = Empresa
-        exclude = ['latitud', 'longitud', 'encargado']
+        exclude = ['latitud', 'longitud', 'encargado', 'aprobado']
 
     def __init__(self, *args, **kwargs):
         super(FormEmpresaUpdate, self).__init__(*args, **kwargs)
@@ -137,7 +137,7 @@ class FormInstitucionEducativa(forms.ModelForm):
     
     class Meta:
         model = InstitucionEducativa
-        exclude = ['latitud', 'longitud']
+        exclude = ['latitud', 'longitud', 'aprobado']
 
     def __init__(self, *args, **kwargs):
         super(FormInstitucionEducativa, self).__init__(*args, **kwargs)
@@ -163,7 +163,7 @@ class FormInstitucionEducativaUpdate(forms.ModelForm):
     
     class Meta:
         model = InstitucionEducativa
-        exclude = ['latitud', 'longitud', 'encargado']
+        exclude = ['latitud', 'longitud', 'encargado', 'aprobado']
 
     def __init__(self, *args, **kwargs):
         super(FormInstitucionEducativaUpdate, self).__init__(*args, **kwargs)
