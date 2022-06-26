@@ -527,13 +527,19 @@ h3 {
   overflow: scroll;
 }
 
+.contenedor-perfil .form-link {
+  display: flex;
+  width: 33.33%;
+  color: black;
+}
+
 .columna-tipo-usuario {
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  width: 33.33%;
   text-align: center;
+  width: 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -559,4 +565,30 @@ h3 {
 .columna-tipo-usuario:hover h2 {
   transform: scale(1.2);
   transition: transform 200ms;
+}
+
+/*
+ =============
+  Formulario
+ =============
+*/
+.contenedor-formulario {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  overflow: scroll;
+}
+
+.contenedor-formulario section {
+  width: 80%;
+}
+
+.contenedor-formulario input {
+  font-size: 90%;
+}
+
+.contenedor-formulario select {
+  font-size: 90%;
 }

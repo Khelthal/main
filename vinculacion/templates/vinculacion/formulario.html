@@ -1,0 +1,24 @@
+{% extends 'vinculacion/base.html' %}
+{% load static %}
+
+{% block contenido %}
+<main class="contenedor-formulario">
+  <section>
+    <div class="card">
+      <div class="card-header">
+        <p>Datos de usuario</p>
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          {% csrf_token %}
+          {{form.as_p}}
+          <div class="col-12 d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary me-1 mb-1">Guardar</button>
+            <button type="reset" class="btn btn-dark me-1 mb-1">Reiniciar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
