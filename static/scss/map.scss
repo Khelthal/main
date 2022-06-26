@@ -530,17 +530,21 @@ h3 {
   cursor: pointer;
   width: 33.33%;
   text-align: center;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background: rgb(255,255,255);
   
-  &.blue {
-    background-color: blue;
+  &:hover.investigador-bg {
+    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(0,255,212,1) 100%); 
   }
 
-  &.red {
-    background-color: red;
+  &:hover.empresa-bg {
+    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,0,71,1) 100%); 
   }
 
-  &.green {
-    background-color: green;
+  &:hover.institucion-bg {
+    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(203,93,255,1) 100%); 
   }
   
   h2 {

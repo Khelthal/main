@@ -534,18 +534,22 @@ h3 {
   cursor: pointer;
   width: 33.33%;
   text-align: center;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background: white;
 }
 
-.columna-tipo-usuario.blue {
-  background-color: blue;
+.columna-tipo-usuario:hover.investigador-bg {
+  background: linear-gradient(0deg, white 0%, #00ffd4 100%);
 }
 
-.columna-tipo-usuario.red {
-  background-color: red;
+.columna-tipo-usuario:hover.empresa-bg {
+  background: linear-gradient(0deg, white 0%, #ff0047 100%);
 }
 
-.columna-tipo-usuario.green {
-  background-color: green;
+.columna-tipo-usuario:hover.institucion-bg {
+  background: linear-gradient(0deg, white 0%, #cb5dff 100%);
 }
 
 .columna-tipo-usuario h2 {

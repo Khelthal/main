@@ -38,6 +38,8 @@ class FormInvestigador(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FormInvestigador, self).__init__(*args, **kwargs)
         self.fields["user"].queryset = User.objects.filter(tipo_usuario__isnull=True)
+        self.fields["user"].widget.attrs['class'] = 'choices form-select'
+        self.fields["nivel"].widget.attrs['class'] = 'choices form-select'
         self.fields["curp"].widget.attrs['class'] = 'form-control'
         self.fields["curp"].widget.attrs['placeholder'] = 'Ingresa tu CURP'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
@@ -64,6 +66,7 @@ class FormInvestigadorUpdate(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(FormInvestigadorUpdate, self).__init__(*args, **kwargs)
+        self.fields["nivel"].widget.attrs['class'] = 'choices form-select'
         self.fields["curp"].widget.attrs['class'] = 'form-control'
         self.fields["curp"].widget.attrs['placeholder'] = 'Ingresa tu CURP'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
@@ -91,6 +94,7 @@ class FormEmpresa(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FormEmpresa, self).__init__(*args, **kwargs)
         self.fields["encargado"].queryset = User.objects.filter(tipo_usuario__isnull=True)
+        self.fields["encargado"].widget.attrs['class'] = 'choices form-select'
         self.fields["nombre_empresa"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
@@ -142,6 +146,7 @@ class FormInstitucionEducativa(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FormInstitucionEducativa, self).__init__(*args, **kwargs)
         self.fields["encargado"].queryset = User.objects.filter(tipo_usuario__isnull=True)
+        self.fields["encargado"].widget.attrs['class'] = 'choices form-select'
         self.fields["nombre_institucion"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
