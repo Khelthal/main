@@ -44,6 +44,13 @@ def dashboard(request):
 
     return render(request, "administracion/dashboard.html", {"registros_mes":registros_mes, "usuarios_tipo":usuarios_tipo.items(), "actividad_usuarios":actividad_usuarios})
 
+def aprobar_perfil(request, pk):
+    usuario = User.objects.get(pk=pk)
+    usuario.aprobado = True
+    usuario.save()
+
+    return redirect('administracion:dashboard')
+
 # Usuarios
 
 def usuarios_lista(request):
@@ -73,8 +80,12 @@ class UsuarioEliminar(DeleteView):
 # Investigadores
 
 def investigadores_lista(request):
-    investigadores = Investigador.objects.all()
+    investigadores = Investigador.objects.filter(user__aprobado=True)
     return render(request, "administracion/investigadores_lista.html", {"investigadores":investigadores})
+
+def investigadores_solicitud(request):
+    investigadores = Investigador.objects.filter(user__aprobado=False)
+    return render(request, "administracion/investigadores_solicitud.html", {"investigadores":investigadores})
 
 class InvestigadorNuevo(CreateView):
     model = Investigador
@@ -184,8 +195,12 @@ class InvestigadorEliminar(DeleteView):
 # Empresas
 
 def empresas_lista(request):
-    empresas = Empresa.objects.all()
+    empresas = Empresa.objects.filter(encargado__aprobado=True)
     return render(request, "administracion/empresas_lista.html", {"empresas":empresas})
+
+def empresas_solicitud(request):
+    empresas = Empresa.objects.filter(encargado__aprobado=False)
+    return render(request, "administracion/empresas_solicitud.html", {"empresas":empresas})
 
 class EmpresaNuevo(CreateView):
     model = Empresa
@@ -295,8 +310,12 @@ class EmpresaEliminar(DeleteView):
 # Instituciones Educativas
 
 def instituciones_educativas_lista(request):
-    instituciones_educativas = InstitucionEducativa.objects.all()
+    instituciones_educativas = InstitucionEducativa.objects.filter(encargado__aprobado=True)
     return render(request, "administracion/instituciones_educativas_lista.html", {"instituciones_educativas":instituciones_educativas})
+
+def instituciones_educativas_solicitud(request):
+    instituciones_educativas = InstitucionEducativa.objects.filter(encargado__aprobado=False)
+    return render(request, "administracion/instituciones_educativas_solicitud.html", {"instituciones_educativas":instituciones_educativas})
 
 class InstitucionEducativaNuevo(CreateView):
     model = InstitucionEducativa

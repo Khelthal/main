@@ -1,0 +1,53 @@
+{% extends 'administracion/base.html' %}
+{% load static %}
+
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'dist/assets/css/pages/datatables.css' %}">
+<link rel="stylesheet" href="{% static 'dist/assets/css/pages/fontawesome.css' %}">
+{% endblock %}
+
+{% block contenido %}
+
+<!-- Basic Tables start -->
+<section class="section">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Instituciones Educativas</h4>
+    </div>
+    <div class="card-body">
+      <table class="table" id="table1">
+        <thead>
+          <tr>
+            <th>Encargado</th>
+            <th>Nombre empresa</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for institucion_educativa in instituciones_educativas %}
+          <tr>
+            <td>{{institucion_educativa.encargado.username}}</td>
+            <td>{{institucion_educativa.nombre_institucion}}</td>
+            <td>
+              <a href="{% url 'administracion:aprobar_perfil' institucion_educativa.encargado.pk %}"><span
+                  class="badge bg-success">Aprobar</span></a>
+              <a href="{% url 'administracion:instituciones_educativas_eliminar' institucion_educativa.pk %}"><span
+                  class="badge bg-danger">Rechazar</span></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'dist/assets/js/extensions/datatables.js' %}"></script>
+{% endblock %}
+
+{% block marcar_activo %}
+marcarMenuActivo("Solicitudes");
+{% endblock %}
