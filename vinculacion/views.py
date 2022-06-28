@@ -6,8 +6,10 @@ from vinculacion.models import Categoria, Noticia
 from django.views import View
 from django.views.generic import CreateView
 from django.http.response import JsonResponse
-from administracion.forms import FormInvestigadorBase
+from administracion.forms import FormInvestigadorBase, FormEmpresaUpdate, FormInstitucionEducativaUpdate
 from investigadores.models import Investigador, NivelInvestigador
+from empresas.models import Empresa
+from instituciones_educativas.models import InstitucionEducativa
 from django.contrib import messages
 import requests
 import json
@@ -49,7 +51,6 @@ def perfil(request):
 class InvestigadorSolicitud(CreateView):
     model = Investigador
     form_class = FormInvestigadorBase
-    success_url = reverse_lazy('vinculacion:perfil')
     template_name = "vinculacion/formulario.html"
 
     def form_valid(self, form):
@@ -90,7 +91,97 @@ class InvestigadorSolicitud(CreateView):
         investigador.save()
         investigador.user.save()
 
-        messages.success(self.request, "Investigador registrado correctamente")
+        messages.success(self.request, "Solicitud registrada correctamente")
+        return redirect('vinculacion:perfil')
+
+class EmpresaSolicitud(CreateView):
+    model = Empresa
+    form_class = FormEmpresaUpdate
+    template_name = "vinculacion/formulario.html"
+
+    def form_valid(self, form):
+        empresa = form.save(commit=False)
+        empresa.encargado = self.request.user
+        codigo_postal = form.cleaned_data['codigo_postal']
+        municipio = form.cleaned_data['municipio']
+        colonia = form.cleaned_data['colonia']
+        calle = form.cleaned_data['calle']
+        numero_exterior = form.cleaned_data['numero_exterior']
+        
+        headers = {
+            'User-agent': 'Script de consulta de ubicacion'
+        }
+        r = requests.get(f"https://nominatim.openstreetmap.org/search?street='{numero_exterior} {calle}'&city={municipio}&country=Mexico&state=Zacatecas&postalcode={codigo_postal}&format=json", headers=headers)
+        
+        if r.status_code != 200:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return redirect('administracion:empresas_nuevo')
+
+        data = json.loads(r.text)
+        
+        if len(data) == 0:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return redirect('administracion:empresas_nuevo')
+            
+        data = data[0]
+
+        if "lat" not in data or "lon" not in data:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return redirect('administracion:empresas_nuevo')
+        
+        empresa.latitud = float(data["lat"])
+        empresa.longitud = float(data["lon"])
+        empresa.encargado.tipo_usuario = TipoUsuario.objects.get(tipo="Empresa")
+        
+        empresa.save()
+        empresa.encargado.save()
+
+        messages.success(self.request, "Solicitud registrada correctamente")
+        return redirect('vinculacion:perfil')
+
+class InstitucionEducativaSolicitud(CreateView):
+    model = InstitucionEducativa
+    form_class = FormInstitucionEducativaUpdate
+    template_name = "vinculacion/formulario.html"
+
+    def form_valid(self, form):
+        institucion_educativa = form.save(commit=False)
+        institucion_educativa.encargado = self.request.user
+        codigo_postal = form.cleaned_data['codigo_postal']
+        municipio = form.cleaned_data['municipio']
+        colonia = form.cleaned_data['colonia']
+        calle = form.cleaned_data['calle']
+        numero_exterior = form.cleaned_data['numero_exterior']
+        
+        headers = {
+            'User-agent': 'Script de consulta de ubicacion'
+        }
+        r = requests.get(f"https://nominatim.openstreetmap.org/search?street='{numero_exterior} {calle}'&city={municipio}&country=Mexico&state=Zacatecas&postalcode={codigo_postal}&format=json", headers=headers)
+        
+        if r.status_code != 200:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return redirect('administracion:instituciones_educativas_nuevo')
+
+        data = json.loads(r.text)
+        
+        if len(data) == 0:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return redirect('administracion:instituciones_educativas_nuevo')
+            
+        data = data[0]
+
+        if "lat" not in data or "lon" not in data:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return redirect('administracion:instituciones_educativas_nuevo')
+        
+        institucion_educativa.latitud = float(data["lat"])
+        institucion_educativa.longitud = float(data["lon"])
+        institucion_educativa.encargado.tipo_usuario = TipoUsuario.objects.get(tipo="Institucion Educativa")
+        
+        institucion_educativa.save()
+        institucion_educativa.encargado.save()
+
+        messages.success(self.request, "Solicitud registrada correctamente")
         return redirect('vinculacion:perfil')
 
 class Categorias(View):
