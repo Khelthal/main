@@ -39,8 +39,6 @@ def dashboard(request):
     registros_mes = sorted(registros_mes, key=lambda val: datetime.datetime.strptime(val[0], '%Y-%m'))
     actividad_usuarios = [("Activos este mes", usuarios_activos_mes), ("Inactivos este mes", len(usuarios) - usuarios_activos_mes)]
     
-    print(actividad_usuarios)
-
     return render(request, "administracion/dashboard.html", {"registros_mes":registros_mes, "usuarios_tipo":usuarios_tipo.items(), "actividad_usuarios":actividad_usuarios})
 
 def aprobar_perfil(request, pk):
@@ -61,8 +59,8 @@ class UsuarioNuevo(CreateView):
     model = User
     form_class = FormUser
     success_url = reverse_lazy('administracion:usuarios_lista')
-    template_name = "administracion/usuarios_form.html"
-    extra_context = { "accion": "Crear" }
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Crear", "nombre_modelo": "usuario" }
 
     def form_valid(self, form):
         form.save()
@@ -73,8 +71,8 @@ class UsuarioEditar(UpdateView):
     model = User
     form_class = FormUser
     success_url = reverse_lazy('administracion:usuarios_lista')
-    template_name = "administracion/usuarios_form.html"
-    extra_context = { "accion": "Editar" }
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Editar", "nombre_modelo": "usuario" }
 
     def form_valid(self, form):
         form.save()
@@ -109,8 +107,8 @@ class InvestigadorNuevo(CreateView):
     model = Investigador
     form_class = FormInvestigador
     success_url = reverse_lazy('administracion:investigadores_lista')
-    template_name = "administracion/investigadores_form.html"
-    extra_context = { "accion": "Crear" }
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Crear", "nombre_modelo": "investigador" }
 
     def form_valid(self, form):
         investigador = form.save(commit=False)
@@ -118,7 +116,7 @@ class InvestigadorNuevo(CreateView):
         
         if not coordenadas:
             messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:investigadores_nuevo')
+            return super(InvestigadorNuevo, self).form_invalid(form)
 
         investigador.latitud = coordenadas.latitud
         investigador.longitud = coordenadas.longitud
@@ -135,8 +133,8 @@ class InvestigadorEditar(UpdateView):
     model = Investigador
     form_class = FormInvestigadorUpdate
     success_url = reverse_lazy('administracion:investigadores_lista')
-    template_name = "administracion/investigadores_form.html"
-    extra_context = { "accion": "Editar" }
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Editar", "nombre_modelo": "investigador" }
 
     def form_valid(self, form):
         investigador = form.save(commit=False)
@@ -144,7 +142,7 @@ class InvestigadorEditar(UpdateView):
         
         if not coordenadas:
             messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:investigadores_nuevo')
+            return super(InvestigadorEditar, self).form_invalid(form)
 
         investigador.latitud = coordenadas.latitud
         investigador.longitud = coordenadas.longitud
@@ -187,8 +185,8 @@ class EmpresaNuevo(CreateView):
     model = Empresa
     form_class = FormEmpresa
     success_url = reverse_lazy('administracion:empresas_lista')
-    template_name = "administracion/empresas_form.html"
-    extra_context = { "accion": "Crear" }
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Crear", "nombre_modelo": "empresa" }
 
     def form_valid(self, form):
         empresa = form.save(commit=False)
@@ -196,7 +194,7 @@ class EmpresaNuevo(CreateView):
         
         if not coordenadas:
             messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:investigadores_nuevo')
+            return super(EmpresaNuevo, self).form_invalid(form)
 
         empresa.latitud = coordenadas.latitud
         empresa.longitud = coordenadas.longitud
@@ -213,8 +211,8 @@ class EmpresaEditar(UpdateView):
     model = Empresa
     form_class = FormEmpresaUpdate
     success_url = reverse_lazy('administracion:empresas_lista')
-    template_name = "administracion/empresas_form.html"
-    extra_context = { "accion": "Editar" }
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Editar", "nombre_modelo": "empresa" }
 
     def form_valid(self, form):
         empresa = form.save(commit=False)
@@ -222,7 +220,7 @@ class EmpresaEditar(UpdateView):
         
         if not coordenadas:
             messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:investigadores_nuevo')
+            return super(EmpresaEditar, self).form_invalid(form)
 
         empresa.latitud = coordenadas.latitud
         empresa.longitud = coordenadas.longitud
@@ -265,8 +263,8 @@ class InstitucionEducativaNuevo(CreateView):
     model = InstitucionEducativa
     form_class = FormInstitucionEducativa
     success_url = reverse_lazy('administracion:instituciones_educativas_lista')
-    template_name = "administracion/instituciones_educativas_form.html"
-    extra_context = { "accion": "Crear" }
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Crear", "nombre_modelo": "institución educativa" }
 
     def form_valid(self, form):
         institucion_educativa = form.save(commit=False)
@@ -274,7 +272,7 @@ class InstitucionEducativaNuevo(CreateView):
         
         if not coordenadas:
             messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:investigadores_nuevo')
+            return super(InstitucionEducativaNuevo, self).form_invalid(form)
 
         institucion_educativa.latitud = coordenadas.latitud
         institucion_educativa.longitud = coordenadas.longitud
@@ -291,8 +289,8 @@ class InstitucionEducativaEditar(UpdateView):
     model = InstitucionEducativa
     form_class = FormInstitucionEducativaUpdate
     success_url = reverse_lazy('administracion:instituciones_educativas_lista')
-    template_name = "administracion/instituciones_educativas_form.html"
-    extra_context = { "accion": "Editar" }
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Editar", "nombre_modelo": "institución educativa" }
 
     def form_valid(self, form):
         institucion_educativa = form.save(commit=False)
@@ -300,7 +298,7 @@ class InstitucionEducativaEditar(UpdateView):
         
         if not coordenadas:
             messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:investigadores_nuevo')
+            return super(InstitucionEducativaEditar, self).form_invalid(form)
 
         institucion_educativa.latitud = coordenadas.latitud
         institucion_educativa.longitud = coordenadas.longitud
@@ -336,8 +334,8 @@ class CategoriaNuevo(CreateView):
     model = Categoria
     form_class = FormCategoria
     success_url = reverse_lazy('administracion:categorias_lista')
-    template_name = "administracion/categorias_form.html"
-    extra_context = { "accion": "Crear" }
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Crear", "nombre_modelo": "categoria" }
 
     def form_valid(self, form):
         form.save()
@@ -348,8 +346,8 @@ class CategoriaEditar(UpdateView):
     model = Categoria
     form_class = FormCategoria
     success_url = reverse_lazy('administracion:categorias_lista')
-    template_name = "administracion/categorias_form.html"
-    extra_context = { "accion": "Editar" }
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Editar", "nombre_modelo": "categoria" }
 
     def form_valid(self, form):
         form.save()
@@ -377,8 +375,8 @@ class InvestigacionNuevo(CreateView):
     model = Investigacion
     form_class = FormInvestigacion
     success_url = reverse_lazy('administracion:investigaciones_lista')
-    template_name = "administracion/investigaciones_form.html"
-    extra_context = { "accion": "Crear" }
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Crear", "nombre_modelo": "investigacion" }
 
     def form_valid(self, form):
         form.save()
@@ -389,8 +387,8 @@ class InvestigacionEditar(UpdateView):
     model = Investigacion
     form_class = FormInvestigacion
     success_url = reverse_lazy('administracion:investigaciones_lista')
-    template_name = "administracion/investigaciones_form.html"
-    extra_context = { "accion": "Editar" }
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Editar", "nombre_modelo": "investigacion" }
 
     def form_valid(self, form):
         form.save()
