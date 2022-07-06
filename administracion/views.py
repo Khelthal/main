@@ -64,6 +64,11 @@ class UsuarioNuevo(CreateView):
     template_name = "administracion/usuarios_form.html"
     extra_context = { "accion": "Crear" }
 
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Usuario registrado correctamente")
+        return redirect(self.success_url)
+
 class UsuarioEditar(UpdateView):
     model = User
     form_class = FormUser
@@ -71,11 +76,20 @@ class UsuarioEditar(UpdateView):
     template_name = "administracion/usuarios_form.html"
     extra_context = { "accion": "Editar" }
 
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Usuario actualizado correctamente")
+        return redirect(self.success_url)
+
 class UsuarioEliminar(DeleteView):
     model = User
     success_url = reverse_lazy('administracion:usuarios_lista')
     template_name = "administracion/confirm_delete.html"
     extra_context = { "nombre_modelo": "usuario" }
+
+    def post(self, request, *args, **kwargs):
+        messages.success(self.request, "Usuario eliminado correctamente")
+        return self.delete(request, *args, **kwargs)
 
 # Investigadores
 
@@ -115,7 +129,7 @@ class InvestigadorNuevo(CreateView):
         investigador.user.save()
 
         messages.success(self.request, "Investigador registrado correctamente")
-        return redirect('administracion:investigadores_lista')
+        return redirect(self.success_url)
 
 class InvestigadorEditar(UpdateView):
     model = Investigador
@@ -138,7 +152,7 @@ class InvestigadorEditar(UpdateView):
         investigador.save()
 
         messages.success(self.request, "Investigador actualizado correctamente")
-        return redirect('administracion:investigadores_lista')
+        return redirect(self.success_url)
         
 class InvestigadorEliminar(DeleteView):
     model = Investigador
@@ -152,6 +166,7 @@ class InvestigadorEliminar(DeleteView):
         investigador.user.aprobado = False
         investigador.user.save()
 
+        messages.success(self.request, "Investigador eliminado correctamente")
         return self.delete(request, *args, **kwargs)
 
 # Empresas
@@ -192,7 +207,7 @@ class EmpresaNuevo(CreateView):
         empresa.encargado.save()
 
         messages.success(self.request, "Empresa registrada correctamente")
-        return redirect('administracion:empresas_lista')
+        return redirect(self.success_url)
 
 class EmpresaEditar(UpdateView):
     model = Empresa
@@ -215,7 +230,7 @@ class EmpresaEditar(UpdateView):
         empresa.save()
 
         messages.success(self.request, "Empresa actualizada correctamente")
-        return redirect('administracion:empresas_lista')
+        return redirect(self.success_url)
         
 class EmpresaEliminar(DeleteView):
     model = Empresa
@@ -229,6 +244,7 @@ class EmpresaEliminar(DeleteView):
         empresa.encargado.aprobado = False
         empresa.encargado.save()
 
+        messages.success(self.request, "Empresa eliminada correctamente")
         return self.delete(request, *args, **kwargs)
 
 # Instituciones Educativas
@@ -269,7 +285,7 @@ class InstitucionEducativaNuevo(CreateView):
         institucion_educativa.encargado.save()
 
         messages.success(self.request, "Institución Educativa registrada correctamente")
-        return redirect('administracion:instituciones_educativas_lista')
+        return redirect(self.success_url)
 
 class InstitucionEducativaEditar(UpdateView):
     model = InstitucionEducativa
@@ -292,7 +308,7 @@ class InstitucionEducativaEditar(UpdateView):
         institucion_educativa.save()
 
         messages.success(self.request, "Institución Educativa actualizada correctamente")
-        return redirect('administracion:instituciones_educativas_lista')
+        return redirect(self.success_url)
         
 class InstitucionEducativaEliminar(DeleteView):
     model = InstitucionEducativa
@@ -303,9 +319,10 @@ class InstitucionEducativaEliminar(DeleteView):
     def post(self, request, *args, **kwargs):
         institucion_educativa = self.get_object()
         institucion_educativa.encargado.tipo_usuario = None
-        institucion_educativa.engargado.aprobado = False
+        institucion_educativa.encargado.aprobado = False
         institucion_educativa.encargado.save()
 
+        messages.success(self.request, "Institución Educativa eliminada correctamente")
         return self.delete(request, *args, **kwargs)
 
 # Categorias
@@ -322,6 +339,11 @@ class CategoriaNuevo(CreateView):
     template_name = "administracion/categorias_form.html"
     extra_context = { "accion": "Crear" }
 
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Categoría registrada correctamente")
+        return redirect(self.success_url)
+
 class CategoriaEditar(UpdateView):
     model = Categoria
     form_class = FormCategoria
@@ -329,11 +351,20 @@ class CategoriaEditar(UpdateView):
     template_name = "administracion/categorias_form.html"
     extra_context = { "accion": "Editar" }
 
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Categoría actualizada correctamente")
+        return redirect(self.success_url)
+
 class CategoriaEliminar(DeleteView):
     model = Categoria
     success_url = reverse_lazy('administracion:categorias_lista')
     template_name = "administracion/confirm_delete.html"
     extra_context = { "nombre_modelo": "categoria" }
+
+    def post(self, request, *args, **kwargs):
+        messages.success(self.request, "Categoría eliminada correctamente")
+        return self.delete(request, *args, **kwargs)
 
 # Investigaciones
 
@@ -349,6 +380,11 @@ class InvestigacionNuevo(CreateView):
     template_name = "administracion/investigaciones_form.html"
     extra_context = { "accion": "Crear" }
 
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Investigación registrada correctamente")
+        return redirect(self.success_url)
+
 class InvestigacionEditar(UpdateView):
     model = Investigacion
     form_class = FormInvestigacion
@@ -356,8 +392,17 @@ class InvestigacionEditar(UpdateView):
     template_name = "administracion/investigaciones_form.html"
     extra_context = { "accion": "Editar" }
 
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Investigación actualizada correctamente")
+        return redirect(self.success_url)
+
 class InvestigacionEliminar(DeleteView):
     model = Investigacion
     success_url = reverse_lazy('administracion:investigaciones_lista')
     template_name = "administracion/confirm_delete.html"
     extra_context = { "nombre_modelo": "investigacion" }
+
+    def post(self, request, *args, **kwargs):
+        messages.success(self.request, "Investigación eliminada correctamente")
+        return self.delete(request, *args, **kwargs)
