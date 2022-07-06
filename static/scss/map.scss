@@ -541,19 +541,26 @@ h3 {
   background-size: cover;
   background: rgb(255,255,255);
   
-  &:hover.investigador-bg {
-    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(0,255,212,1) 100%); 
+  &.investigador-bg {
+    background-image: url("https://thumbs.dreamstime.com/b/investigador-44273573.jpg"); 
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
-  &:hover.empresa-bg {
-    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,0,71,1) 100%); 
+  &.empresa-bg {
+    background-image: url("http://comunidad.iebschool.com/iebs/files/2015/04/employer-branding.png"); 
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
-  &:hover.institucion-bg {
-    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(203,93,255,1) 100%); 
+  &.institucion-bg {
+    background-image: url("https://www.educacionadventista.com/wp-content/uploads/2018/08/Cuando-una-institucion-educativa-calla-ENTRADA-1.jpg"); 
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   
   h2 {
+    text-shadow: 0 0 3px #FFFFFF, 0 0 5px #FFFFFF;
     transition: transform 200ms;
   }
   
