@@ -23,6 +23,11 @@
  * Date: 2021-03-02T17:08Z
  */
 
-/*! DataTables 1.11.5
- * ©2008-2021 SpryMedia Ltd - datatables.net/license
- */
+/*!
+* Parsley.js
+* Version 2.9.2 - built Tue, Dec 10th 2019, 6:18 pm
+* http://parsleyjs.org
+* Guillaume Potier - <guillaume@wisembly.com>
+* Marc-Andre Lafortune - <petroselinum@marc-andre.ca>
+* MIT Licensed
+*/

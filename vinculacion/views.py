@@ -23,7 +23,8 @@ def index(request):
 def dashboard(request):
     tipos_usuario = TipoUsuario.objects.all()
     tipos_usuario_snake_case = ["_".join(t.tipo.split()).lower() for t in tipos_usuario]
-    return render(request, "vinculacion/map.html", {"tipos_usuario":zip(tipos_usuario, tipos_usuario_snake_case)})
+    categorias = Categoria.objects.all()
+    return render(request, "vinculacion/map.html", {"tipos_usuario":zip(tipos_usuario, tipos_usuario_snake_case), "categorias":categorias})
 
 @login_required
 def noticias(request):
@@ -121,10 +122,3 @@ class InstitucionEducativaSolicitud(CreateView):
 
         messages.success(self.request, "Solicitud registrada correctamente")
         return redirect('vinculacion:perfil')
-
-class Categorias(View):
-    def get(self, request):
-        categorias = Categoria.objects.all()
-        categorias = [{"nombre":categoria.nombre} for categoria in categorias]
-
-        return JsonResponse(categorias, safe = False)
