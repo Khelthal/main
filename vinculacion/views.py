@@ -41,6 +41,9 @@ def noticia(request, id):
 @login_required
 def perfil(request):
     usuario = request.user
+    
+    if usuario.is_staff:
+        return redirect("administracion:dashboard")
 
     if not usuario.tipo_usuario:
         return render(request, "vinculacion/perfil_seleccionar.html")
