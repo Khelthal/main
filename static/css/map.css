@@ -108,6 +108,15 @@
   background-color: #F1E37D;
 }
 
+.theme-dark .filtro-btn-out, .theme-light .filtro-btn-out {
+  position: absolute;
+  backgroud-color: white;
+  top: 80px;
+  left: 0px;
+  margin: 10px;
+  z-index: 1000;
+}
+
 .theme-dark .perfil-opcion, .theme-light .perfil-opcion {
   background-image: url("https://cdn.searchenginejournal.com/wp-content/uploads/2020/02/3-alternative-link-building-strategies-to-use-now-5e4e62aec939e.png");
   background-size: auto 100%;
@@ -116,6 +125,10 @@
 
 .theme-dark .perfil-opcion h2, .theme-light .perfil-opcion h2 {
   color: white;
+}
+
+.theme-dark .oculto, .theme-light .oculto {
+  display: none !important;
 }
 
 @media (max-width: 884px) {

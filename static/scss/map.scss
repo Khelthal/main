@@ -12,7 +12,7 @@
     flex-grow: 1;
     width: 100%;
     overflow: scroll;
-  }
+  }  
 
   .app-navbar {
     display: flex;
@@ -111,7 +111,16 @@
   .nivel-4.activo {
     background-color: #F1E37D;
   }
-  
+
+  .filtro-btn-out {
+    position: absolute;
+    backgroud-color: white;
+    top: 80px;
+    left: 0px;
+    margin: 10px;
+    z-index: 1000;
+  }  
+
   .perfil-opcion {
     h2 {
       color: white;
@@ -121,6 +130,10 @@
     background-repeat: no-repeat;
   }
 
+  .oculto {
+    display: none !important;
+  }
+  
   @media (max-width:884px) {
     .app-navbar {
       ul {
@@ -142,4 +155,5 @@
 
   }
 }
+
 

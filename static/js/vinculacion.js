@@ -101,9 +101,13 @@ function actualizarBarraPrecision() {
         nivelesPrecision[i].classList.add("activo");
     }
 }
+//Recarga
+function reescalarMapa() {
+    setTimeout(function () {
+        mapa.invalidateSize(true);
+    }, 100);
+}
 obtenerUsuarios();
 actualizarBarraPrecision();
-setTimeout(function () {
-    mapa.invalidateSize(true);
-}, 100);
+reescalarMapa();
 mapa.invalidateSize();
