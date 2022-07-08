@@ -65,7 +65,7 @@ class InvestigadorSolicitud(CreateView):
         
         if not coordenadas:
             messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('vinculacion:investigador_form')
+            return super(InvestigadorSolicitud, self).form_invalid(form)
 
         investigador.latitud = coordenadas.latitud
         investigador.longitud = coordenadas.longitud
@@ -90,7 +90,7 @@ class EmpresaSolicitud(CreateView):
         
         if not coordenadas:
             messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('vinculacion:empresa_form')
+            return super(EmpresaSolicitud, self).form_invalid(form)
 
         empresa.latitud = coordenadas.latitud
         empresa.longitud = coordenadas.longitud
@@ -114,7 +114,7 @@ class InstitucionEducativaSolicitud(CreateView):
         
         if not coordenadas:
             messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('vinculacion:institucion_educativa_form')
+            return super(InstitucionEducativaSolicitud, self).form_invalid(form)
 
         institucion_educativa.latitud = coordenadas.latitud
         institucion_educativa.longitud = coordenadas.longitud
