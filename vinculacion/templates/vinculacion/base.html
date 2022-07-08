@@ -23,6 +23,12 @@
 
         <nav class="app-navbar">
           <ul>
+            <li class='menu-item toggle-menu' onclick="toggleMenu(this)">
+              <a class="menu-link" href="#">
+                <i class="bi bi-list"></i>
+                <span>Desplegar menú</span>
+              </a>
+            </li>
             <li class='menu-item'>
               <a class="menu-link" href="{% url 'vinculacion:dashboard' %}">
                 <i class="bi bi-house-fill"></i>
@@ -95,6 +101,12 @@
                 <span>Acerca de</span>
               </a>
             </li>
+            <li class='menu-item toggle-menu' onclick="toggleMenu(this)">
+              <a class="menu-link" href="#">
+                <i class="bi bi-list"></i>
+                <span>Desplegar menú</span>
+              </a>
+            </li>
           </ul>
         </nav>
 
@@ -103,7 +115,7 @@
   </div>
 
   <script src="{% static 'dist/assets/js/app.js' %}"></script>
-
+  <script src="{% static 'js/toggleMenu.js' %}"></script>
   <script src="{% static 'js/administracion.js' %}"></script>
 
   {% block scripts %}

@@ -17,7 +17,7 @@
   .app-navbar {
     display: flex;
     background-color: $primary-color;
-  
+    
     ul {
       display: flex;
       justify-content: space-around;
@@ -41,18 +41,13 @@
       a {
         padding: 10px;
       }
-    }
-  }
-  
-  @media (max-width:766px) {
-    .app-navbar {
-      display: none;
-      ul {
-        flex-direction: column;
+      
+      .toggle-menu {
+        display: none;
       }
     }
-  }
-
+  } 
+  
   .titulo-seccion {
     margin: 50px;
   }
@@ -67,6 +62,15 @@
       height: 250px;
     }
   }  
+  
+  .filtro {
+    width: 300px;
+    margin-right: 10px;
+  }
+  
+  .map {
+    flex-grow: 1;
+  }
 
   .barra-precision {
     width: 100%;
@@ -106,6 +110,36 @@
 
   .nivel-4.activo {
     background-color: #F1E37D;
+  }
+  
+  .perfil-opcion {
+    h2 {
+      color: white;
+    }
+    background-image: url("https://cdn.searchenginejournal.com/wp-content/uploads/2020/02/3-alternative-link-building-strategies-to-use-now-5e4e62aec939e.png");
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+  }
+
+  @media (max-width:884px) {
+    .app-navbar {
+      ul {
+        flex-direction: column;
+
+        li {
+          display: none;
+        }
+        
+        .menu-item-show {
+          display: flex;
+        }
+      
+        .toggle-menu {
+          display: flex;
+        }
+      }
+    }
+
   }
 }
 

@@ -41,13 +41,8 @@
   padding: 10px;
 }
 
-@media (max-width: 766px) {
-  .theme-dark .app-navbar, .theme-light .app-navbar {
-    display: none;
-  }
-  .theme-dark .app-navbar ul, .theme-light .app-navbar ul {
-    flex-direction: column;
-  }
+.theme-dark .app-navbar ul .toggle-menu, .theme-light .app-navbar ul .toggle-menu {
+  display: none;
 }
 
 .theme-dark .titulo-seccion, .theme-light .titulo-seccion {
@@ -63,6 +58,15 @@
   object-fit: cover;
   width: 100%;
   height: 250px;
+}
+
+.theme-dark .filtro, .theme-light .filtro {
+  width: 300px;
+  margin-right: 10px;
+}
+
+.theme-dark .map, .theme-light .map {
+  flex-grow: 1;
 }
 
 .theme-dark .barra-precision, .theme-light .barra-precision {
@@ -102,4 +106,29 @@
 
 .theme-dark .nivel-4.activo, .theme-light .nivel-4.activo {
   background-color: #F1E37D;
+}
+
+.theme-dark .perfil-opcion, .theme-light .perfil-opcion {
+  background-image: url("https://cdn.searchenginejournal.com/wp-content/uploads/2020/02/3-alternative-link-building-strategies-to-use-now-5e4e62aec939e.png");
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+}
+
+.theme-dark .perfil-opcion h2, .theme-light .perfil-opcion h2 {
+  color: white;
+}
+
+@media (max-width: 884px) {
+  .theme-dark .app-navbar ul, .theme-light .app-navbar ul {
+    flex-direction: column;
+  }
+  .theme-dark .app-navbar ul li, .theme-light .app-navbar ul li {
+    display: none;
+  }
+  .theme-dark .app-navbar ul .menu-item-show, .theme-light .app-navbar ul .menu-item-show {
+    display: flex;
+  }
+  .theme-dark .app-navbar ul .toggle-menu, .theme-light .app-navbar ul .toggle-menu {
+    display: flex;
+  }
 }

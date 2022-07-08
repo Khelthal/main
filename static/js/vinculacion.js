@@ -1,7 +1,7 @@
 var usuarios = [];
 var etiquetas = [];
-document.getElementsByClassName("choices")[0].addEventListener('addItem', function(event) {etiquetas.push(event.detail.label); recargarUsuariosMapa()});
-document.getElementsByClassName("choices")[0].addEventListener('removeItem', function(event) {etiquetas.splice(etiquetas.indexOf(event.detail.label), 1); recargarUsuariosMapa()});
+document.getElementsByClassName("choices")[0].addEventListener('addItem', function (event) { etiquetas.push(event.detail.label); recargarUsuariosMapa(); });
+document.getElementsByClassName("choices")[0].addEventListener('removeItem', function (event) { etiquetas.splice(etiquetas.indexOf(event.detail.label), 1); recargarUsuariosMapa(); });
 var icons = ["grey", "green", "blue", "violet", "gold"].map((color) => {
     return new L.Icon({
         iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
