@@ -103,3 +103,7 @@ function actualizarBarraPrecision() {
 }
 obtenerUsuarios();
 actualizarBarraPrecision();
+setTimeout(function () {
+    mapa.invalidateSize(true);
+}, 100);
+mapa.invalidateSize();
