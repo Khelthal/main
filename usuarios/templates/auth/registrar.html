@@ -1,58 +1,88 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{% static 'css/app.css'%}">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-  <title>Inicio de sesion</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="{% static 'dist/assets/css/main/app.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/assets/css/pages/auth.css'%}">
+    <link rel="shortcut icon" href="{% static 'dist/assets/images/logo/favicon.svg'%}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'assets/images/logo/favicon.png'%}" type="image/png">
 </head>
 
-<body class="body-login">
-  <div class="container-form sign-up">
+<body>
+    <div id="auth">
+        
+<div class="row h-100">
+    <div class="col-lg-5 col-12">
+        <div id="auth-left">
+            <div class="auth-logo">
+                <a href="{% url 'vinculacion:dashboard' %}"><img src="{% static 'dist/assets/images/logo/logo.svg' %}" alt="Logo"></a>
+            </div>
+            <h1 class="auth-title">Registro</h1>
+            <p class="auth-subtitle mb-5">Bienvenido al Sistema Estatal de Investigadores del Estado de Zacatecas</p>
 
-    <div class="welcome-back">
-      <div class="message">
-        <h2>Bienvenido al Sistema Estatal de Investigadores del Estado</h2>
-        <p>Inicia sesion aqui</p>
-        <a href="{% url 'usuarios:login' %}"><button class="sign-up-btn">Iniciar Sesion</button></a>
-      </div>
+            <form action="index.html">
+                {% csrf_token%}
+
+                <div class="form-group position-relative has-icon-left mb-4">
+                    <input type="text" name="email" class="form-control form-control-xl" placeholder="Correo electrónico">
+                    <div class="form-control-icon">
+                        <i class="bi bi-envelope"></i>
+                    </div>
+                    {% for error in form.email.errors %}
+                        <div class="alert alert-danger">{{error}}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group position-relative has-icon-left mb-4">
+                    <input type="text" name="username" class="form-control form-control-xl" placeholder="Nombre de usuario">
+                    <div class="form-control-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+                </div>
+                {% for error in form.username.errors %}
+                    <div class="alert alert-danger">{{error}}</div>
+                {% endfor %}
+
+                <div class="form-group position-relative has-icon-left mb-4">
+                    <input type="password" class="form-control form-control-xl" placeholder="Contraseña">
+                    <div class="form-control-icon">
+                        <i class="bi bi-shield-lock"></i>
+                    </div>
+                </div>
+                {% for error in form.password.errors %}
+                    <div class="alert alert-danger">{{error}}</div>
+                {% endfor %}
+
+                <div class="form-group position-relative has-icon-left mb-4">
+                    <input type="password" class="form-control form-control-xl" placeholder="Confirmar contraseña">
+                    <div class="form-control-icon">
+                        <i class="bi bi-shield-lock"></i>
+                    </div>
+                </div>
+                {% for error in form.repassword.errors %}
+                    <div class="alert alert-danger">{{error}}</div>
+                {% endfor %}
+
+                <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Crear cuenta</button>
+
+            </form>
+            <div class="text-center mt-5 text-lg fs-4">
+                <p class='text-gray-600'>¿Ya tiene una cuenta? <a href="{% url 'usuarios:login' %}" class="font-bold">Iniciar sesión</a>.</p>
+            </div>
+        </div>
     </div>
+    <div class="col-lg-7 d-none d-lg-block">
+        <div id="auth-right">
 
-    {% if form.errors %}
-    <div class="alert alert-warning">
-      {{form.errors}}
+        </div>
     </div>
-    {% endif %}
+</div>
 
-    <form class="form" method="post">
-      {% csrf_token %}
-      <h2 class="create-account">Crear una cuenta</h2>
-      <div class="iconos">
-        <div class="border-icon">
-          <i class='bx bxl-instagram'></i>
-        </div>
-        <div class="border-icon">
-          <i class='bx bxl-linkedin'></i>
-        </div>
-        <div class="border-icon">
-          <i class='bx bxl-facebook-circle'></i>
-        </div>
-      </div>
-      <p class="cuenta-gratis">Crear una cuenta gratis</p>
-
-      <input type="text" name="username" placeholder="Nombre">
-      <input type="email" name="email" placeholder="Email">
-      <input type="password" name="password" placeholder="Contraseña">
-      <input type="password" name="repassword" placeholder="Confirma Contraseña">
-      <input type="submit" value="Registrarse">
-    </form>
-  </div>
+    </div>
 </body>
 
 </html>
