@@ -1,7 +1,6 @@
+const etiquetas = document.getElementById("etiquetas");
+var suggestions = [];
 var usuarios = [];
-var etiquetas = [];
-document.getElementsByClassName("choices")[0].addEventListener('addItem', function (event) { etiquetas.push(event.detail.label); recargarUsuariosMapa(); });
-document.getElementsByClassName("choices")[0].addEventListener('removeItem', function (event) { etiquetas.splice(etiquetas.indexOf(event.detail.label), 1); recargarUsuariosMapa(); });
 var icons = ["grey", "green", "blue", "violet", "gold"].map((color) => {
     return new L.Icon({
         iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
@@ -27,6 +26,16 @@ function obtenerUsuarios() {
             });
         });
     }).then(() => mostrarUsuariosMapa());
+    let categorias_url = "http://localhost:8000/categorias/fetch";
+    fetch(categorias_url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+        .then((categorias) => {
+        categorias.forEach((categoria) => suggestions.push(categoria.nombre));
+    });
 }
 //Mapa
 var markers = [];
@@ -48,7 +57,9 @@ function mostrarUsuariosMapa() {
         };
     }).filter((datos_filtro) => datos_filtro.activo)
         .map((datos_filtro) => datos_filtro.filtro);
-    let etiquetasRequeridas = etiquetas;
+    let etiquetasRequeridas = Array.from(etiquetas.children).map((etiqueta) => {
+        return etiqueta.textContent.trim();
+    });
     let usuarios_filtrados = usuarios.filter((usuario) => {
         return filtros.indexOf(usuario.tipoUsuario) != -1;
     });
@@ -82,6 +93,60 @@ function crearPinMapa(usuario, precision) {
     m.addTo(mapa).bindPopup(`<h3>${usuario.tipoUsuario}: ${usuario.username}</h3><p>Hola</p>`);
     markers.push(m);
 }
+//Sugerencias
+const searchWrapper = document.querySelector(".search-input");
+const inputBox = searchWrapper.querySelector("input");
+const suggBox = searchWrapper.querySelector(".autocom-box");
+inputBox.onkeyup = (e) => {
+    let userData = e.target.value; //user enetered data
+    let emptyArray = [];
+    if (userData) {
+        emptyArray = suggestions.filter((data) => {
+            //filtering array value and user characters to lowercase and return only those words which are start with user enetered chars
+            return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
+        });
+        emptyArray = emptyArray.map((data) => {
+            // passing return data inside li tag
+            return data = `<li>${data}</li>`;
+        });
+        if (emptyArray.length) {
+            searchWrapper.classList.add("active"); //show autocomplete box
+            showSuggestions(emptyArray);
+        }
+        else {
+            searchWrapper.classList.remove("active"); //hide autocomplete box
+        }
+        let allList = suggBox.querySelectorAll("li");
+        for (let i = 0; i < allList.length; i++) {
+            //adding onclick attribute in all li tag
+            allList[i].setAttribute("onclick", "select(this)");
+        }
+    }
+    else {
+        searchWrapper.classList.remove("active"); //hide autocomplete box
+    }
+};
+function select(element) {
+    let selectData = element.textContent;
+    let opt = document.createElement('a');
+    opt.className = "btn btn-outline-danger btn-sm etiqueta";
+    opt.innerHTML = selectData;
+    opt.setAttribute("onclick", "freeSuggestion(this)");
+    etiquetas.appendChild(opt);
+    suggestions.splice(suggestions.indexOf(selectData), 1);
+    inputBox.value = "";
+    searchWrapper.classList.remove("active");
+    recargarUsuariosMapa();
+}
+function showSuggestions(list) {
+    let listData = list.join('');
+    suggBox.innerHTML = listData;
+}
+function freeSuggestion(opt) {
+    suggestions.push(opt.textContent.trim());
+    opt.remove();
+    recargarUsuariosMapa();
+}
 //Precision
 const precisionInput = document.getElementById("precision");
 const precisionBar = document.getElementById("barra-precision");
@@ -101,13 +166,5 @@ function actualizarBarraPrecision() {
         nivelesPrecision[i].classList.add("activo");
     }
 }
-//Recarga
-function reescalarMapa() {
-    setTimeout(function () {
-        mapa.invalidateSize(true);
-    }, 100);
-}
 obtenerUsuarios();
 actualizarBarraPrecision();
-reescalarMapa();
-mapa.invalidateSize();

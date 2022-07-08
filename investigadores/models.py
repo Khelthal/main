@@ -11,7 +11,7 @@ class NivelInvestigador(models.Model):
         return "Nivel " + str(self.nivel)
 
 class Investigador(models.Model):
-    user = models.OneToOneField(User, verbose_name="Usuario", on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     nivel = models.ForeignKey(NivelInvestigador, on_delete=models.DO_NOTHING)
     curp = models.CharField(max_length=18, validators=[curp_validador])
     latitud = models.FloatField()

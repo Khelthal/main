@@ -3,29 +3,6 @@
 
 {% block contenido %}
 
-
-<div class="d-flex flex-column justify-content-center align-items-center">
-
-  <h1 class="titulo-seccion">Noticias</h1>
-
-  <div class="w-75">
-    <div class="col-md-12">
-      <div class="card noticia">
-        <img class="card-img-top" src="{{MEDIA_URL}}/{{noticia.imagen}}" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">{{noticia.titulo}}</h5>
-          <p class="card-text">{{noticia.contenido}}</p>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Escrito por: {{noticia.escritor}}</li>
-          <li class="list-group-item">{{noticia.fecha}}</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!--
 <div class="noticias-contenedor">
   <h2 class="titulo-seccion">Nota</h2>
 
@@ -42,6 +19,5 @@
     </div>
   </div>
 </div>
--->
 
 {% endblock %}

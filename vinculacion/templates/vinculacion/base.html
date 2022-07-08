@@ -6,117 +6,59 @@
   <title></title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{% static 'css/map.css' %}">
   {% block extraresources %}
   {% endblock %}
-  <link rel="stylesheet" href="{% static 'dist/assets/css/main/app.css' %}">
-  <link rel="stylesheet" href="{% static 'dist/assets/css/main/app-dark.css' %}">
-  <link rel="shortcut icon" href="{% static 'dist/assets/images/logo/favicon.svg' %}" type="image/x-icon">
-  <link rel="shortcut icon" href="{% static 'dist/assets/images/logo/favicon.png' %}" type="image/png">
-  <link rel="stylesheet" href="{% static 'css/map.css' %}">
 </head>
 
 <body>
-
-  <div id="app">
-    <div id="main" class="layout-horizontal">
-      <main class="screen_container">
-
-        <nav class="app-navbar">
-          <ul>
-            <li class='menu-item toggle-menu' onclick="toggleMenu(this)">
-              <a class="menu-link" href="#">
-                <i class="bi bi-list"></i>
-                <span>Desplegar menú</span>
-              </a>
-            </li>
-            <li class='menu-item'>
-              <a class="menu-link" href="{% url 'vinculacion:dashboard' %}">
-                <i class="bi bi-house-fill"></i>
-                <span>Inicio</span>
-              </a>
-            </li>
-            <li class='menu-item'>
-              <a class="menu-link" href="{% url 'investigadores:lista' %}">
-                <i class="bi bi-eyeglasses"></i>
-                <span>Investigadores</span>
-              </a>
-            </li>
-            <li class='menu-item'>
-              <a class="menu-link" href="#">
-                <i class="bi bi-collection-fill"></i>
-                <span>Grupos Académicos</span></a>
-            </li>
-            <li class='menu-item'>
-              <a class="menu-link" href="#">
-                <i class="bi bi-pencil-fill"></i>
-                <span>Universidades</span>
-              </a>
-            </li>
-            <li class='menu-item'>
-              <a class="menu-link" href="{% url 'empresas:lista' %}">
-                <i class="bi bi-grid-fill"></i>
-                <span>Instituciones / Empresas</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-
-        <div class="main-scroll">
-          {% block contenido %}
-          {% endblock %}
+  <main class="screen_container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary-color custom-nav-bar">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav custom-nav">
+          <a class="nav-elem" href="{% url 'vinculacion:dashboard' %}">Inicio</a>
+          <a class="nav-elem" href="{% url 'investigadores:lista' %}">Investigadores</a>
+          <a class="nav-elem" href="#">Grupos Académicos</a>
+          <a class="nav-elem" href="#">Universidades</a>
+          <a class="nav-elem" href="{% url 'empresas:lista' %}">Instituciones / Empresas</a>
         </div>
+      </div>
+    </nav>
 
-        <nav class="app-navbar">
-          <ul>
-            <li class='menu-item'>
-              <a class="menu-link">
-                <i class="bi bi-brightness-high-fill"></i>
-                <div class="form-check form-switch fs-6">
-                  <input class="form-check-input  me-0" type="checkbox" id="toggle-dark">
-                  <label class="form-check-label"></label>
-                </div>
-                <i class="bi bi-moon"></i>
-              </a>
-            </li>
-            <li class='menu-item'>
-              <a class="menu-link" href="{% url 'vinculacion:perfil' %}">
-                <i class="bi bi-person-fill"></i>
-                <span>{% if user.is_staff %}Administración{% else %}Perfil{%endif%}</span>
-              </a>
-            </li>
-            <li class='menu-item'>
-              <a class="menu-link" href="{% url 'vinculacion:noticias' %}">
-                <i class="bi bi-envelope-paper-fill"></i>
-                <span>Noticias</span>
-              </a>
-            </li>
-            <li class='menu-item'>
-              <a class="menu-link" href="#">
-                <i class="bi bi-ui-radios"></i>
-                <span>Contacto</span></a>
-            </li>
-            <li class='menu-item'>
-              <a class="menu-link" href="#">
-                <i class="bi bi-chat-square-fill"></i>
-                <span>Acerca de</span>
-              </a>
-            </li>
-            <li class='menu-item toggle-menu' onclick="toggleMenu(this)">
-              <a class="menu-link" href="#">
-                <i class="bi bi-list"></i>
-                <span>Desplegar menú</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+    {% block contenido %}
+    {% endblock %}
 
-      </main>
-    </div>
-  </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary-color custom-nav-bar">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav custom-nav">
+          <a class="nav-elem" href="{% url 'vinculacion:perfil' %}">Perfil</a>
+          <a class="nav-elem" href="{% url 'vinculacion:noticias' %}">Noticias</a>
+          <a class="nav-elem" href="#">Contacto</a>
+          <a class="nav-elem" href="#">Acerca de</a>
+        </div>
+      </div>
+    </nav>
 
-  <script src="{% static 'dist/assets/js/app.js' %}"></script>
-  <script src="{% static 'js/toggleMenu.js' %}"></script>
-  <script src="{% static 'js/administracion.js' %}"></script>
+  </main>
 
   {% block scripts %}
   {% endblock %}

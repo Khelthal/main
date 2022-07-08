@@ -1,0 +1,13 @@
+
+<div class="col-12">
+    <div class="form-group">
+        <label for="id_user">Usuario</label>
+        <select class="choices form-select multiple-remove" multiple="multiple" name="user" id="id_user">
+            {% for value, text in form.user.field.choices %}
+                {% if value %}
+                <option value="{{value}}">{{text}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+</div>

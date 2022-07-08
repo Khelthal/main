@@ -5,13 +5,13 @@
  */
 
 /*!
- * FilePondPluginFileValidateSize 2.2.6
+ * FilePondPluginFileValidateSize 2.2.5
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit https://pqina.nl/filepond/ for details.
  */
 
 /*!
- * FilePondPluginFileValidateType 1.2.7
+ * FilePondPluginFileValidateType 1.2.6
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit https://pqina.nl/filepond/ for details.
  */
@@ -35,7 +35,7 @@
  */
 
 /*!
- * FilePondPluginImagePreview 4.6.11
+ * FilePondPluginImagePreview 4.6.10
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit https://pqina.nl/filepond/ for details.
  */
@@ -47,7 +47,7 @@
  */
 
 /*!
- * Toastify js 1.11.2
+ * Toastify js 1.11.0
  * https://github.com/apvarun/toastify-js
  * @license MIT licensed
  *

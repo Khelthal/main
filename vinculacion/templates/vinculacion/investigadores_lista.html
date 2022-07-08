@@ -7,54 +7,53 @@
 
 {% block contenido %}
 
-<div class="d-flex flex-column justify-content-center align-items-center">
+<div class="contenedor-investigadores">
+  <h2 class="titulo-seccion">Investigadores</h2>
+  <div class="descripcion-investigadores">
+    <div class="descripcion-foto">
+      <img src="{% static 'img/anfitrion.jpg' %}" alt="">
+    </div>
 
-  <h1 class="titulo-seccion">Investigadores</h1>
-
-  <div class="card w-75">
-    <div class="row no-gutters">
-      <div class="col-md-6 d-flex align-items-center">
-        <img src="{% static 'img/anfitrion.jpg' %}" class="card-img" alt="...">
+    <div class="descripcion-info">
+      <div class="descripcion-texto">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dapibus, orci at feugiat eleifend, diam est
+          maximus ex, vitae imperdiet dolor mauris quis augue. Sed ex arcu, tincidunt et imperdiet non, ultricies eget
+          lacus. Nullam neque metus, facilisis eu tincidunt vitae, dignissim ac nulla. Duis bibendum faucibus lorem nec
+          convallis. Nam tristique nunc quis augue auctor, eget euismod lorem scelerisque. Ut et ultricies sem, eu
+          consectetur diam. Sed imperdiet libero in nisi vestibulum, at euismod ante faucibus.
+        </p>
       </div>
-      <div class="col-md-6">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">{% lorem %}</p>
-        </div>
+
+      <div class="descripcion-boton">
+        <a class="btn-descripcion" href="#">Más información</a>
       </div>
     </div>
   </div>
 
-  <div class="row w-75">
-
+  <h2 class="titulo-seccion">Nuestros Investigadores</h2>
+  <div class="lista-investigadores">
     {% for investigador, categorias in investigadores %}
-    <div class="col-md-6">
-      <div class="card">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="{% static 'img/anfitrion.jpg' %}" class="card-img m-2" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{investigador.user.username|capfirst}}</h5>
-              <p class="card-text">
-                {% for i in "x"|ljust:investigador.nivel.nivel %}
-                <i class="fa fa-star"></i>
-                {% endfor %}
-              </p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Especialidades: {{categorias|join:", "}}</li>
-              <li class="list-group-item"><a href="" class="btn btn-primary">Contactar</a></li>
-            </ul>
-          </div>
+    <div class="carta-investigador">
+      <div class="foto-carta">
+        <i class="fa fa-user icono-usuario"></i>
+      </div>
+
+      <div class="datos-carta">
+        <p><b>{{investigador.user.username}}</b></p>
+        <div class="investigador-estrellas">
+          {% for i in "x"|ljust:investigador.nivel.nivel %}
+            <i class="fa fa-star"></i>
+          {% endfor %}
         </div>
+        <p><b>Institución: </b> -</p>
+        <p><b>Nivel: </b> {{investigador.nivel.nivel}}</p>
+        <p><b>Grado: </b> -</p>
+        <p><b>Áreas: </b> {{categorias|join:", "}}</p>
       </div>
     </div>
     {% endfor %}
-
   </div>
-
 </div>
 
 {% endblock %}

@@ -3,35 +3,26 @@
 
 {% block contenido %}
 
-<div class="d-flex flex-column justify-content-center align-items-center">
+<div class="noticias-contenedor">
+  <h2 class="titulo-seccion">Noticias</h2>
 
-  <h1 class="titulo-seccion">Noticias</h1>
-
-  {% for noticia in noticias %}
-  {% endfor %}
-
-  <div class="row w-75">
+  <div class="noticias-lista">
     {% for noticia in noticias %}
+      <a href="{% url 'vinculacion:noticia' noticia.id %}">
+        <div class="carta-noticia">
+          <div class="noticia-imagen">
+            <img src="{{MEDIA_URL}}/{{noticia.imagen}}" alt="">
+          </div>
 
-    <div class="col-md-4">
-      <div class="card noticia">
-        <img class="card-img-top" src="{{MEDIA_URL}}/{{noticia.imagen}}" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">{{noticia.titulo}}</h5>
-          <p class="card-text">{{noticia.contenido|truncatechars:100}}</p>
+          <div class="noticia-info">
+            <h2 class="noticia-titulo">{{noticia.titulo}}</h2>
+            <p class="noticia-datos">Escrito el: {{noticia.fecha}} por {{noticia.escritor}}</p>
+            <p class="noticia-texto">{{noticia.contenido|truncatechars:255}}</p>
+          </div>
         </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><a href="{% url 'vinculacion:noticia' noticia.id %}" class="btn btn-primary">Leer
-              más</a></li>
-          <li class="list-group-item">Escrito por: {{noticia.escritor}}</li>
-          <li class="list-group-item">{{noticia.fecha}}</li>
-        </ul>
-      </div>
-    </div>
-
+      </a>
     {% endfor %}
   </div>
-
 </div>
 
 {% endblock %}

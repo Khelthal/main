@@ -2,21 +2,13 @@
 {% load static %}
 
 {% block contenido %}
-<div class="d-flex justify-content-center p-5">
-
-  <div class="w-75">
+<main class="contenedor-formulario">
+  <section>
     <div class="card">
       <div class="card-header">
-        <h5>Datos de usuario</h5>
+        <p>Datos de usuario</p>
       </div>
       <div class="card-body">
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger">{{message}}</div>
-        {% else %}
-        <div class="alert alert-success">{{message}}</div>
-        {% endif %}
-        {% endfor %}
         <form method="POST">
           {% csrf_token %}
           {{form.as_p}}
@@ -27,7 +19,6 @@
         </form>
       </div>
     </div>
-  </div>
-
-</div>
+  </section>
+</main>
 {% endblock %}

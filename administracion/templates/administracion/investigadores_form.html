@@ -1,0 +1,154 @@
+{% extends 'administracion/base.html' %}
+{% load static %}
+
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'dist/assets/css/pages/form-element-select.css' %}">
+{% endblock %}
+
+{% block contenido %}
+<!-- Basic Vertical form layout section start -->
+<section id="basic-vertical-layouts">
+  <div class="row match-height">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{{accion}} investigador</h4>
+        {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <div class="alert alert-danger">{{message}}</div>
+        {% else %}
+        <div class="alert alert-success">{{message}}</div>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <form class="form form-vertical" method="POST">
+            {% csrf_token %}
+            <div class="form-body">
+              <div class="row">
+                {% if accion == "Crear" %}
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="id_user">Usuario</label>
+                    {{form.user}}
+                    {% for error in form.user.errors %}
+                    <div class="alert alert-danger">{{error}}</div>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% endif %}
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="id_nivel">Nivel</label>
+                    {{form.nivel}}
+                    {% for error in form.nivel.errors %}
+                    <div class="alert alert-danger">{{error}}</div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group has-icon-left">
+                    <label for="id_curp">CURP</label>
+                    <div class="position-relative">
+                      {{form.curp}}
+                      {% for error in form.curp.errors %}
+                      <div class="alert alert-danger">{{error}}</div>
+                      {% endfor %}
+                      <div class="form-control-icon">
+                        <i class="bi bi-person"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group has-icon-left">
+                    <label for="id_codigo_postal">Código Postal</label>
+                    <div class="position-relative">
+                      {{form.codigo_postal}}
+                      {% for error in form.codigo_postal.errors %}
+                      <div class="alert alert-danger">{{error}}</div>
+                      {% endfor %}
+                      <div class="form-control-icon">
+                        <i class="bi bi-circle"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group has-icon-left">
+                    <label for="id_municipio">Municipio</label>
+                    <div class="position-relative">
+                      {{form.municipio}}
+                      {% for error in form.municipio.errors %}
+                      <div class="alert alert-danger">{{error}}</div>
+                      {% endfor %}
+                      <div class="form-control-icon">
+                        <i class="bi bi-map"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group has-icon-left">
+                    <label for="id_colonia">Colonia</label>
+                    <div class="position-relative">
+                      {{form.colonia}}
+                      {% for error in form.colonia.errors %}
+                      <div class="alert alert-danger">{{error}}</div>
+                      {% endfor %}
+                      <div class="form-control-icon">
+                        <i class="bi bi-house"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group has-icon-left">
+                    <label for="id_calle">Calle</label>
+                    <div class="position-relative">
+                      {{form.calle}}
+                      {% for error in form.calle.errors %}
+                      <div class="alert alert-danger">{{error}}</div>
+                      {% endfor %}
+                      <div class="form-control-icon">
+                        <i class="bi bi-square"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group has-icon-left">
+                    <label for="id_numero_exterior">Número Exterior</label>
+                    <div class="position-relative">
+                      {{form.numero_exterior}}
+                      {% for error in form.numero_exterior.errors %}
+                      <div class="alert alert-danger">{{error}}</div>
+                      {% endfor %}
+                      <div class="form-control-icon">
+                        <i class="bi bi-bell"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                  <button type="submit" class="btn btn-primary me-1 mb-1">Guardar</button>
+                  <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reiniciar</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- // Basic Vertical form layout section end -->
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'dist/assets/js/extensions/form-element-select.js' %}"></script>
+{% endblock %}
+
+{% block marcar_activo %}
+marcarMenuActivo("Tablas");
+{% endblock %}

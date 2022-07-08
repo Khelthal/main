@@ -7,6 +7,3 @@ class Empresa(models.Model):
     nombre_empresa = models.CharField(max_length=80)
     latitud = models.FloatField()
     longitud = models.FloatField()
-    
-    def __str__(self):
-        return self.nombre_empresa

@@ -2,58 +2,51 @@
 {% load static %}
 
 {% block extraresources %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
   integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
   crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
   integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
   crossorigin=""></script>
-<link rel="stylesheet" href="{% static 'dist/assets/css/pages/form-element-select.css' %}">
 {% endblock %}
 
 {% block contenido %}
+<div class="map-container">
 
-<div class="d-flex flex-wrap w-100 h-100 p-3">
-  <div class="card h-100 overflow-auto filtro mr-5" id="search-side">
-    <div class="card-body">
-      <button type="button" class="mb-4 btn btn-primary filtro-btn-in" onclick="hideSearchSide(); reescalarMapa()"><i
-          class="bi bi-list"></i></button>
-
-      <div class="form-group">
-        <label for="sugerencias">
-          <h4>Selecciona las categorías que buscas</h4>
-        </label>
-
-        <select id="sugerencias" autocomplete="off" onchange="" class="choices form-select multiple-remove"
-          multiple="multiple">
-          {% for categoria in categorias %}
-          <option value="{{categoria.pk}}">{{categoria.nombre}}</option>
-          {% endfor %}
-        </select>
+  <div class="search-side" id="search-side">
+    <button type="button" class="btn btn-outline-primary filtro-btn-in" onclick="hideSearchSide()"><i class="fa fa-bars"></i></button>
+    <div class="wrapper">
+      <div class="search-input">
+        <a href="" target="_blank" hidden></a>
+        <input type="text" placeholder="Escribe el tema de tu interés">
+        <div class="autocom-box">
+          <!-- here list are inserted from javascript -->
+        </div>
+        <div class="icon"><i class="fa fa-search"></i></div>
       </div>
+    </div>
 
-      <hr />
+    <div class="filtros-container">
 
-      <div class="form-group">
-        <h4>Interés</h4>
+      <div class="filtros">
+        <p>Interés</p>
 
         <div id="filtro_tipo_usuario">
-          {% for tipo_usuario, tipo_usuario_snake_case in tipos_usuario %}
+          {% for tipo_usuario, tipo_usuario_snake_case in tipos_usuario  %}
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="filtro_{{tipo_usuario_snake_case}}"
               onchange="recargarUsuariosMapa()" checked>
-            <label class="form-check-label" for="filtro_{{tipo_usuario_snake_case}}">
+            <label class="form-check-label" for="flexCheckDefault">
               {{tipo_usuario}}
             </label>
           </div>
           {% endfor %}
         </div>
-      </div>
 
-      <hr />
+        <hr>
 
-      <div class="form-group">
-        <h4>Precisión</h4>
+        <p>Precisión</p>
 
         <input type="hidden" id="precision" value="2">
 
@@ -64,23 +57,30 @@
           <button type="button" class="nivel-precision nivel-1" onclick="cambiarPrecision(this)" value="1">25%</button>
           <button type="button" class="nivel-precision nivel-0" onclick="cambiarPrecision(this)" value="0">0%</button>
         </div>
+
+        <hr>
+
+        <p>Etiquetas</p>
+        <div class="etiquetas" id="etiquetas">
+        </div>
+
+
       </div>
 
     </div>
   </div>
 
-  <div class="card h-100 map" id="map">
-    <div class="card-body">
-      <button type="button" class="btn btn-primary filtro-btn-out oculto" id="filtro-btn-out"
-        onclick="showSearchSide(); reescalarMapa()"><i class="bi bi-list"></i></button>
+  <div class="mapa">
+    <button type="button" class="btn btn-outline-dark btn-light filtro-btn-out hide-element" id="filtro-btn-out" onclick="showSearchSide()"><i class="fa fa-bars"></i></button>
+    <div class="mapa-imagen-container" id="map">
     </div>
   </div>
 </div>
 
 {% endblock %}
 
+
 {% block scripts %}
-<script src="{% static 'dist/assets/js/extensions/form-element-select.js' %}"></script>
 <script src="{% static 'js/vinculacion.js' %}"></script>
 <script src="{% static 'js/display_filtros.js' %}"></script>
 {% endblock %}
