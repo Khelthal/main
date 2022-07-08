@@ -9,7 +9,7 @@ services:
     stdin_open: true
     #restart: always
     depends_on:
-      - db-videojuegos
+      - db-vinculacion
     ports:
       - 8000:8000
     volumes: 
