@@ -8,13 +8,13 @@
     <div class="card">
       <div class="card-body">
 
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center overflow-auto">
           <div class="avatar avatar-xl">
             <img src="{% static 'dist/assets/images/faces/1.jpg' %}" alt="Face 1">
           </div>
           <div class="ms-3 name">
-            <h5 class="font-bold">{{user.username}}</h5>
-            <h6 class="text-muted mb-0">@johnducky</h6>
+            <h5 class="font-bold">{{user.username|capfirst}}</h5>
+            <h6 class="text-muted mb-0">{{user.email}}</h6>
           </div>
         </div>
 

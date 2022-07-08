@@ -50,8 +50,22 @@ def perfil(request):
     
     if not usuario.aprobado:
         return render(request, "vinculacion/perfil_pendiente.html")
+    
+    tipo_usuario = "_".join(usuario.tipo_usuario.tipo.split()).lower()
+    
+    if tipo_usuario == "investigador":
+        usuario_investigador = Investigador.objects.get(user=usuario)
+        # usuario_data = {
+        #     'email': usuario_investigador.email
+        # }
+    elif tipo_usuario == "empresa":
+        pass
+    elif tipo_usuario == "institucion_educativa":
+        pass
+    else:
+        pass
 
-    return render(request, "vinculacion/perfil_investigador.html")
+    return render(request, f"vinculacion/perfil.html")
 
 class InvestigadorSolicitud(CreateView):
     model = Investigador
