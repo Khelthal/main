@@ -11,6 +11,7 @@ from investigadores.models import Investigador, NivelInvestigador
 from empresas.models import Empresa
 from instituciones_educativas.models import InstitucionEducativa
 from django.contrib import messages
+from administracion.helpers import obtener_coordenadas
 import requests
 import json
 
@@ -22,7 +23,8 @@ def index(request):
 def dashboard(request):
     tipos_usuario = TipoUsuario.objects.all()
     tipos_usuario_snake_case = ["_".join(t.tipo.split()).lower() for t in tipos_usuario]
-    return render(request, "vinculacion/map.html", {"tipos_usuario":zip(tipos_usuario, tipos_usuario_snake_case)})
+    categorias = Categoria.objects.all()
+    return render(request, "vinculacion/map.html", {"tipos_usuario":zip(tipos_usuario, tipos_usuario_snake_case), "categorias":categorias})
 
 @login_required
 def noticias(request):
@@ -39,14 +41,31 @@ def noticia(request, id):
 @login_required
 def perfil(request):
     usuario = request.user
+    
+    if usuario.is_staff:
+        return redirect("administracion:dashboard")
 
     if not usuario.tipo_usuario:
         return render(request, "vinculacion/perfil_seleccionar.html")
     
     if not usuario.aprobado:
         return render(request, "vinculacion/perfil_pendiente.html")
+    
+    tipo_usuario = "_".join(usuario.tipo_usuario.tipo.split()).lower()
+    
+    if tipo_usuario == "investigador":
+        usuario_investigador = Investigador.objects.get(user=usuario)
+        # usuario_data = {
+        #     'email': usuario_investigador.email
+        # }
+    elif tipo_usuario == "empresa":
+        pass
+    elif tipo_usuario == "institucion_educativa":
+        pass
+    else:
+        pass
 
-    return render(request, "vinculacion/perfil_investigador.html")
+    return render(request, f"vinculacion/perfil.html")
 
 class InvestigadorSolicitud(CreateView):
     model = Investigador
@@ -56,35 +75,14 @@ class InvestigadorSolicitud(CreateView):
     def form_valid(self, form):
         investigador = form.save(commit=False)
         investigador.user = self.request.user
-        codigo_postal = form.cleaned_data['codigo_postal']
-        municipio = form.cleaned_data['municipio']
-        colonia = form.cleaned_data['colonia']
-        calle = form.cleaned_data['calle']
-        numero_exterior = form.cleaned_data['numero_exterior']
+        coordenadas = obtener_coordenadas(form.cleaned_data)
         
-        headers = {
-            'User-agent': 'Script de consulta de ubicacion'
-        }
-        r = requests.get(f"https://nominatim.openstreetmap.org/search?street='{numero_exterior} {calle}'&city={municipio}&country=Mexico&state=Zacatecas&postalcode={codigo_postal}&format=json", headers=headers)
-        
-        if r.status_code != 200:
+        if not coordenadas:
             messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:investigadores_nuevo')
+            return super(InvestigadorSolicitud, self).form_invalid(form)
 
-        data = json.loads(r.text)
-        
-        if len(data) == 0:
-            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:investigadores_nuevo')
-            
-        data = data[0]
-
-        if "lat" not in data or "lon" not in data:
-            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:investigadores_nuevo')
-        
-        investigador.latitud = float(data["lat"])
-        investigador.longitud = float(data["lon"])
+        investigador.latitud = coordenadas.latitud
+        investigador.longitud = coordenadas.longitud
         investigador.user.tipo_usuario = TipoUsuario.objects.get(tipo="Investigador")
         investigador.nivel = NivelInvestigador.objects.get(nivel=1)
         
@@ -102,35 +100,14 @@ class EmpresaSolicitud(CreateView):
     def form_valid(self, form):
         empresa = form.save(commit=False)
         empresa.encargado = self.request.user
-        codigo_postal = form.cleaned_data['codigo_postal']
-        municipio = form.cleaned_data['municipio']
-        colonia = form.cleaned_data['colonia']
-        calle = form.cleaned_data['calle']
-        numero_exterior = form.cleaned_data['numero_exterior']
+        coordenadas = obtener_coordenadas(form.cleaned_data)
         
-        headers = {
-            'User-agent': 'Script de consulta de ubicacion'
-        }
-        r = requests.get(f"https://nominatim.openstreetmap.org/search?street='{numero_exterior} {calle}'&city={municipio}&country=Mexico&state=Zacatecas&postalcode={codigo_postal}&format=json", headers=headers)
-        
-        if r.status_code != 200:
+        if not coordenadas:
             messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:empresas_nuevo')
+            return super(EmpresaSolicitud, self).form_invalid(form)
 
-        data = json.loads(r.text)
-        
-        if len(data) == 0:
-            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:empresas_nuevo')
-            
-        data = data[0]
-
-        if "lat" not in data or "lon" not in data:
-            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:empresas_nuevo')
-        
-        empresa.latitud = float(data["lat"])
-        empresa.longitud = float(data["lon"])
+        empresa.latitud = coordenadas.latitud
+        empresa.longitud = coordenadas.longitud
         empresa.encargado.tipo_usuario = TipoUsuario.objects.get(tipo="Empresa")
         
         empresa.save()
@@ -147,35 +124,14 @@ class InstitucionEducativaSolicitud(CreateView):
     def form_valid(self, form):
         institucion_educativa = form.save(commit=False)
         institucion_educativa.encargado = self.request.user
-        codigo_postal = form.cleaned_data['codigo_postal']
-        municipio = form.cleaned_data['municipio']
-        colonia = form.cleaned_data['colonia']
-        calle = form.cleaned_data['calle']
-        numero_exterior = form.cleaned_data['numero_exterior']
+        coordenadas = obtener_coordenadas(form.cleaned_data)
         
-        headers = {
-            'User-agent': 'Script de consulta de ubicacion'
-        }
-        r = requests.get(f"https://nominatim.openstreetmap.org/search?street='{numero_exterior} {calle}'&city={municipio}&country=Mexico&state=Zacatecas&postalcode={codigo_postal}&format=json", headers=headers)
-        
-        if r.status_code != 200:
+        if not coordenadas:
             messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:instituciones_educativas_nuevo')
+            return super(InstitucionEducativaSolicitud, self).form_invalid(form)
 
-        data = json.loads(r.text)
-        
-        if len(data) == 0:
-            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:instituciones_educativas_nuevo')
-            
-        data = data[0]
-
-        if "lat" not in data or "lon" not in data:
-            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return redirect('administracion:instituciones_educativas_nuevo')
-        
-        institucion_educativa.latitud = float(data["lat"])
-        institucion_educativa.longitud = float(data["lon"])
+        institucion_educativa.latitud = coordenadas.latitud
+        institucion_educativa.longitud = coordenadas.longitud
         institucion_educativa.encargado.tipo_usuario = TipoUsuario.objects.get(tipo="Institucion Educativa")
         
         institucion_educativa.save()
@@ -183,10 +139,3 @@ class InstitucionEducativaSolicitud(CreateView):
 
         messages.success(self.request, "Solicitud registrada correctamente")
         return redirect('vinculacion:perfil')
-
-class Categorias(View):
-    def get(self, request):
-        categorias = Categoria.objects.all()
-        categorias = [{"nombre":categoria.nombre} for categoria in categorias]
-
-        return JsonResponse(categorias, safe = False)

@@ -8,13 +8,18 @@ interface User {
   categorias: Array<string>,
 }
 
-interface Categoria {
-  nombre: string,
+interface ChoicesEvent {
+  detail: ChoicesDetail,
 }
 
-const etiquetas: HTMLElement = document.getElementById("etiquetas");
-var suggestions: Array<string> = [];
+interface ChoicesDetail {
+  label: string,
+}
+
 var usuarios: Array<User> = [];
+var etiquetas: Array<string> = [];
+document.getElementsByClassName("choices")[0].addEventListener('addItem', function(event) {etiquetas.push((event as unknown as ChoicesEvent).detail.label); recargarUsuariosMapa()});
+document.getElementsByClassName("choices")[0].addEventListener('removeItem', function(event) {etiquetas.splice(etiquetas.indexOf((event as unknown as ChoicesEvent).detail.label), 1); recargarUsuariosMapa()});
 var icons: Array<L.Icon> = ["grey", "green", "blue", "violet", "gold"].map((color: string) => {
   return new L.Icon({
       iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
@@ -44,18 +49,6 @@ function obtenerUsuarios(): void {
       });
     });
   }).then(() => mostrarUsuariosMapa());
-  
-  let categorias_url = "http://localhost:8000/categorias/fetch";
-  
-  fetch(categorias_url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }).then(res => res.json())
-  .then((categorias: Array<Categoria>) => {
-    categorias.forEach((categoria: Categoria) => suggestions.push(categoria.nombre));
-  });
 }
 
 //Mapa
@@ -80,9 +73,7 @@ function mostrarUsuariosMapa(): void {
   }).filter((datos_filtro: { filtro: string, activo: boolean }) => datos_filtro.activo)
     .map((datos_filtro: { filtro: string, activo: boolean }) => datos_filtro.filtro);
   
-  let etiquetasRequeridas: Array<string> = Array.from(etiquetas.children).map((etiqueta: HTMLElement) => {
-    return etiqueta.textContent.trim();
-  });
+  let etiquetasRequeridas: Array<string> = etiquetas;
 
   let usuarios_filtrados = usuarios.filter((usuario: User) => {
     return filtros.indexOf(usuario.tipoUsuario) != -1;
@@ -122,63 +113,6 @@ function crearPinMapa(usuario: User, precision: number): void {
   markers.push(m);
 }
 
-//Sugerencias
-const searchWrapper: HTMLElement = document.querySelector(".search-input");
-const inputBox: HTMLInputElement = searchWrapper.querySelector("input");
-const suggBox: HTMLElement = searchWrapper.querySelector(".autocom-box");
-
-inputBox.onkeyup = (e) => {
-  let userData = (e.target as HTMLInputElement).value; //user enetered data
-  let emptyArray: Array<string> = [];
-  if (userData) {
-    emptyArray = suggestions.filter((data) => {
-      //filtering array value and user characters to lowercase and return only those words which are start with user enetered chars
-      return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
-    });
-    emptyArray = emptyArray.map((data) => {
-      // passing return data inside li tag
-      return data = `<li>${data}</li>`;
-    });
-    if (emptyArray.length) {
-      searchWrapper.classList.add("active"); //show autocomplete box
-      showSuggestions(emptyArray);
-    } else {
-      searchWrapper.classList.remove("active"); //hide autocomplete box
-    }
-    let allList = suggBox.querySelectorAll("li");
-    for (let i = 0; i < allList.length; i++) {
-      //adding onclick attribute in all li tag
-      allList[i].setAttribute("onclick", "select(this)");
-    }
-  } else {
-    searchWrapper.classList.remove("active"); //hide autocomplete box
-  }
-}
-
-function select(element: HTMLElement): void {
-  let selectData = element.textContent;
-  let opt = document.createElement('a');
-  opt.className = "btn btn-outline-danger btn-sm etiqueta";
-  opt.innerHTML = selectData;
-  opt.setAttribute("onclick", "freeSuggestion(this)")
-  etiquetas.appendChild(opt);
-  suggestions.splice(suggestions.indexOf(selectData), 1);
-  inputBox.value = "";
-  searchWrapper.classList.remove("active");
-  recargarUsuariosMapa();
-}
-
-function showSuggestions(list: Array<string>): void {
-  let listData: string = list.join('');
-  suggBox.innerHTML = listData;
-}
-
-function freeSuggestion(opt: HTMLElement): void {
-  suggestions.push(opt.textContent.trim());
-  opt.remove();
-  recargarUsuariosMapa();
-}
-
 //Precision
 const precisionInput: HTMLInputElement = document.getElementById("precision") as HTMLInputElement;
 const precisionBar: HTMLDivElement = document.getElementById("barra-precision") as HTMLDivElement;
@@ -201,6 +135,14 @@ function actualizarBarraPrecision(): void {
     nivelesPrecision[i].classList.add("activo");
   }
 }
+//Recarga
+function reescalarMapa() {
+  setTimeout(function () {
+    mapa.invalidateSize(true);
+  }, 100);
+}
 
 obtenerUsuarios();
 actualizarBarraPrecision();
+reescalarMapa();
+mapa.invalidateSize();
