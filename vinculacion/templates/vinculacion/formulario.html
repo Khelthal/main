@@ -1,6 +1,10 @@
 {% extends 'vinculacion/base.html' %}
 {% load static %}
 
+{% block extraresources %}
+<link rel="stylesheet" href="{% static 'dist/assets/css/pages/form-element-select.css' %}">
+{% endblock %}
+
 {% block contenido %}
 <div class="d-flex justify-content-center p-5">
 
@@ -30,4 +34,8 @@
   </div>
 
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'dist/assets/js/extensions/form-element-select.js' %}"></script>
 {% endblock %}

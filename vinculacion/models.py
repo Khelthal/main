@@ -1,7 +1,15 @@
 from django.db import models
 
+class AreaConocimiento(models.Model):
+    nombre = models.CharField(max_length=30)
+    descripcion = models.TextField()
+
+    def __str__(self):
+        return self.nombre
+
 class Categoria(models.Model):
     nombre = models.CharField(max_length=30)
+    area_conocimiento = models.ForeignKey(AreaConocimiento, verbose_name="Área de conocimiento", on_delete=models.CASCADE)
     descripcion = models.TextField()
 
     def __str__(self):
