@@ -9,6 +9,9 @@ urlpatterns = [
     path('noticias', noticias, name='noticias'),
     path('noticias/<int:id>', noticia, name='noticia'),
     path('perfil', perfil, name='perfil'),
+
+    #Acciones
+    path('perfil/eliminar/<int:pk>',UsuarioEliminar.as_view(),name='usuario_elimiar'),
     
     #Formularios
     path('formularios/investigador', InvestigadorSolicitud.as_view(), name='investigador_form'),

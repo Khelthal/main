@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from usuarios.models import TipoUsuario
 from vinculacion.models import Categoria, Noticia
 from django.views import View
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 from django.http.response import JsonResponse
 from administracion.forms import FormInvestigadorBase, FormEmpresaUpdate, FormInstitucionEducativaUpdate
 from investigadores.models import Investigador, NivelInvestigador
@@ -12,8 +12,10 @@ from empresas.models import Empresa
 from instituciones_educativas.models import InstitucionEducativa
 from django.contrib import messages
 from administracion.helpers import obtener_coordenadas
+from django.contrib.auth import get_user_model
 import requests
 import json
+User = get_user_model()
 
 # Create your views here.
 def index(request):
@@ -58,6 +60,9 @@ def perfil(request):
         # usuario_data = {
         #     'email': usuario_investigador.email
         # }
+
+        return render(request, f"vinculacion/perfil_investigador.html")
+
     elif tipo_usuario == "empresa":
         pass
     elif tipo_usuario == "institucion_educativa":
@@ -139,3 +144,12 @@ class InstitucionEducativaSolicitud(CreateView):
 
         messages.success(self.request, "Solicitud registrada correctamente")
         return redirect('vinculacion:perfil')
+
+class UsuarioEliminar(DeleteView):
+    model = User
+    success_url = reverse_lazy('vinculacion:index')
+    template_name = "vinculacion/confirm_delete.html"
+
+    def post(self, request, *args, **kwargs):
+        messages.success(self.request, "Cuenta eliminada correctamente")
+        return self.delete(request, *args, **kwargs)
