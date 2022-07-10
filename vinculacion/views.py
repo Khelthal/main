@@ -12,10 +12,9 @@ from empresas.models import Empresa
 from instituciones_educativas.models import InstitucionEducativa
 from django.contrib import messages
 from administracion.helpers import obtener_coordenadas
-from django.contrib.auth import get_user_model
+from usuarios.models import User
 import requests
 import json
-User = get_user_model()
 
 # Create your views here.
 def index(request):
@@ -60,8 +59,6 @@ def perfil(request):
         # usuario_data = {
         #     'email': usuario_investigador.email
         # }
-
-        return render(request, f"vinculacion/perfil_investigador.html")
 
     elif tipo_usuario == "empresa":
         pass
