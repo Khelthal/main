@@ -7,6 +7,10 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username','password','email','repassword')
+        widgets = {
+            'username': forms.TextInput(attrs={'class':'form-control form-control-xl', 'placeholder':'Nombre de usuario'}),
+            'email': forms.EmailInput(attrs={'class':'form-control form-control-xl', 'placeholder':'Correo electrónico'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
