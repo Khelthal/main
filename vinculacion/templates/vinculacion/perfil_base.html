@@ -13,18 +13,15 @@
             <a class="nav-link" id="perfil" href="{% url 'vinculacion:perfil' %}">Perfil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link"
-               {% if user.tipo_usuario.tipo == "Investigador" %}
-               href="{% url 'vinculacion:investigador_actualizar' %}"
-               {% elif user.tipo_usuario.tipo == "Empresa" %} 
-               href="{% url 'vinculacion:empresa_actualizar' %}"
-               {% else %}
-               href="{% url 'vinculacion:institucion_educativa_actualizar' %}"
-               {% endif %} id="actualizar_datos">Actualizar
+            <a class="nav-link" {% if user.tipo_usuario.tipo == "Investigador" %}
+              href="{% url 'vinculacion:investigador_actualizar' %}" {% elif user.tipo_usuario.tipo == "Empresa" %}
+              href="{% url 'vinculacion:empresa_actualizar' %}" {% else %}
+              href="{% url 'vinculacion:institucion_educativa_actualizar' %}" {% endif %}
+              id="actualizar_datos">Actualizar
               datos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="#">{{user.tipo_usuario}}</a>
+            <a class="nav-link" id="eliminar" href="{% url 'vinculacion:usuario_eliminar' %}">Eliminar mi cuenta</a>
           </li>
         </ul>
       </div>

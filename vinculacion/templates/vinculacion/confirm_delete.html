@@ -3,20 +3,25 @@
 
 {% block contenido_perfil %}
 
-<section class="section">
-    <div class="card">
-        <div class="card-header">
-            <h4 class="card-title">¿Estás seguro de que deseas eliminar la cuenta de: "{{object}}"?</h4>
-        </div>
-        <div class="card-body">
-            <form method="POST">
-                {% csrf_token %}
-                {{ form }}
-                <button type="submit" class="btn btn-danger me-1 mb-1">Confirmar</button>
-            </form>
-        </div>
-    </div>
+<div class="d-flex justify-content-center">
 
-</section>
+  <div class="w-75">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">¿Estás seguro de que deseas eliminar la cuenta de: "{{object}}"?</h4>
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          {% csrf_token %}
+          {{ form }}
+          <button type="submit" class="btn btn-danger me-1 mb-1">Confirmar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 {% endblock %}
+
+{% block elemento_activo %}eliminar{% endblock %}

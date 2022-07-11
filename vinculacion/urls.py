@@ -11,7 +11,7 @@ urlpatterns = [
     path('perfil', perfil, name='perfil'),
 
     #Acciones
-    path('perfil/eliminar/<int:pk>',UsuarioEliminar.as_view(),name='usuario_elimiar'),
+    path('perfil/eliminar',UsuarioEliminar.as_view(),name='usuario_eliminar'),
     
     #Formularios
     path('formularios/investigador', InvestigadorSolicitud.as_view(), name='investigador_form'),

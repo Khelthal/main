@@ -222,6 +222,9 @@ class UsuarioEliminar(DeleteView):
     model = User
     success_url = reverse_lazy('vinculacion:index')
     template_name = "vinculacion/confirm_delete.html"
+    
+    def get_object(self):
+        return self.request.user
 
     def post(self, request, *args, **kwargs):
         messages.success(self.request, "Cuenta eliminada correctamente")
