@@ -203,6 +203,7 @@ class EmpresaNuevo(CreateView):
         
         empresa.save()
         empresa.encargado.save()
+        form.save_m2m()
 
         messages.success(self.request, "Empresa registrada correctamente")
         return redirect(self.success_url)
@@ -226,6 +227,7 @@ class EmpresaEditar(UpdateView):
         empresa.longitud = coordenadas.longitud
         
         empresa.save()
+        form.save_m2m()
 
         messages.success(self.request, "Empresa actualizada correctamente")
         return redirect(self.success_url)
@@ -281,6 +283,7 @@ class InstitucionEducativaNuevo(CreateView):
         
         institucion_educativa.save()
         institucion_educativa.encargado.save()
+        form.save_m2m()
 
         messages.success(self.request, "Institución Educativa registrada correctamente")
         return redirect(self.success_url)
@@ -304,6 +307,7 @@ class InstitucionEducativaEditar(UpdateView):
         institucion_educativa.longitud = coordenadas.longitud
         
         institucion_educativa.save()
+        form.save_m2m()
 
         messages.success(self.request, "Institución Educativa actualizada correctamente")
         return redirect(self.success_url)

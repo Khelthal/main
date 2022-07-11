@@ -10,13 +10,21 @@
       <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
-            <a class="nav-link active" href="#">Perfil</a>
+            <a class="nav-link" id="perfil" href="{% url 'vinculacion:perfil' %}">Perfil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="#">Actualizar datos</a>
+            <a class="nav-link"
+               {% if user.tipo_usuario.tipo == "Investigador" %}
+               href="{% url 'vinculacion:investigador_actualizar' %}"
+               {% elif user.tipo_usuario.tipo == "Empresa" %} 
+               href="{% url 'vinculacion:empresa_actualizar' %}"
+               {% else %}
+               href="{% url 'vinculacion:institucion_educativa_actualizar' %}"
+               {% endif %} id="actualizar_datos">Actualizar
+              datos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="#">Lorem</a>
+            <a class="nav-link disabled" href="#">{{user.tipo_usuario}}</a>
           </li>
         </ul>
       </div>
@@ -29,5 +37,9 @@
 
 {% block contenido_perfil %}
 {% endblock %}
+
+<script>
+  document.getElementById('{% block elemento_activo %}{% endblock %}'.trim()).classList.add("active");
+</script>
 
 {% endblock %}

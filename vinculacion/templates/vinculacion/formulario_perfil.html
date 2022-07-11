@@ -1,0 +1,43 @@
+{% extends 'vinculacion/perfil_base.html' %}
+{% load static %}
+
+{% block extraresources %}
+<link rel="stylesheet" href="{% static 'dist/assets/css/pages/form-element-select.css' %}">
+{% endblock %}
+
+{% block contenido_perfil %}
+<div class="d-flex justify-content-center">
+
+  <div class="w-75">
+    <div class="card">
+      <div class="card-header">
+        <h5>Datos de usuario</h5>
+      </div>
+      <div class="card-body">
+        {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <div class="alert alert-danger">{{message}}</div>
+        {% else %}
+        <div class="alert alert-success">{{message}}</div>
+        {% endif %}
+        {% endfor %}
+        <form method="POST">
+          {% csrf_token %}
+          {{form.as_p}}
+          <div class="col-12 d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary me-1 mb-1">Guardar</button>
+            <button type="reset" class="btn btn-dark me-1 mb-1">Reiniciar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block elemento_activo %}actualizar_datos{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'dist/assets/js/extensions/form-element-select.js' %}"></script>
+{% endblock %}

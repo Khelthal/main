@@ -97,7 +97,7 @@ class InvestigadorSolicitud(CreateView):
 class InvestigadorActualizar(UpdateView):
     model = Investigador
     form_class = FormInvestigadorBase
-    template_name = "vinculacion/formulario.html"
+    template_name = "vinculacion/formulario_perfil.html"
     
     def get_object(self):
         return get_object_or_404(Investigador, user=self.request.user)
@@ -138,6 +138,7 @@ class EmpresaSolicitud(CreateView):
         
         empresa.save()
         empresa.encargado.save()
+        form.save_m2m()
 
         messages.success(self.request, "Solicitud registrada correctamente")
         return redirect('vinculacion:perfil')
@@ -145,7 +146,7 @@ class EmpresaSolicitud(CreateView):
 class EmpresaActualizar(UpdateView):
     model = Empresa
     form_class = FormEmpresaUpdate
-    template_name = "vinculacion/formulario.html"
+    template_name = "vinculacion/formulario_perfil.html"
 
     def get_object(self):
         return get_object_or_404(Empresa, encargado=self.request.user)
@@ -162,6 +163,7 @@ class EmpresaActualizar(UpdateView):
         empresa.longitud = coordenadas.longitud
         
         empresa.save()
+        form.save_m2m()
 
         messages.success(self.request, "Solicitud registrada correctamente")
         return redirect('vinculacion:perfil')
@@ -186,6 +188,7 @@ class InstitucionEducativaSolicitud(CreateView):
         
         institucion_educativa.save()
         institucion_educativa.encargado.save()
+        form.save_m2m()
 
         messages.success(self.request, "Solicitud registrada correctamente")
         return redirect('vinculacion:perfil')
@@ -193,7 +196,7 @@ class InstitucionEducativaSolicitud(CreateView):
 class InstitucionEducativaActualizar(UpdateView):
     model = InstitucionEducativa
     form_class = FormInstitucionEducativaUpdate
-    template_name = "vinculacion/formulario.html"
+    template_name = "vinculacion/formulario_perfil.html"
 
     def get_object(self):
         return get_object_or_404(InstitucionEducativa, encargado=self.request.user)
@@ -210,6 +213,7 @@ class InstitucionEducativaActualizar(UpdateView):
         institucion_educativa.longitud = coordenadas.longitud
         
         institucion_educativa.save()
+        form.save_m2m()
 
         messages.success(self.request, "Solicitud registrada correctamente")
         return redirect('vinculacion:perfil')

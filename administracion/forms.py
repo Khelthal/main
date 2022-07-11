@@ -146,8 +146,6 @@ class FormEmpresaUpdate(forms.ModelForm):
         exclude = ['latitud', 'longitud', 'encargado', 'aprobado']
 
     def __init__(self, *args, **kwargs):
-        print(args)
-        print(kwargs)
         super(FormEmpresaUpdate, self).__init__(*args, **kwargs)
         self.fields["nombre_empresa"].widget.attrs['class'] = 'form-control'
         self.fields["especialidades"].widget.attrs['class'] = 'choices form-select multiple-remove'
