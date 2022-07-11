@@ -32,23 +32,8 @@ var icons: Array<L.Icon> = ["grey", "green", "blue", "violet", "gold"].map((colo
 });
 var precisionMinima = 2;
 
-function obtenerUsuarios(): void {
-  let urls: Array<string> = ["investigadores", "empresas", "instituciones_educativas"].map((model: string) => `http://localhost:8000/${model}/fetch`);
-  
-  Promise.all(urls.map((url: string) => fetch(
-    url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-  ).then(res => res.json()))).then((usuarios_tipos: Array<Array<User>>) => {
-    usuarios_tipos.forEach((usuarios_tipo: Array<User>) => {
-      usuarios_tipo.forEach((usuario: User) => {
-        usuarios.push(usuario);
-      });
-    });
-  }).then(() => mostrarUsuariosMapa());
+function obtenerUsuarios(lista_usuarios: Array<User>): void {
+  usuarios = lista_usuarios;
 }
 
 //Mapa
@@ -142,7 +127,5 @@ function reescalarMapa() {
   }, 100);
 }
 
-obtenerUsuarios();
 actualizarBarraPrecision();
 reescalarMapa();
-mapa.invalidateSize();

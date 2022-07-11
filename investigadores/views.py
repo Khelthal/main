@@ -18,25 +18,3 @@ def investigadores_lista(request):
         categorias.append(list(categorias_investigador))
 
     return render(request, "vinculacion/investigadores_lista.html", {"investigadores":zip(investigadores, categorias)})
-
-class Investigadores(View):
-    def get(self, request):
-        investigadores = list(Investigador.objects.all())
-
-        def investigador_to_dic(investigador):
-            investigaciones = Investigacion.objects.filter(autores=investigador.pk)
-            categorias = []
-            for investigacion in investigaciones:
-                categorias.extend(list(map(lambda categoria: str(categoria),investigacion.categorias.all())))
-                
-            return {
-                    "username": investigador.user.username,
-                    "latitud": investigador.latitud,
-                    "longitud": investigador.longitud,
-                    "tipoUsuario": str(investigador.user.tipo_usuario),
-                    "categorias": categorias
-            }
-
-        investigadores = list(map(investigador_to_dic, investigadores))
-
-        return JsonResponse(list(investigadores), safe = False)

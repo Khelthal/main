@@ -13,20 +13,8 @@ var icons = ["grey", "green", "blue", "violet", "gold"].map((color) => {
     });
 });
 var precisionMinima = 2;
-function obtenerUsuarios() {
-    let urls = ["investigadores", "empresas", "instituciones_educativas"].map((model) => `http://localhost:8000/${model}/fetch`);
-    Promise.all(urls.map((url) => fetch(url, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(res => res.json()))).then((usuarios_tipos) => {
-        usuarios_tipos.forEach((usuarios_tipo) => {
-            usuarios_tipo.forEach((usuario) => {
-                usuarios.push(usuario);
-            });
-        });
-    }).then(() => mostrarUsuariosMapa());
+function obtenerUsuarios(lista_usuarios) {
+    usuarios = lista_usuarios;
 }
 //Mapa
 var markers = [];
@@ -107,7 +95,5 @@ function reescalarMapa() {
         mapa.invalidateSize(true);
     }, 100);
 }
-obtenerUsuarios();
 actualizarBarraPrecision();
 reescalarMapa();
-mapa.invalidateSize();

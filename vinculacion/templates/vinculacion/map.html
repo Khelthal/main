@@ -83,4 +83,18 @@
 <script src="{% static 'dist/assets/js/extensions/form-element-select.js' %}"></script>
 <script src="{% static 'js/vinculacion.js' %}"></script>
 <script src="{% static 'js/display_filtros.js' %}"></script>
+
+<script>
+  obtenerUsuarios([
+    {% for usuario in usuarios %}
+  {
+    "username": "{{usuario.username}}",
+    "latitud": {{usuario.latitud}},
+    "longitud": {{usuario.longitud}},
+    "tipoUsuario": "{{usuario.tipoUsuario}}",
+    "categorias": [{% for categoria in usuario.categorias %} "{{categoria}}",{% endfor %}]
+  },
+  {% endfor %}
+]);
+</script>
 {% endblock %}

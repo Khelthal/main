@@ -7,7 +7,7 @@ from django.views import View
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django.http.response import JsonResponse
 from administracion.forms import FormInvestigadorBase, FormEmpresaUpdate, FormInstitucionEducativaUpdate
-from investigadores.models import Investigador, NivelInvestigador
+from investigadores.models import Investigador, NivelInvestigador, Investigacion
 from empresas.models import Empresa
 from instituciones_educativas.models import InstitucionEducativa
 from django.contrib import messages
@@ -15,6 +15,7 @@ from administracion.helpers import obtener_coordenadas
 from usuarios.models import User
 import requests
 import json
+import itertools
 
 # Create your views here.
 def index(request):
@@ -25,7 +26,34 @@ def dashboard(request):
     tipos_usuario = TipoUsuario.objects.all()
     tipos_usuario_snake_case = ["_".join(t.tipo.split()).lower() for t in tipos_usuario]
     categorias = Categoria.objects.all()
-    return render(request, "vinculacion/map.html", {"tipos_usuario":zip(tipos_usuario, tipos_usuario_snake_case), "categorias":categorias})
+    usuarios = []
+    investigadores = Investigador.objects.all()
+    empresas = Empresa.objects.all()
+    instituciones_educativas = InstitucionEducativa.objects.all()
+    
+    usuarios.extend([{
+        "username": u.user.username,
+        "latitud": u.latitud,
+        "longitud": u.longitud,
+        "tipoUsuario": u.user.tipo_usuario.tipo,
+        "categorias": list(set(itertools.chain.from_iterable([list(map(str, investigacion.categorias.all())) for investigacion in Investigacion.objects.filter(autores=u.pk)]))),
+    } for u in investigadores])
+    usuarios.extend([{
+        "username": u.encargado.username,
+        "latitud": u.latitud,
+        "longitud": u.longitud,
+        "tipoUsuario": u.encargado.tipo_usuario.tipo,
+        "categorias": list(map(str, u.especialidades.all())),
+    } for u in empresas])
+    usuarios.extend([{
+        "username": u.encargado.username,
+        "latitud": u.latitud,
+        "longitud": u.longitud,
+        "tipoUsuario": u.encargado.tipo_usuario.tipo,
+        "categorias": list(map(str, u.especialidades.all())),
+    } for u in instituciones_educativas])
+
+    return render(request, "vinculacion/map.html", {"tipos_usuario":zip(tipos_usuario, tipos_usuario_snake_case), "categorias":categorias, "usuarios":usuarios})
 
 @login_required
 def noticias(request):
