@@ -38,8 +38,13 @@ def dashboard(request):
     registros_mes = [(k, v) for k, v in usuarios_mes.items()]
     registros_mes = sorted(registros_mes, key=lambda val: datetime.datetime.strptime(val[0], '%Y-%m'))
     actividad_usuarios = [("Activos este mes", usuarios_activos_mes), ("Inactivos este mes", len(usuarios) - usuarios_activos_mes)]
+    solicitudes = {
+        "investigadores":len(Investigador.objects.filter(user__aprobado=False)),
+        "empresas": len(Empresa.objects.filter(encargado__aprobado=False)),
+        "instituciones_educativas": len(InstitucionEducativa.objects.filter(encargado__aprobado=False)),
+    }
     
-    return render(request, "administracion/dashboard.html", {"registros_mes":registros_mes, "usuarios_tipo":usuarios_tipo.items(), "actividad_usuarios":actividad_usuarios})
+    return render(request, "administracion/dashboard.html", {"registros_mes":registros_mes, "usuarios_tipo":usuarios_tipo.items(), "actividad_usuarios":actividad_usuarios, "solicitudes":solicitudes})
 
 def aprobar_perfil(request, pk):
     usuario = User.objects.get(pk=pk)
