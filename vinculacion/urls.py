@@ -15,6 +15,11 @@ urlpatterns = [
     
     #Formularios
     path('formularios/investigador', InvestigadorSolicitud.as_view(), name='investigador_form'),
+    path('formularios/investigador/actualizar', InvestigadorActualizar.as_view(), name='investigador_actualizar'),
+
     path('formularios/empresa', EmpresaSolicitud.as_view(), name='empresa_form'),
+    path('formularios/empresa/actualizar', EmpresaActualizar.as_view(), name='empresa_actualizar'),
+
     path('formularios/institucion_educativa', InstitucionEducativaSolicitud.as_view(), name='institucion_educativa_form'),
+    path('formularios/institucion_educativa/actualizar', InstitucionEducativaActualizar.as_view(), name='institucion_educativa_actualizar'),
 ]

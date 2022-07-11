@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from usuarios.models import TipoUsuario
 from vinculacion.models import Categoria, Noticia
 from django.views import View
-from django.views.generic import CreateView, DeleteView
+from django.views.generic import CreateView, DeleteView, UpdateView
 from django.http.response import JsonResponse
 from administracion.forms import FormInvestigadorBase, FormEmpresaUpdate, FormInstitucionEducativaUpdate
 from investigadores.models import Investigador, NivelInvestigador
@@ -94,6 +94,30 @@ class InvestigadorSolicitud(CreateView):
         messages.success(self.request, "Solicitud registrada correctamente")
         return redirect('vinculacion:perfil')
 
+class InvestigadorActualizar(UpdateView):
+    model = Investigador
+    form_class = FormInvestigadorBase
+    template_name = "vinculacion/formulario.html"
+    
+    def get_object(self):
+        return get_object_or_404(Investigador, user=self.request.user)
+
+    def form_valid(self, form):
+        investigador = form.save(commit=False)
+        coordenadas = obtener_coordenadas(form.cleaned_data)
+        
+        if not coordenadas:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return super(InvestigadorActualizar, self).form_invalid(form)
+
+        investigador.latitud = coordenadas.latitud
+        investigador.longitud = coordenadas.longitud
+        
+        investigador.save()
+
+        messages.success(self.request, "Solicitud registrada correctamente")
+        return redirect('vinculacion:perfil')
+
 class EmpresaSolicitud(CreateView):
     model = Empresa
     form_class = FormEmpresaUpdate
@@ -118,6 +142,30 @@ class EmpresaSolicitud(CreateView):
         messages.success(self.request, "Solicitud registrada correctamente")
         return redirect('vinculacion:perfil')
 
+class EmpresaActualizar(UpdateView):
+    model = Empresa
+    form_class = FormEmpresaUpdate
+    template_name = "vinculacion/formulario.html"
+
+    def get_object(self):
+        return get_object_or_404(Empresa, encargado=self.request.user)
+
+    def form_valid(self, form):
+        empresa = form.save(commit=False)
+        coordenadas = obtener_coordenadas(form.cleaned_data)
+        
+        if not coordenadas:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return super(EmpresaActualizar, self).form_invalid(form)
+
+        empresa.latitud = coordenadas.latitud
+        empresa.longitud = coordenadas.longitud
+        
+        empresa.save()
+
+        messages.success(self.request, "Solicitud registrada correctamente")
+        return redirect('vinculacion:perfil')
+
 class InstitucionEducativaSolicitud(CreateView):
     model = InstitucionEducativa
     form_class = FormInstitucionEducativaUpdate
@@ -138,6 +186,30 @@ class InstitucionEducativaSolicitud(CreateView):
         
         institucion_educativa.save()
         institucion_educativa.encargado.save()
+
+        messages.success(self.request, "Solicitud registrada correctamente")
+        return redirect('vinculacion:perfil')
+
+class InstitucionEducativaActualizar(UpdateView):
+    model = InstitucionEducativa
+    form_class = FormInstitucionEducativaUpdate
+    template_name = "vinculacion/formulario.html"
+
+    def get_object(self):
+        return get_object_or_404(InstitucionEducativa, encargado=self.request.user)
+
+    def form_valid(self, form):
+        institucion_educativa = form.save(commit=False)
+        coordenadas = obtener_coordenadas(form.cleaned_data)
+        
+        if not coordenadas:
+            messages.error(self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+            return super(InstitucionEducativaActualizar, self).form_invalid(form)
+
+        institucion_educativa.latitud = coordenadas.latitud
+        institucion_educativa.longitud = coordenadas.longitud
+        
+        institucion_educativa.save()
 
         messages.success(self.request, "Solicitud registrada correctamente")
         return redirect('vinculacion:perfil')
