@@ -2,12 +2,14 @@ from django.contrib.auth.decorators import user_passes_test
 from django.urls import path
 from administracion.user_tests import user_is_staff_member
 from administracion.views import *
+from django.contrib.auth.views import LogoutView
 
 app_name = 'administracion'
 
 urlpatterns = [
     path('', user_passes_test(user_is_staff_member)(dashboard), name='dashboard'),
     path('aprobar_perfil/<int:pk>', user_passes_test(user_is_staff_member)(aprobar_perfil), name='aprobar_perfil'),
+    path('salir', LogoutView.as_view(), name='logout'),
 
     #Usuarios
     path('usuarios/lista', user_passes_test(user_is_staff_member)(UsuarioLista.as_view()), name='usuarios_lista'),

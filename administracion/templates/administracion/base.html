@@ -64,6 +64,7 @@
         </div>
         <div class="sidebar-menu">
           <ul class="menu" id="sidebar-menu-container">
+
             <li class="sidebar-item">
               <a href="{% url 'administracion:dashboard' %}" class='sidebar-link'>
                 <i class="bi bi-grid-fill"></i>
@@ -114,6 +115,15 @@
                   <a href="{% url 'administracion:instituciones_educativas_solicitud' %}">Instituciones Educativas</a>
                 </li>
               </ul>
+            </li>
+
+            <hr />
+
+            <li class="sidebar-item">
+              <a href="{% url 'administracion:logout' %}" class='sidebar-link'>
+                <i class="bi bi-box-arrow-left"></i>
+                <span>Cerrar sesión</span>
+              </a>
             </li>
 
           </ul>
