@@ -161,3 +161,11 @@
     background-color: #1E1E2D;
   }
 }
+
+.leaflet-popup-content-wrapper {
+  color: inherit;
+  
+  * {
+    color: inherit;
+  }
+}

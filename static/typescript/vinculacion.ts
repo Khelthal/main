@@ -94,7 +94,10 @@ function recargarUsuariosMapa(): void {
 
 function crearPinMapa(usuario: User, precision: number): void {
   let m: L.Marker = L.marker([usuario.latitud, usuario.longitud], {icon: icons[precision]});
-  m.addTo(mapa).bindPopup(`<h3>${usuario.tipoUsuario}: ${usuario.username}</h3><p>Hola</p>`);
+  m.addTo(mapa).bindPopup(`
+    <h3>${usuario.tipoUsuario}: ${usuario.username}</h3>
+    <a href="" class="btn btn-primary">Ver detalles</a>
+    `);
   markers.push(m);
 }
 

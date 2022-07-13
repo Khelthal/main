@@ -149,3 +149,11 @@
 .theme-dark .leaflet-popup-content-wrapper {
   background-color: #1E1E2D;
 }
+
+.leaflet-popup-content-wrapper {
+  color: inherit;
+}
+
+.leaflet-popup-content-wrapper * {
+  color: inherit;
+}
