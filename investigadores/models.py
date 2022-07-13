@@ -1,7 +1,10 @@
+from tabnanny import verbose
 from django.db import models
 from vinculacion.models import Categoria
 from usuarios.models import User
 from investigadores.validators import *
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import fields
 
 class NivelInvestigador(models.Model):
     nivel = models.IntegerField()
@@ -32,3 +35,17 @@ class Investigacion(models.Model):
 class GrupoInvestigacion(models.Model):
     administradores = models.ManyToManyField(Investigador, related_name='%(class)s_administradores')
     integrantes = models.ManyToManyField(Investigador, related_name='%(class)s_integrantes')
+
+ESTADOS = [
+    ("P", "En proceso"),
+    ("F", "Finalizada"),
+    ("I", "Incumplida"),
+    ("R", "Rechazada"),
+    ("C", "Cancelada"),
+]
+
+class SolicitudTrabajo(models.Model):
+    titulo = models.CharField(verbose_name="Título", max_length=200)
+    usuario_a_vincular = models.ForeignKey(Investigador, verbose_name="Usuario a vincular", on_delete=models.DO_NOTHING)
+    usuario_solicitante = models.ForeignKey(User, verbose_name="Usuario solicitante", on_delete=models.DO_NOTHING)
+    estado = models.CharField(choices=ESTADOS, verbose_name="Estado", max_length=2)
