@@ -177,6 +177,7 @@ class FormInstitucionEducativa(forms.ModelForm):
         self.fields["encargado"].widget.attrs['class'] = 'choices form-select'
         self.fields["nombre_institucion"].widget.attrs['class'] = 'form-control'
         self.fields["especialidades"].widget.attrs['class'] = 'choices form-select multiple-remove'
+        self.fields["miembros"].widget.attrs['class'] = 'choices form-select multiple-remove'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
         self.fields["municipio"].widget.attrs['class'] = 'form-control'
@@ -203,6 +204,7 @@ class FormInstitucionEducativaUpdate(forms.ModelForm):
         super(FormInstitucionEducativaUpdate, self).__init__(*args, **kwargs)
         self.fields["nombre_institucion"].widget.attrs['class'] = 'form-control'
         self.fields["especialidades"].widget.attrs['class'] = 'choices form-select multiple-remove'
+        self.fields["miembros"].widget.attrs['class'] = 'choices form-select multiple-remove'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
         self.fields["municipio"].widget.attrs['class'] = 'form-control'
