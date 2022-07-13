@@ -1,4 +1,5 @@
 from django.db import models
+from investigadores.models import Investigador
 from usuarios.models import User
 from vinculacion.models import Categoria
 
@@ -9,6 +10,7 @@ class InstitucionEducativa(models.Model):
     especialidades = models.ManyToManyField(Categoria)
     latitud = models.FloatField()
     longitud = models.FloatField()
+    miembros = models.ManyToManyField(Investigador)
     
     def __str__(self):
         return self.nombre_institucion
