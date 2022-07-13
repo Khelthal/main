@@ -80,8 +80,9 @@
 <script src="{% static 'js/graficas.js' %}"></script>
 {% endblock %}
 
-{% block marcar_activo %}
-marcarMenuActivo("Dashboard");
+{% block marcar_activo %}dashboard{% endblock %}
+
+{% block extra_scripting %}
 renderizarGraficaUsuariosMes(
 [{% for fecha_mes, numeros_mes in registros_mes %} {{numeros_mes}}, {% endfor %}],
 [{% for fecha_mes, numeros_mes in registros_mes %} "{{fecha_mes}}", {% endfor %}]

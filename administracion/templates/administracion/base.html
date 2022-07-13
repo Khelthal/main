@@ -65,14 +65,14 @@
         <div class="sidebar-menu">
           <ul class="menu" id="sidebar-menu-container">
 
-            <li class="sidebar-item">
+            <li id="dashboard" class="sidebar-item">
               <a href="{% url 'administracion:dashboard' %}" class='sidebar-link'>
                 <i class="bi bi-grid-fill"></i>
                 <span>Dashboard</span>
               </a>
             </li>
 
-            <li class="sidebar-item  has-sub">
+            <li id="tablas" class="sidebar-item  has-sub">
               <a href="#" class='sidebar-link'>
                 <i class="bi bi-grid-1x2-fill"></i>
                 <span>Tablas</span>
@@ -99,7 +99,7 @@
               </ul>
             </li>
 
-            <li class="sidebar-item  has-sub">
+            <li id="solicitudes" class="sidebar-item  has-sub">
               <a href="#" class='sidebar-link'>
                 <i class="bi bi-newspaper"></i>
                 <span>Solicitudes</span>
@@ -144,13 +144,15 @@
   </div>
   <script src="{% static 'dist/assets/js/app.js' %}"></script>
 
-  <script src="{% static 'js/administracion.js' %}"></script>
-
   {% block scripts %}
   {% endblock %}
 
   <script>
-    {% block marcar_activo %}
+    document.getElementById('{% block marcar_activo %}{% endblock %}'.trim()).classList.add("active");
+  </script>
+
+  <script>
+    {% block extra_scripting %}
     {% endblock %}
   </script>
 
