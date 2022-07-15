@@ -1,3 +1,4 @@
+const municipioSelect = document.getElementById("municipio");
 var usuarios = [];
 var etiquetas = [];
 document.getElementsByClassName("choices")[0].addEventListener('addItem', function (event) { etiquetas.push(event.detail.label); recargarUsuariosMapa(); });
@@ -37,9 +38,15 @@ function mostrarUsuariosMapa() {
     }).filter((datos_filtro) => datos_filtro.activo)
         .map((datos_filtro) => datos_filtro.filtro);
     let etiquetasRequeridas = etiquetas;
+    let municipioRequerido = municipioSelect.options[municipioSelect.selectedIndex].value;
     let usuarios_filtrados = usuarios.filter((usuario) => {
         return filtros.indexOf(usuario.tipoUsuario) != -1;
     });
+    if (municipioRequerido !== "") {
+        usuarios_filtrados = usuarios_filtrados.filter((usuario) => {
+            return usuario.municipio == +municipioRequerido;
+        });
+    }
     usuarios_filtrados.forEach((usuario) => {
         let precision = usuario.categorias.map((categoria) => {
             if (etiquetasRequeridas.indexOf(categoria) != -1) {

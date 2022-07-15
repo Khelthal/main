@@ -1,10 +1,11 @@
 from tabnanny import verbose
 from django.db import models
 from vinculacion.models import Categoria
-from usuarios.models import User
+from usuarios.models import User, MUNICIPIOS
 from investigadores.validators import *
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import fields
+from administracion.validators import cp_validator
 
 class NivelInvestigador(models.Model):
     nivel = models.IntegerField()
@@ -19,6 +20,11 @@ class Investigador(models.Model):
     curp = models.CharField(max_length=18, validators=[curp_validador])
     latitud = models.FloatField()
     longitud = models.FloatField()
+    codigo_postal = models.CharField(max_length=5, validators=[cp_validator])
+    municipio = models.IntegerField(choices=MUNICIPIOS)
+    colonia = models.CharField(max_length=100)
+    calle = models.CharField(max_length=100)
+    numero_exterior = models.PositiveIntegerField()
 
     def __str__(self):
         return self.user.username

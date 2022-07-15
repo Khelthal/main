@@ -6,6 +6,7 @@ interface User {
   longitud: number,
   tipoUsuario: string,
   categorias: Array<string>,
+  municipio: number,
 }
 
 interface ChoicesEvent {
@@ -16,6 +17,7 @@ interface ChoicesDetail {
   label: string,
 }
 
+const municipioSelect: HTMLSelectElement = document.getElementById("municipio") as HTMLSelectElement;
 var usuarios: Array<User> = [];
 var etiquetas: Array<string> = [];
 document.getElementsByClassName("choices")[0].addEventListener('addItem', function(event) {etiquetas.push((event as unknown as ChoicesEvent).detail.label); recargarUsuariosMapa()});
@@ -59,10 +61,18 @@ function mostrarUsuariosMapa(): void {
     .map((datos_filtro: { filtro: string, activo: boolean }) => datos_filtro.filtro);
   
   let etiquetasRequeridas: Array<string> = etiquetas;
-
+  
+  let municipioRequerido = municipioSelect.options[municipioSelect.selectedIndex].value;
+  
   let usuarios_filtrados = usuarios.filter((usuario: User) => {
     return filtros.indexOf(usuario.tipoUsuario) != -1;
   });
+
+  if (municipioRequerido !== "") {
+    usuarios_filtrados = usuarios_filtrados.filter((usuario: User) => {
+      return usuario.municipio == +municipioRequerido;
+    })    
+  }
 
   usuarios_filtrados.forEach((usuario: User) => {
     let precision: number = usuario.categorias.map((categoria: string) => {

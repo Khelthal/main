@@ -4,7 +4,6 @@ from investigadores.models import Investigador, Investigacion
 from empresas.models import Empresa
 from vinculacion.models import Categoria
 from instituciones_educativas.models import InstitucionEducativa
-from administracion.validators import *
 
 class FormUser(forms.ModelForm):
     class Meta:
@@ -25,11 +24,6 @@ class FormUser(forms.ModelForm):
         return user
 
 class FormInvestigador(forms.ModelForm):
-    codigo_postal = forms.CharField(max_length=5, validators=[cp_validator])
-    municipio = forms.CharField(max_length=100)
-    colonia = forms.CharField(max_length=100)
-    calle = forms.CharField(max_length=100)
-    numero_exterior = forms.IntegerField(min_value=0)
     
     class Meta:
         model = Investigador
@@ -44,7 +38,7 @@ class FormInvestigador(forms.ModelForm):
         self.fields["curp"].widget.attrs['placeholder'] = 'Ingresa tu CURP'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
-        self.fields["municipio"].widget.attrs['class'] = 'form-control'
+        self.fields["municipio"].widget.attrs['class'] = 'choices form-select'
         self.fields["municipio"].widget.attrs['placeholder'] = 'Ingresa tu municipio de contacto'
         self.fields["colonia"].widget.attrs['class'] = 'form-control'
         self.fields["colonia"].widget.attrs['placeholder'] = 'Ingresa tu colonia de contacto'
@@ -54,12 +48,7 @@ class FormInvestigador(forms.ModelForm):
         self.fields["numero_exterior"].widget.attrs['placeholder'] = 'Ingresa tu número exterior de contacto'
 
 class FormInvestigadorUpdate(forms.ModelForm):
-    codigo_postal = forms.CharField(max_length=5, validators=[cp_validator])
-    municipio = forms.CharField(max_length=100)
-    colonia = forms.CharField(max_length=100)
-    calle = forms.CharField(max_length=100)
-    numero_exterior = forms.IntegerField(min_value=0)
-    
+
     class Meta:
         model = Investigador
         exclude = ['latitud', 'longitud', 'user', 'aprobado']
@@ -71,7 +60,7 @@ class FormInvestigadorUpdate(forms.ModelForm):
         self.fields["curp"].widget.attrs['placeholder'] = 'Ingresa tu CURP'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
-        self.fields["municipio"].widget.attrs['class'] = 'form-control'
+        self.fields["municipio"].widget.attrs['class'] = 'choices form-select'
         self.fields["municipio"].widget.attrs['placeholder'] = 'Ingresa tu municipio de contacto'
         self.fields["colonia"].widget.attrs['class'] = 'form-control'
         self.fields["colonia"].widget.attrs['placeholder'] = 'Ingresa tu colonia de contacto'
@@ -81,11 +70,6 @@ class FormInvestigadorUpdate(forms.ModelForm):
         self.fields["numero_exterior"].widget.attrs['placeholder'] = 'Ingresa tu número exterior de contacto'
 
 class FormInvestigadorBase(forms.ModelForm):
-    codigo_postal = forms.CharField(max_length=5, validators=[cp_validator])
-    municipio = forms.CharField(max_length=100)
-    colonia = forms.CharField(max_length=100)
-    calle = forms.CharField(max_length=100)
-    numero_exterior = forms.IntegerField(min_value=0)
     
     class Meta:
         model = Investigador
@@ -97,7 +81,7 @@ class FormInvestigadorBase(forms.ModelForm):
         self.fields["curp"].widget.attrs['placeholder'] = 'Ingresa tu CURP'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
-        self.fields["municipio"].widget.attrs['class'] = 'form-control'
+        self.fields["municipio"].widget.attrs['class'] = 'choices form-select'
         self.fields["municipio"].widget.attrs['placeholder'] = 'Ingresa tu municipio de contacto'
         self.fields["colonia"].widget.attrs['class'] = 'form-control'
         self.fields["colonia"].widget.attrs['placeholder'] = 'Ingresa tu colonia de contacto'
@@ -107,11 +91,6 @@ class FormInvestigadorBase(forms.ModelForm):
         self.fields["numero_exterior"].widget.attrs['placeholder'] = 'Ingresa tu número exterior de contacto'
 
 class FormEmpresa(forms.ModelForm):
-    codigo_postal = forms.CharField(max_length=5, validators=[cp_validator])
-    municipio = forms.CharField(max_length=100)
-    colonia = forms.CharField(max_length=100)
-    calle = forms.CharField(max_length=100)
-    numero_exterior = forms.IntegerField(min_value=0)
     
     class Meta:
         model = Empresa
@@ -125,7 +104,7 @@ class FormEmpresa(forms.ModelForm):
         self.fields["especialidades"].widget.attrs['class'] = 'choices form-select multiple-remove'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
-        self.fields["municipio"].widget.attrs['class'] = 'form-control'
+        self.fields["municipio"].widget.attrs['class'] = 'choices form-select'
         self.fields["municipio"].widget.attrs['placeholder'] = 'Ingresa tu municipio de contacto'
         self.fields["colonia"].widget.attrs['class'] = 'form-control'
         self.fields["colonia"].widget.attrs['placeholder'] = 'Ingresa tu colonia de contacto'
@@ -135,11 +114,6 @@ class FormEmpresa(forms.ModelForm):
         self.fields["numero_exterior"].widget.attrs['placeholder'] = 'Ingresa tu número exterior de contacto'
 
 class FormEmpresaUpdate(forms.ModelForm):
-    codigo_postal = forms.CharField(max_length=5, validators=[cp_validator])
-    municipio = forms.CharField(max_length=100)
-    colonia = forms.CharField(max_length=100)
-    calle = forms.CharField(max_length=100)
-    numero_exterior = forms.IntegerField(min_value=0)
     
     class Meta:
         model = Empresa
@@ -151,7 +125,7 @@ class FormEmpresaUpdate(forms.ModelForm):
         self.fields["especialidades"].widget.attrs['class'] = 'choices form-select multiple-remove'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
-        self.fields["municipio"].widget.attrs['class'] = 'form-control'
+        self.fields["municipio"].widget.attrs['class'] = 'choices form-select'
         self.fields["municipio"].widget.attrs['placeholder'] = 'Ingresa tu municipio de contacto'
         self.fields["colonia"].widget.attrs['class'] = 'form-control'
         self.fields["colonia"].widget.attrs['placeholder'] = 'Ingresa tu colonia de contacto'
@@ -161,11 +135,6 @@ class FormEmpresaUpdate(forms.ModelForm):
         self.fields["numero_exterior"].widget.attrs['placeholder'] = 'Ingresa tu número exterior de contacto'
 
 class FormInstitucionEducativa(forms.ModelForm):
-    codigo_postal = forms.CharField(max_length=5, validators=[cp_validator])
-    municipio = forms.CharField(max_length=100)
-    colonia = forms.CharField(max_length=100)
-    calle = forms.CharField(max_length=100)
-    numero_exterior = forms.IntegerField(min_value=0)
     
     class Meta:
         model = InstitucionEducativa
@@ -180,7 +149,7 @@ class FormInstitucionEducativa(forms.ModelForm):
         self.fields["miembros"].widget.attrs['class'] = 'choices form-select multiple-remove'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
-        self.fields["municipio"].widget.attrs['class'] = 'form-control'
+        self.fields["municipio"].widget.attrs['class'] = 'choices form-select'
         self.fields["municipio"].widget.attrs['placeholder'] = 'Ingresa tu municipio de contacto'
         self.fields["colonia"].widget.attrs['class'] = 'form-control'
         self.fields["colonia"].widget.attrs['placeholder'] = 'Ingresa tu colonia de contacto'
@@ -190,11 +159,6 @@ class FormInstitucionEducativa(forms.ModelForm):
         self.fields["numero_exterior"].widget.attrs['placeholder'] = 'Ingresa tu número exterior de contacto'
 
 class FormInstitucionEducativaUpdate(forms.ModelForm):
-    codigo_postal = forms.CharField(max_length=5, validators=[cp_validator])
-    municipio = forms.CharField(max_length=100)
-    colonia = forms.CharField(max_length=100)
-    calle = forms.CharField(max_length=100)
-    numero_exterior = forms.IntegerField(min_value=0)
     
     class Meta:
         model = InstitucionEducativa
@@ -207,7 +171,7 @@ class FormInstitucionEducativaUpdate(forms.ModelForm):
         self.fields["miembros"].widget.attrs['class'] = 'choices form-select multiple-remove'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
-        self.fields["municipio"].widget.attrs['class'] = 'form-control'
+        self.fields["municipio"].widget.attrs['class'] = 'choices form-select'
         self.fields["municipio"].widget.attrs['placeholder'] = 'Ingresa tu municipio de contacto'
         self.fields["colonia"].widget.attrs['class'] = 'form-control'
         self.fields["colonia"].widget.attrs['placeholder'] = 'Ingresa tu colonia de contacto'

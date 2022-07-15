@@ -1,5 +1,6 @@
 import requests
 import json
+from usuarios.models import MUNICIPIOS
 
 class Coordenadas:
     def __init__(self, latitud, longitud):
@@ -9,7 +10,7 @@ class Coordenadas:
 
 def obtener_coordenadas(cleaned_data):
     codigo_postal = cleaned_data['codigo_postal']
-    municipio = cleaned_data['municipio']
+    municipio = MUNICIPIOS[cleaned_data['municipio']][1]
     colonia = cleaned_data['colonia']
     calle = cleaned_data['calle']
     numero_exterior = cleaned_data['numero_exterior']
