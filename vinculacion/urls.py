@@ -22,4 +22,9 @@ urlpatterns = [
 
     path('formularios/institucion_educativa', InstitucionEducativaSolicitud.as_view(), name='institucion_educativa_form'),
     path('formularios/institucion_educativa/actualizar', InstitucionEducativaActualizar.as_view(), name='institucion_educativa_actualizar'),
+    
+    #Listas
+    path('investigadores', investigadores_lista, name='investigadores_lista'),
+    path('empresas', empresas_lista, name="empresas_lista"),
+    path('instituciones_educativas', instituciones_educativas_lista, name="instituciones_educativas_lista"),
 ]

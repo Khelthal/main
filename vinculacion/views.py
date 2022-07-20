@@ -7,7 +7,7 @@ from django.views import View
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django.http.response import JsonResponse
 from administracion.forms import FormInvestigadorBase, FormEmpresaUpdate, FormInstitucionEducativaUpdate
-from investigadores.models import Investigador, NivelInvestigador, Investigacion
+from investigadores.models import Investigador, NivelInvestigador, Investigacion, SolicitudTrabajo
 from empresas.models import Empresa
 from instituciones_educativas.models import InstitucionEducativa
 from django.contrib import messages
@@ -260,3 +260,27 @@ class UsuarioEliminar(DeleteView):
     def post(self, request, *args, **kwargs):
         messages.success(self.request, "Cuenta eliminada correctamente")
         return self.delete(request, *args, **kwargs)
+
+@login_required
+def investigadores_lista(request):
+    investigadores = list(Investigador.objects.all())
+    investigadores.sort(key=lambda investigador: SolicitudTrabajo.objects.filter(usuario_a_vincular=investigador, estado="F").count(), reverse=True)
+    categorias = []
+    for investigador in investigadores:
+        categorias_investigador = set()
+        for investigacion in investigador.investigacion_set.all():
+            for categoria in investigacion.categorias.all():
+                categorias_investigador.add(categoria.nombre)
+        categorias.append(list(categorias_investigador))
+
+    return render(request, "vinculacion/investigadores_lista.html", {"investigadores":zip(investigadores, categorias)})
+
+@login_required
+def empresas_lista(request):
+    empresas = Empresa.objects.all()
+    return render(request, "vinculacion/empresas_lista.html", {"empresas":empresas})
+
+@login_required
+def instituciones_educativas_lista(request):
+    instituciones_educativas = InstitucionEducativa.objects.all()
+    return render(request, "vinculacion/instituciones_educativas_lista.html", {"instituciones_educativas":instituciones_educativas})
