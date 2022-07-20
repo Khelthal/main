@@ -4,11 +4,12 @@ from django.views import View
 from django.http.response import JsonResponse
 from django.contrib.auth.decorators import login_required
 
-from investigadores.models import Investigador, Investigacion
+from investigadores.models import Investigador, Investigacion, SolicitudTrabajo
 
 @login_required
 def investigadores_lista(request):
-    investigadores = Investigador.objects.all()
+    investigadores = list(Investigador.objects.all())
+    investigadores.sort(key=lambda investigador: SolicitudTrabajo.objects.filter(usuario_a_vincular=investigador, estado="F").count(), reverse=True)
     categorias = []
     for investigador in investigadores:
         categorias_investigador = set()

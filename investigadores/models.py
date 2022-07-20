@@ -55,3 +55,6 @@ class SolicitudTrabajo(models.Model):
     usuario_a_vincular = models.ForeignKey(Investigador, verbose_name="Usuario a vincular", on_delete=models.DO_NOTHING)
     usuario_solicitante = models.ForeignKey(User, verbose_name="Usuario solicitante", on_delete=models.DO_NOTHING)
     estado = models.CharField(choices=ESTADOS, verbose_name="Estado", max_length=2)
+    
+    def __str__(self):
+        return self.titulo
