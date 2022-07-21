@@ -1,7 +1,7 @@
 from django.db import models
 
 class AreaConocimiento(models.Model):
-    nombre = models.CharField(max_length=30)
+    nombre = models.CharField(max_length=70)
     descripcion = models.TextField()
 
     def __str__(self):

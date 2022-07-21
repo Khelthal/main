@@ -55,8 +55,11 @@ def dashboard(request):
         "categorias": list(map(str, u.especialidades.all())),
         "municipio": u.municipio,
     } for u in instituciones_educativas])
-
-    return render(request, "vinculacion/map.html", {"tipos_usuario":zip(tipos_usuario, tipos_usuario_snake_case), "categorias":categorias, "usuarios":usuarios, "municipios":MUNICIPIOS})
+    
+    areas_conocimiento = list(set(map(lambda categoria: categoria.area_conocimiento, categorias)))
+    areas_conocimiento = [{"area":area, "categorias":Categoria.objects.filter(area_conocimiento=area)} for area in areas_conocimiento]
+    
+    return render(request, "vinculacion/map.html", {"tipos_usuario":zip(tipos_usuario, tipos_usuario_snake_case), "categorias":categorias, "usuarios":usuarios, "municipios":MUNICIPIOS, "areas_conocimiento":areas_conocimiento})
 
 @login_required
 def noticias(request):

@@ -26,8 +26,12 @@
 
         <select id="sugerencias" autocomplete="off" onchange="" class="choices form-select multiple-remove"
           multiple="multiple">
-          {% for categoria in categorias %}
-          <option value="{{categoria.pk}}">{{categoria.nombre}}</option>
+          {% for area_conocimiento in areas_conocimiento %}
+            <optgroup label="{{area_conocimiento.area}}">
+              {% for categoria in area_conocimiento.categorias %}
+              <option value="{{categoria.pk}}">{{categoria.nombre}}</option>
+              {% endfor %}
+            </optgroup>
           {% endfor %}
         </select>
       </div>
