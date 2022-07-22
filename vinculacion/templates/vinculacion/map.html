@@ -21,7 +21,7 @@
 
       <div class="form-group">
         <label for="sugerencias">
-          <h4>Selecciona las categorías que buscas</h4>
+          <h5>Selecciona las categorías que buscas</h5>
         </label>
 
         <select id="sugerencias" autocomplete="off" onchange="" class="choices form-select multiple-remove"
@@ -40,7 +40,7 @@
 
       <div class="form-group">
         <label for="municipio">
-          <h4>Municipio</h4>
+          <h5>Municipio</h5>
         </label>
 
         <select id="municipio" autocomplete="off" onchange="recargarUsuariosMapa()" class="choices form-select">
@@ -54,7 +54,7 @@
       <hr />
 
       <div class="form-group">
-        <h4>Interés</h4>
+        <h5>Interés</h5>
 
         <div id="filtro_tipo_usuario">
           {% for tipo_usuario, tipo_usuario_snake_case in tipos_usuario %}
@@ -72,7 +72,7 @@
       <hr />
 
       <div class="form-group">
-        <h4>Precisión</h4>
+        <h5>Precisión</h5>
 
         <input type="hidden" id="precision" value="2">
 
