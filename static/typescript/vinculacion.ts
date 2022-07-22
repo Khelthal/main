@@ -20,8 +20,8 @@ interface ChoicesDetail {
 const municipioSelect: HTMLSelectElement = document.getElementById("municipio") as HTMLSelectElement;
 var usuarios: Array<User> = [];
 var etiquetas: Array<string> = [];
-document.getElementsByClassName("choices")[0].addEventListener('addItem', function(event) {etiquetas.push((event as unknown as ChoicesEvent).detail.label); recargarUsuariosMapa()});
-document.getElementsByClassName("choices")[0].addEventListener('removeItem', function(event) {etiquetas.splice(etiquetas.indexOf((event as unknown as ChoicesEvent).detail.label), 1); recargarUsuariosMapa()});
+document.getElementsByClassName("choices")[2].addEventListener('addItem', function(event) {etiquetas.push((event as unknown as ChoicesEvent).detail.label); recargarUsuariosMapa()});
+document.getElementsByClassName("choices")[2].addEventListener('removeItem', function(event) {etiquetas.splice(etiquetas.indexOf((event as unknown as ChoicesEvent).detail.label), 1); recargarUsuariosMapa()});
 var icons: Array<L.Icon> = ["grey", "green", "blue", "violet", "gold"].map((color: string) => {
   return new L.Icon({
       iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
@@ -134,10 +134,34 @@ function actualizarBarraPrecision(): void {
   }
 }
 //Recarga
-function reescalarMapa() {
+function reescalarMapa(): void {
   setTimeout(function () {
     mapa.invalidateSize(true);
   }, 100);
+}
+
+//Areas conocimiento
+var areaRequerida: string = "Cualquiera";
+
+function setAreaRequerida(areaConocimiento: string): void {
+  areaRequerida = areaConocimiento;
+  filtrarAreaConocimiento();
+}
+
+function filtrarAreaConocimiento(): void {
+  let nodes: HTMLCollection = document.getElementsByClassName("choices__list--dropdown")[1].children[0].children;
+  let requerido: boolean = true;
+  Array.from(nodes).forEach((nodo: HTMLDivElement) => {
+    if (nodo.classList.contains("choices__group")) {
+      requerido = nodo.textContent === areaRequerida || areaRequerida === "Cualquiera";
+    }
+
+    if (requerido) {
+      nodo.classList.remove("oculto");
+    } else {
+      nodo.classList.add("oculto");
+    }
+  });
 }
 
 actualizarBarraPrecision();

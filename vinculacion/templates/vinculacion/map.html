@@ -20,11 +20,26 @@
           class="bi bi-list"></i></button>
 
       <div class="form-group">
-        <label for="sugerencias">
-          <h5>Selecciona las categorías que buscas</h5>
+        <label for="areas-conocimiento">
+          <h5>Área de conocimiento</h5>
         </label>
 
-        <select id="sugerencias" autocomplete="off" onchange="" class="choices form-select multiple-remove"
+        <select id="areas-conocimiento" autocomplete="off" onchange="setAreaRequerida(this.textContent)" class="choices form-select">
+          <option value="">Cualquiera</option>
+          {% for area_conocimiento in areas_conocimiento %}
+            <option value="0">{{area_conocimiento.area}}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <hr />
+
+      <div class="form-group">
+        <label for="sugerencias">
+          <h5>Categorías a buscar</h5>
+        </label>
+
+        <select id="sugerencias" autocomplete="off" onchange="setTimeout(filtrarAreaConocimiento, 50)" class="choices form-select multiple-remove"
           multiple="multiple">
           {% for area_conocimiento in areas_conocimiento %}
             <optgroup label="{{area_conocimiento.area}}">

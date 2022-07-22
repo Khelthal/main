@@ -1,8 +1,8 @@
 const municipioSelect = document.getElementById("municipio");
 var usuarios = [];
 var etiquetas = [];
-document.getElementsByClassName("choices")[0].addEventListener('addItem', function (event) { etiquetas.push(event.detail.label); recargarUsuariosMapa(); });
-document.getElementsByClassName("choices")[0].addEventListener('removeItem', function (event) { etiquetas.splice(etiquetas.indexOf(event.detail.label), 1); recargarUsuariosMapa(); });
+document.getElementsByClassName("choices")[2].addEventListener('addItem', function (event) { etiquetas.push(event.detail.label); recargarUsuariosMapa(); });
+document.getElementsByClassName("choices")[2].addEventListener('removeItem', function (event) { etiquetas.splice(etiquetas.indexOf(event.detail.label), 1); recargarUsuariosMapa(); });
 var icons = ["grey", "green", "blue", "violet", "gold"].map((color) => {
     return new L.Icon({
         iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
@@ -104,6 +104,27 @@ function reescalarMapa() {
     setTimeout(function () {
         mapa.invalidateSize(true);
     }, 100);
+}
+//Areas conocimiento
+var areaRequerida = "Cualquiera";
+function setAreaRequerida(areaConocimiento) {
+    areaRequerida = areaConocimiento;
+    filtrarAreaConocimiento();
+}
+function filtrarAreaConocimiento() {
+    let nodes = document.getElementsByClassName("choices__list--dropdown")[1].children[0].children;
+    let requerido = true;
+    Array.from(nodes).forEach((nodo) => {
+        if (nodo.classList.contains("choices__group")) {
+            requerido = nodo.textContent === areaRequerida || areaRequerida === "Cualquiera";
+        }
+        if (requerido) {
+            nodo.classList.remove("oculto");
+        }
+        else {
+            nodo.classList.add("oculto");
+        }
+    });
 }
 actualizarBarraPrecision();
 reescalarMapa();
