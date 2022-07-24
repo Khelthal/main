@@ -259,7 +259,6 @@ def solicitudIngresoLista(request):
 
     return render(request, "vinculacion/solicitudes_ingreso.html", {"solicitudes":solicitudes})
 
-@login_required
 class UsuarioEliminar(DeleteView):
     model = User
     success_url = reverse_lazy('vinculacion:index')
@@ -310,3 +309,11 @@ def instituciones_educativas_lista(request):
                         break
 
     return render(request, "vinculacion/instituciones_educativas_lista.html", {"instituciones":instituciones})
+
+def crearSolicitudIngreso(request, institucion_id):
+    institucion = InstitucionEducativa.objects.get(pk = institucion_id)
+    investigador = Investigador.objects.get(user = request.user)
+    solicitud_ingreso = SolicitudIngreso(institucion_educativa=institucion, investigador=investigador)
+    solicitud_ingreso.save()
+
+    return redirect("vinculacion:instituciones_educativas_lista")
