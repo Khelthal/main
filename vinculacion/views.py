@@ -291,5 +291,20 @@ def empresas_lista(request):
 
 @login_required
 def instituciones_educativas_lista(request):
-    instituciones_educativas = InstitucionEducativa.objects.all()
-    return render(request, "vinculacion/instituciones_educativas_lista.html", {"instituciones_educativas":instituciones_educativas})
+    instituciones = InstitucionEducativa.objects.all()
+
+    if request.user.tipo_usuario and request.user.tipo_usuario.tipo == "Investigador":
+        investigador = Investigador.objects.get(user = request.user)
+
+        for institucion in instituciones:
+            solicitudes = SolicitudIngreso.objects.filter(institucion_educativa = institucion)
+            institucion.es_posible_solicitar = True
+            print("solicitudes:", solicitudes)
+
+            if solicitudes:
+                for solicitud in solicitudes:
+                    if solicitud.investigador == investigador:
+                        institucion.es_posible_solicitar = False
+                        break
+
+    return render(request, "vinculacion/instituciones_educativas_lista.html", {"instituciones":instituciones})
