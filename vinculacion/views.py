@@ -317,3 +317,15 @@ def crearSolicitudIngreso(request, institucion_id):
     solicitud_ingreso.save()
 
     return redirect("vinculacion:instituciones_educativas_lista")
+
+def contestarSolicitudIngreso(request, investigador_id, respuesta):
+
+    if respuesta == 1:
+        institucion = InstitucionEducativa.objects.get(encargado = request.user)
+        investigador = Investigador.objects.get(pk = investigador_id)
+        institucion.miembros.add(investigador)
+
+    solicitud = SolicitudIngreso.objects.get(investigador = investigador)
+    solicitud.delete()
+
+    return redirect("vinculacion:institucion_educativa_solicitudes")

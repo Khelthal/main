@@ -12,7 +12,8 @@ urlpatterns = [
 
     #Acciones
     path('perfil/eliminar',UsuarioEliminar.as_view(),name='usuario_eliminar'),
-    path('institucion_educativa/solicitud_ingreso/<int:institucion_id>', crearSolicitudIngreso, name='crear_solicitud_ingreso'),
+    path('investigador/solicitud_ingreso/<int:institucion_id>', crearSolicitudIngreso, name='crear_solicitud_ingreso'),
+    path('institucion_educativa/solicitud_ingreso/<int:investigador_id>/<int:respuesta>', contestarSolicitudIngreso, name='contestar_solicitud_ingreso'),
     
     #Formularios
     path('formularios/investigador', InvestigadorSolicitud.as_view(), name='investigador_form'),
