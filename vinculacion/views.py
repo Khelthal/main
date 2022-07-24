@@ -252,12 +252,14 @@ class InstitucionEducativaActualizar(UpdateView):
         messages.success(self.request, "Solicitud registrada correctamente")
         return redirect('vinculacion:perfil')
 
+@login_required
 def solicitudIngresoLista(request):
     institucion = get_object_or_404(InstitucionEducativa, encargado=request.user)
     solicitudes = SolicitudIngreso.objects.filter(institucion_educativa=institucion)
 
     return render(request, "vinculacion/solicitudes_ingreso.html", {"solicitudes":solicitudes})
 
+@login_required
 class UsuarioEliminar(DeleteView):
     model = User
     success_url = reverse_lazy('vinculacion:index')
