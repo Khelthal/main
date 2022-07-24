@@ -338,3 +338,11 @@ def miembrosLista(request):
     miembros = institucion.miembros.all()
 
     return render(request, "vinculacion/miembros_lista.html", {"miembros":miembros})
+
+@login_required
+def miembroEliminar(request, investigador_id):
+    institucion = InstitucionEducativa.objects.get(encargado = request.user)
+    investigador = Investigador.objects.get(pk = investigador_id)
+    institucion.miembros.remove(investigador)
+
+    return redirect("vinculacion:institucion_educativa_miembros")
