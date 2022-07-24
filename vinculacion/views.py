@@ -331,3 +331,10 @@ def contestarSolicitudIngreso(request, investigador_id, respuesta):
     solicitud.delete()
 
     return redirect("vinculacion:institucion_educativa_solicitudes")
+
+@login_required
+def miembrosLista(request):
+    institucion = InstitucionEducativa.objects.get(encargado = request.user)
+    miembros = institucion.miembros.all()
+
+    return render(request, "vinculacion/miembros_lista.html", {"miembros":miembros})
