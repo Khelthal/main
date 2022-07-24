@@ -310,6 +310,7 @@ def instituciones_educativas_lista(request):
 
     return render(request, "vinculacion/instituciones_educativas_lista.html", {"instituciones":instituciones})
 
+@login_required
 def crearSolicitudIngreso(request, institucion_id):
     institucion = InstitucionEducativa.objects.get(pk = institucion_id)
     investigador = Investigador.objects.get(user = request.user)
@@ -318,6 +319,7 @@ def crearSolicitudIngreso(request, institucion_id):
 
     return redirect("vinculacion:instituciones_educativas_lista")
 
+@login_required
 def contestarSolicitudIngreso(request, investigador_id, respuesta):
 
     if respuesta == 1:
