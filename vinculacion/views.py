@@ -291,16 +291,15 @@ def empresas_lista(request):
     return render(request, "vinculacion/empresas_lista.html", {"empresas":empresas})
 
 @login_required
-def instituciones_educativas_lista(request):
+def instituciones_educativas_lista(request, solicitada=None):
     instituciones = InstitucionEducativa.objects.all()
-
+    print(type(solicitada))
     if request.user.tipo_usuario and request.user.tipo_usuario.tipo == "Investigador":
         investigador = Investigador.objects.get(user = request.user)
 
         for institucion in instituciones:
             solicitudes = SolicitudIngreso.objects.filter(institucion_educativa = institucion)
             institucion.es_posible_solicitar = True
-            print("solicitudes:", solicitudes)
 
             if solicitudes:
                 for solicitud in solicitudes:
@@ -308,7 +307,10 @@ def instituciones_educativas_lista(request):
                         institucion.es_posible_solicitar = False
                         break
 
-    return render(request, "vinculacion/instituciones_educativas_lista.html", {"instituciones":instituciones})
+    if solicitada != None:
+        solicitada = InstitucionEducativa.objects.get(pk = solicitada)
+
+    return render(request, "vinculacion/instituciones_educativas_lista.html", {"instituciones":instituciones, "institucion":solicitada})
 
 @login_required
 def crearSolicitudIngreso(request, institucion_id):
@@ -317,7 +319,7 @@ def crearSolicitudIngreso(request, institucion_id):
     solicitud_ingreso = SolicitudIngreso(institucion_educativa=institucion, investigador=investigador)
     solicitud_ingreso.save()
 
-    return redirect("vinculacion:instituciones_educativas_lista")
+    return redirect("vinculacion:instituciones_educativas_lista", institucion.pk)
 
 @login_required
 def contestarSolicitudIngreso(request, investigador_id, respuesta):

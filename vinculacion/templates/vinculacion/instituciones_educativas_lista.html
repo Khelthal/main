@@ -11,6 +11,10 @@
 
   <h1 class="titulo-seccion">Instituciones educativas</h1>
 
+  {% if institucion != None%}
+    <div class="alert alert-success" role="alert">Solicitud de ingreso a <strong>{{institucion}}</strong> enviada</div>
+  {% endif %}
+
   <div class="row w-75">
 
     {% for institucion_educativa in instituciones %}
