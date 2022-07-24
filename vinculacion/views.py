@@ -4,12 +4,12 @@ from django.contrib.auth.decorators import login_required
 from usuarios.models import TipoUsuario
 from vinculacion.models import Categoria, Noticia
 from django.views import View
-from django.views.generic import CreateView, DeleteView, UpdateView
+from django.views.generic import CreateView, DeleteView, UpdateView, ListView
 from django.http.response import JsonResponse
 from administracion.forms import FormInvestigadorBase, FormEmpresaUpdate, FormInstitucionEducativaUpdate
 from investigadores.models import Investigador, NivelInvestigador, Investigacion, SolicitudTrabajo
 from empresas.models import Empresa
-from instituciones_educativas.models import InstitucionEducativa
+from instituciones_educativas.models import InstitucionEducativa, SolicitudIngreso
 from django.contrib import messages
 from administracion.helpers import obtener_coordenadas
 from usuarios.models import User, MUNICIPIOS
@@ -251,6 +251,12 @@ class InstitucionEducativaActualizar(UpdateView):
 
         messages.success(self.request, "Solicitud registrada correctamente")
         return redirect('vinculacion:perfil')
+
+def solicitudIngresoLista(request):
+    institucion = get_object_or_404(InstitucionEducativa, encargado=request.user)
+    solicitudes = SolicitudIngreso.objects.filter(institucion_educativa=institucion)
+
+    return render(request, "vinculacion/solicitudes_ingreso.html", {"solicitudes":solicitudes})
 
 class UsuarioEliminar(DeleteView):
     model = User

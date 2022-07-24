@@ -1,0 +1,33 @@
+{% extends 'vinculacion/perfil_base.html' %}
+{% load static %}
+
+{% block contenido_perfil %}
+
+<div class="row w-100 p-2 m-0">
+  <div class="col-md-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center overflow-auto">
+          <div class="ms-3 name">
+            <h5 class="font-bold">Solicitudes de Ingreso</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  {% for solicitud in solicitudes%}
+  <div class="col-md-9">
+    <div class="card">
+      <div class="card-body px-5 py-4">
+        {{solicitud.investigador}}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block elemento_activo %}solicitudes{% endblock %}

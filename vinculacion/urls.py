@@ -27,4 +27,5 @@ urlpatterns = [
     path('investigadores', investigadores_lista, name='investigadores_lista'),
     path('empresas', empresas_lista, name="empresas_lista"),
     path('instituciones_educativas', instituciones_educativas_lista, name="instituciones_educativas_lista"),
+    path('institucion_educativa/solicitud_ingreso', solicitudIngresoLista, name="institucion_educativa_solicitudes"),
 ]
