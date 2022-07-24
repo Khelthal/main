@@ -20,3 +20,7 @@ class InstitucionEducativa(models.Model):
     
     def __str__(self):
         return self.nombre_institucion
+
+class SolicitudIngreso(models.Model):
+    investigador = models.ForeignKey(Investigador, on_delete=models.CASCADE)
+    institucion_educativa = models.ForeignKey(InstitucionEducativa, on_delete=models.CASCADE)
