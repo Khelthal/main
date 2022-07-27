@@ -3,3 +3,4 @@ Pillow==9.1.1
 requests==2.27.1
 django-sass==1.1.0
 mysqlclient==2.1.1
+pathlib==1.0.1
