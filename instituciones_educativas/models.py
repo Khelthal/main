@@ -1,11 +1,13 @@
+from pathlib import Path
 from django.db import models
 from investigadores.models import Investigador
 from usuarios.models import User, MUNICIPIOS
 from vinculacion.models import Categoria
 from administracion.validators import cp_validator
 
-def rutaImagenInstitucion(instance):
-    return 'usuarios/instituciones_educativas/institucion_educativa_{0}'.format(instance.encargado.pk)
+def rutaImagenInstitucion(instance, filename):
+    extension = Path(filename).suffix
+    return 'usuarios/instituciones_educativas/institucion_educativa_{0}{1}'.format(instance.encargado.pk, extension)
 
 # Create your models here.
 class InstitucionEducativa(models.Model):

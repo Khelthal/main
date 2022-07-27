@@ -1,10 +1,12 @@
+from pathlib import Path
 from django.db import models
 from usuarios.models import User, MUNICIPIOS
 from vinculacion.models import Categoria
 from administracion.validators import cp_validator
 
-def rutaImagenEmpresa(instance):
-    return 'usuarios/empresas/empresa_{0}'.format(instance.encargado.pk)
+def rutaImagenEmpresa(instance, filename):
+    extension = Path(filename).suffix
+    return 'usuarios/empresas/empresa_{0}{1}'.format(instance.encargado.pk, extension)
 
 # Create your models here.
 class Empresa(models.Model):

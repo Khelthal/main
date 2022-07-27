@@ -1,5 +1,4 @@
-from email.policy import default
-from tabnanny import verbose
+from pathlib import Path
 from django.db import models
 from vinculacion.models import Categoria
 from usuarios.models import User, MUNICIPIOS
@@ -15,8 +14,9 @@ class NivelInvestigador(models.Model):
     def __str__(self):
         return "Nivel " + str(self.nivel)
 
-def rutaImagenInvestigador(instance):
-    return 'usuarios/investigadores/investigador_{0}'.format(instance.user.pk)
+def rutaImagenInvestigador(instance, filename):
+    extension = Path(filename).suffix
+    return 'usuarios/investigadores/investigador_{0}{1}'.format(instance.user.pk, extension)
 
 class Investigador(models.Model):
     user = models.OneToOneField(User, verbose_name="Usuario", on_delete=models.CASCADE, primary_key=True)
