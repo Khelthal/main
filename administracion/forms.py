@@ -121,6 +121,9 @@ class FormEmpresa(forms.ModelForm):
         self.fields["calle"].widget.attrs['placeholder'] = 'Ingresa tu calle de contacto'
         self.fields["numero_exterior"].widget.attrs['class'] = 'form-control'
         self.fields["numero_exterior"].widget.attrs['placeholder'] = 'Ingresa tu número exterior de contacto'
+        self.fields["acerca_de"].widget.attrs['class'] = 'form-control'
+        self.fields["acerca_de"].widget.attrs['placeholder'] = 'Ingresa una breve descripción de la empresa'
+        self.fields["imagen"].widget.attrs['class'] = 'form-control'
 
 class FormEmpresaUpdate(forms.ModelForm):
     
@@ -142,6 +145,9 @@ class FormEmpresaUpdate(forms.ModelForm):
         self.fields["calle"].widget.attrs['placeholder'] = 'Ingresa tu calle de contacto'
         self.fields["numero_exterior"].widget.attrs['class'] = 'form-control'
         self.fields["numero_exterior"].widget.attrs['placeholder'] = 'Ingresa tu número exterior de contacto'
+        self.fields["acerca_de"].widget.attrs['class'] = 'form-control'
+        self.fields["acerca_de"].widget.attrs['placeholder'] = 'Ingresa una breve descripción tuya'
+        self.fields["imagen"].widget.attrs['class'] = 'form-control'
 
 class FormInstitucionEducativa(forms.ModelForm):
     
