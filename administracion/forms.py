@@ -146,7 +146,7 @@ class FormEmpresaUpdate(forms.ModelForm):
         self.fields["numero_exterior"].widget.attrs['class'] = 'form-control'
         self.fields["numero_exterior"].widget.attrs['placeholder'] = 'Ingresa tu número exterior de contacto'
         self.fields["acerca_de"].widget.attrs['class'] = 'form-control'
-        self.fields["acerca_de"].widget.attrs['placeholder'] = 'Ingresa una breve descripción tuya'
+        self.fields["acerca_de"].widget.attrs['placeholder'] = 'Ingresa una breve descripción de la empresa'
         self.fields["imagen"].widget.attrs['class'] = 'form-control'
 
 class FormInstitucionEducativa(forms.ModelForm):
