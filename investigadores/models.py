@@ -29,7 +29,7 @@ class Investigador(models.Model):
     colonia = models.CharField(max_length=100)
     calle = models.CharField(max_length=100)
     numero_exterior = models.PositiveIntegerField()
-    acerca_de = models.TextField(verbose_name="Acerca de", max_length=500, default="")
+    acerca_de = models.TextField(verbose_name="Acerca de", max_length=1000, default="")
     imagen = models.ImageField(upload_to=rutaImagenInvestigador, verbose_name="Imagen de perfil", default=None)
 
     def __str__(self):
