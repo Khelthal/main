@@ -1,3 +1,4 @@
+from email.policy import default
 from tabnanny import verbose
 from django.db import models
 from vinculacion.models import Categoria
@@ -14,6 +15,9 @@ class NivelInvestigador(models.Model):
     def __str__(self):
         return "Nivel " + str(self.nivel)
 
+def rutaImagenInvestigador(instance):
+    return 'usuarios/investigadores/investigador_{0}'.format(instance.user.pk)
+
 class Investigador(models.Model):
     user = models.OneToOneField(User, verbose_name="Usuario", on_delete=models.CASCADE, primary_key=True)
     nivel = models.ForeignKey(NivelInvestigador, on_delete=models.DO_NOTHING)
@@ -25,6 +29,8 @@ class Investigador(models.Model):
     colonia = models.CharField(max_length=100)
     calle = models.CharField(max_length=100)
     numero_exterior = models.PositiveIntegerField()
+    acerca_de = models.TextField(verbose_name="Acerca de", max_length=500, default="")
+    imagen = models.ImageField(upload_to=rutaImagenInvestigador, verbose_name="Imagen de perfil", default=None)
 
     def __str__(self):
         return self.user.username
