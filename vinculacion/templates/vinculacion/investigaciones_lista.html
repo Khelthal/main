@@ -1,0 +1,42 @@
+{% extends 'vinculacion/perfil_base.html' %}
+{% load static %}
+
+{% block contenido_perfil %}
+
+<div class="row w-100 p-2 m-0">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h4>Agregar investigación</h4>
+      </div>
+      <div class="card-body">
+        <a href="{% url 'vinculacion:investigacion_nuevo' %}"><span class="badge bg-success">Crear</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row w-100 p-2 m-0">
+  {% for investigacion in object_list %}
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4>{{investigacion.titulo}}</h4>
+      </div>
+
+      <div class="card-body">
+        <h5>Autores</h5>
+        <p>{{investigacion.autores.all|join:", "}}</p>
+        <hr/>
+
+        <h5>Categorías</h5>
+        <p>{{investigacion.categorias.all|join:", "}}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block elemento_activo %}investigaciones{% endblock %}

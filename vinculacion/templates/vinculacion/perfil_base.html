@@ -28,6 +28,11 @@
               <a class="nav-link" id="miembros" href="{% url 'vinculacion:institucion_educativa_miembros' %}">Miembros</a>
             </li>
           {% endif %}
+          {% if user.tipo_usuario.tipo == "Investigador" %}
+          <li class="nav-item">
+            <a class="nav-link" id="investigaciones" href="{% url 'vinculacion:investigaciones' %}">Investigaciones</a>
+          </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link" id="eliminar" href="{% url 'vinculacion:usuario_eliminar' %}">Eliminar mi cuenta</a>
           </li>
