@@ -1,34 +1,56 @@
-{% extends 'vinculacion/perfil_base.html' %}
+{% extends 'vinculacion/base.html' %}
 {% load static %}
 
-{% block contenido_perfil %}
+{% block extraresources %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block contenido %}
 
 <div class="row w-100 p-2 m-0">
-  <div class="col-md-4">
-    <div class="card">
-      <div class="card-body">
+  <div class="col-md-4 col-sm-12">
 
-        <div class="d-flex align-items-center">
-          <div class="avatar avatar-xl">
-            <img src="{% static 'dist/assets/images/faces/1.jpg' %}" alt="Face 1">
-          </div>
-          <div class="ms-3 name">
-            <h5 class="font-bold">{{user.username}}</h5>
-            <h6 class="text-muted mb-0">@johnducky</h6>
+        <div class="card">
+          <div class="card-content">
+              <img class="card-img-top img-fluid" width="75" src="{{MEDIA_URL}}/{{investigador.imagen}}"
+                alt="Investigador" style="height: 20rem; width: 75%;display: block; margin-left: auto; margin-right: auto;" />
+              <div class="card-body">
+                  <h3 class="card-title">{{investigador.user.username}}</h4>
+                  <p class="card-text">
+                    <strong>Nivel: </strong>
+                    {% for i in "x"|ljust:investigador.nivel.nivel %}
+                    <i class="fa fa-star"></i>
+                    {% endfor %}
+                  </p>
+                  <p class="card-text" style="text-align:justify; text-justify:inter-word">
+                      {{investigador.acerca_de}}
+                  </p>
+                  <button class="btn btn-primary block">Solicitar trabajo</button>
+              </div>
           </div>
         </div>
 
-      </div>
-    </div>
   </div>
 
 
   <div class="col-md-8">
-    <div class="card">
-      <div class="card-body px-5 py-4">
-        <h5>{{user.username}}</h5>
-      </div>
-    </div>
+    <h3>Investigaciones</h5>
+      {% for investigacion in investigaciones %}
+        <div class="card">
+          <div class="card-header">
+            <h4>{{investigacion.titulo}}</h4>
+          </div>
+
+          <div class="card-body">
+            <h5>Autores</h5>
+            <p>{{investigacion.autores.all|join:", "}}</p>
+            <hr/>
+
+            <h5>Categorías</h5>
+            <p>{{investigacion.categorias.all|join:", "}}</p>
+          </div>
+        </div>
+      {% endfor %}
   </div>
 </div>
 

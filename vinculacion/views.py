@@ -5,6 +5,7 @@ from usuarios.models import TipoUsuario
 from vinculacion.models import Categoria, Noticia
 from django.views import View
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView
+from django.views.generic.detail import DetailView
 from django.http.response import JsonResponse
 from administracion.forms import FormInvestigadorBase, FormEmpresaUpdate, FormInstitucionEducativaUpdate, FormInvestigacion
 from investigadores.models import Investigador, NivelInvestigador, Investigacion, SolicitudTrabajo
@@ -284,6 +285,12 @@ def investigadores_lista(request):
         categorias.append(list(categorias_investigador))
 
     return render(request, "vinculacion/investigadores_lista.html", {"investigadores":zip(investigadores, categorias)})
+
+def investigador_perfil(request, investigador_id):
+    investigador = Investigador.objects.get(pk = investigador_id)
+    investigaciones = Investigacion.objects.filter(autores__in=[investigador])
+
+    return render(request, "vinculacion/perfil_investigador.html", {"investigador":investigador, "investigaciones":investigaciones})
 
 @login_required
 def empresas_lista(request):
