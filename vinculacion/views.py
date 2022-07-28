@@ -6,7 +6,7 @@ from vinculacion.models import Categoria, Noticia
 from django.views import View
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView
 from django.http.response import JsonResponse
-from administracion.forms import FormInvestigadorBase, FormEmpresaUpdate, FormInstitucionEducativaUpdate
+from administracion.forms import FormInvestigadorBase, FormEmpresaUpdate, FormInstitucionEducativaUpdate, FormInvestigacion
 from investigadores.models import Investigador, NivelInvestigador, Investigacion, SolicitudTrabajo
 from empresas.models import Empresa
 from instituciones_educativas.models import InstitucionEducativa, SolicitudIngreso
@@ -348,3 +348,24 @@ def miembroEliminar(request, investigador_id):
     institucion.miembros.remove(investigador)
 
     return redirect("vinculacion:institucion_educativa_miembros")
+
+class InvestigadorInvestigaciones(ListView):
+    model = Investigacion
+    template_name = "vinculacion/investigaciones_lista.html"
+
+    def get_queryset(self):
+        investigador = get_object_or_404(Investigador, user=self.request.user)
+        return Investigacion.objects.filter(autores__in=[investigador])
+
+class InvestigacionNuevo(CreateView):
+    model = Investigacion
+    form_class = FormInvestigacion
+    success_url = reverse_lazy('vinculacion:investigaciones')
+    template_name = "vinculacion/formulario_perfil.html"
+
+    def form_valid(self, form):
+        investigador = get_object_or_404(Investigador, user=self.request.user)
+        investigacion = form.save()
+        if investigador not in investigacion.autores.all():
+            investigacion.autores.add(investigador)
+        return redirect(self.success_url)
