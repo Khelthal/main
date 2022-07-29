@@ -58,8 +58,8 @@ ESTADOS = [
 
 class SolicitudTrabajo(models.Model):
     titulo = models.CharField(verbose_name="Título", max_length=200)
-    usuario_a_vincular = models.ForeignKey(Investigador, verbose_name="Usuario a vincular", on_delete=models.DO_NOTHING)
-    usuario_solicitante = models.ForeignKey(User, verbose_name="Usuario solicitante", on_delete=models.DO_NOTHING)
+    usuario_a_vincular = models.ForeignKey(Investigador, verbose_name="Usuario a vincular", on_delete=models.CASCADE)
+    usuario_solicitante = models.ForeignKey(User, verbose_name="Usuario solicitante", on_delete=models.CASCADE)
     estado = models.CharField(choices=ESTADOS, verbose_name="Estado", max_length=2)
     
     def __str__(self):

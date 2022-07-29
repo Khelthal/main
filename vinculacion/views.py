@@ -108,6 +108,7 @@ class InvestigadorSolicitud(CreateView):
     model = Investigador
     form_class = FormInvestigadorBase
     template_name = "vinculacion/formulario.html"
+    extra_context = { "formulario_archivos": True }
 
     def form_valid(self, form):
         investigador = form.save(commit=False)
@@ -133,6 +134,7 @@ class InvestigadorActualizar(UpdateView):
     model = Investigador
     form_class = FormInvestigadorBase
     template_name = "vinculacion/formulario_perfil.html"
+    extra_context = { "formulario_archivos": True }
     
     def get_object(self):
         return get_object_or_404(Investigador, user=self.request.user)
@@ -157,6 +159,7 @@ class EmpresaSolicitud(CreateView):
     model = Empresa
     form_class = FormEmpresaUpdate
     template_name = "vinculacion/formulario.html"
+    extra_context = { "formulario_archivos": True }
 
     def form_valid(self, form):
         empresa = form.save(commit=False)
@@ -182,6 +185,7 @@ class EmpresaActualizar(UpdateView):
     model = Empresa
     form_class = FormEmpresaUpdate
     template_name = "vinculacion/formulario_perfil.html"
+    extra_context = { "formulario_archivos": True }
 
     def get_object(self):
         return get_object_or_404(Empresa, encargado=self.request.user)
@@ -207,6 +211,7 @@ class InstitucionEducativaSolicitud(CreateView):
     model = InstitucionEducativa
     form_class = FormInstitucionEducativaUpdate
     template_name = "vinculacion/formulario.html"
+    extra_context = { "formulario_archivos": True }
 
     def form_valid(self, form):
         institucion_educativa = form.save(commit=False)
@@ -232,6 +237,7 @@ class InstitucionEducativaActualizar(UpdateView):
     model = InstitucionEducativa
     form_class = FormInstitucionEducativaUpdate
     template_name = "vinculacion/formulario_perfil.html"
+    extra_context = { "formulario_archivos": True }
 
     def get_object(self):
         return get_object_or_404(InstitucionEducativa, encargado=self.request.user)

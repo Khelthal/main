@@ -21,7 +21,7 @@
         <div class="alert alert-success">{{message}}</div>
         {% endif %}
         {% endfor %}
-        <form method="POST">
+        <form method="POST" {% if formulario_archivos %}enctype="multipart/form-data"{% endif %}>
           {% csrf_token %}
           {{form.as_p}}
           <div class="col-12 d-flex justify-content-end">

@@ -22,7 +22,7 @@
       </div>
       <div class="card-content">
         <div class="card-body">
-          <form class="form form-vertical" method="POST">
+          <form class="form form-vertical" method="POST" {% if formulario_archivos %}enctype="multipart/form-data"{% endif %}>
             {% csrf_token %}
             <div class="form-body">
               <div class="row">

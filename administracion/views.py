@@ -113,7 +113,7 @@ class InvestigadorNuevo(CreateView):
     form_class = FormInvestigador
     success_url = reverse_lazy('administracion:investigadores_lista')
     template_name = "administracion/formulario.html"
-    extra_context = { "accion": "Crear", "nombre_modelo": "investigador" }
+    extra_context = { "accion": "Crear", "nombre_modelo": "investigador", "formulario_archivos": True }
 
     def form_valid(self, form):
         investigador = form.save(commit=False)
@@ -139,7 +139,7 @@ class InvestigadorEditar(UpdateView):
     form_class = FormInvestigadorUpdate
     success_url = reverse_lazy('administracion:investigadores_lista')
     template_name = "administracion/formulario.html"
-    extra_context = { "accion": "Editar", "nombre_modelo": "investigador" }
+    extra_context = { "accion": "Editar", "nombre_modelo": "investigador", "formulario_archivos": True }
 
     def form_valid(self, form):
         investigador = form.save(commit=False)
@@ -191,7 +191,7 @@ class EmpresaNuevo(CreateView):
     form_class = FormEmpresa
     success_url = reverse_lazy('administracion:empresas_lista')
     template_name = "administracion/formulario.html"
-    extra_context = { "accion": "Crear", "nombre_modelo": "empresa" }
+    extra_context = { "accion": "Crear", "nombre_modelo": "empresa", "formulario_archivos": True }
 
     def form_valid(self, form):
         empresa = form.save(commit=False)
@@ -218,7 +218,7 @@ class EmpresaEditar(UpdateView):
     form_class = FormEmpresaUpdate
     success_url = reverse_lazy('administracion:empresas_lista')
     template_name = "administracion/formulario.html"
-    extra_context = { "accion": "Editar", "nombre_modelo": "empresa" }
+    extra_context = { "accion": "Editar", "nombre_modelo": "empresa", "formulario_archivos": True }
 
     def form_valid(self, form):
         empresa = form.save(commit=False)
@@ -271,7 +271,7 @@ class InstitucionEducativaNuevo(CreateView):
     form_class = FormInstitucionEducativa
     success_url = reverse_lazy('administracion:instituciones_educativas_lista')
     template_name = "administracion/formulario.html"
-    extra_context = { "accion": "Crear", "nombre_modelo": "institución educativa" }
+    extra_context = { "accion": "Crear", "nombre_modelo": "institución educativa", "formulario_archivos": True }
 
     def form_valid(self, form):
         institucion_educativa = form.save(commit=False)
@@ -298,7 +298,7 @@ class InstitucionEducativaEditar(UpdateView):
     form_class = FormInstitucionEducativaUpdate
     success_url = reverse_lazy('administracion:instituciones_educativas_lista')
     template_name = "administracion/formulario.html"
-    extra_context = { "accion": "Editar", "nombre_modelo": "institución educativa" }
+    extra_context = { "accion": "Editar", "nombre_modelo": "institución educativa", "formulario_archivos": True }
 
     def form_valid(self, form):
         institucion_educativa = form.save(commit=False)
