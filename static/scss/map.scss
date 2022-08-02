@@ -1,57 +1,15 @@
 @import "colorscheme.scss";
 
 .theme-dark, .theme-light {
-  .screen_container {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-  }
-
   .main-scroll {
-    flex-grow: 1;
     width: 100%;
     overflow: scroll;
   }  
 
-  .app-navbar {
-    display: flex;
-    background-color: $primary-color;
-    
-    ul {
-      display: flex;
-      justify-content: space-around;
-      padding: 0;
-      margin: 0;
-      width: 100%;
-      list-style: none;
-
-      a, li {
-        text-decoration: none;
-        font-weight: bold;
-        display: flex;
-        color: $font-color;
-      }
-    
-      span {
-        margin-left: 10px;
-        font-size: 18px;
-      }
-    
-      a {
-        padding: 10px;
-      }
-      
-      .toggle-menu {
-        display: none;
-      }
-    }
-  } 
-  
   .titulo-seccion {
     margin: 50px;
   }
-
+  
   .noticia {
     min-height: 600px;
     border: 1px solid lightgray;

@@ -13,8 +13,8 @@
 
 {% block contenido %}
 
-<div class="d-flex flex-wrap w-100 h-100 p-3">
-  <div class="card h-100 overflow-auto filtro mr-5" id="search-side">
+<div class="d-flex flex-wrap w-100 p-3">
+  <div class="card filtro mr-5" id="search-side">
     <div class="card-body">
       <button type="button" class="mb-4 btn btn-primary filtro-btn-in" onclick="hideSearchSide(); reescalarMapa()"><i
           class="bi bi-list"></i></button>
@@ -103,7 +103,7 @@
     </div>
   </div>
 
-  <div class="card h-100 map" id="map">
+  <div class="card map" id="map">
     <div class="card-body">
       <button type="button" class="btn btn-primary filtro-btn-out oculto" id="filtro-btn-out"
         onclick="showSearchSide(); reescalarMapa()"><i class="bi bi-list"></i></button>

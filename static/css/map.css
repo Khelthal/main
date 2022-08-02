@@ -1,48 +1,6 @@
-.theme-dark .screen_container, .theme-light .screen_container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
 .theme-dark .main-scroll, .theme-light .main-scroll {
-  flex-grow: 1;
   width: 100%;
   overflow: scroll;
-}
-
-.theme-dark .app-navbar, .theme-light .app-navbar {
-  display: flex;
-  background-color: #83292b;
-}
-
-.theme-dark .app-navbar ul, .theme-light .app-navbar ul {
-  display: flex;
-  justify-content: space-around;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  list-style: none;
-}
-
-.theme-dark .app-navbar ul a, .theme-dark .app-navbar ul li, .theme-light .app-navbar ul a, .theme-light .app-navbar ul li {
-  text-decoration: none;
-  font-weight: bold;
-  display: flex;
-  color: white;
-}
-
-.theme-dark .app-navbar ul span, .theme-light .app-navbar ul span {
-  margin-left: 10px;
-  font-size: 18px;
-}
-
-.theme-dark .app-navbar ul a, .theme-light .app-navbar ul a {
-  padding: 10px;
-}
-
-.theme-dark .app-navbar ul .toggle-menu, .theme-light .app-navbar ul .toggle-menu {
-  display: none;
 }
 
 .theme-dark .titulo-seccion, .theme-light .titulo-seccion {
