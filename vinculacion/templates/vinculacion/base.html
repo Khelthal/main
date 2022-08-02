@@ -139,6 +139,15 @@
       </header>
 
       <div class="main-scroll">
+        <div class="position-absolute notificador p-3">
+          {% for message in messages %}
+          {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+          <div class="alert alert-danger alert-dismissible show fade">{{message}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+          {% else %}
+          <div class="alert alert-success alert-dismissible show fade">{{message}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+          {% endif %}
+          {% endfor %}
+        </div>
         {% block contenido %}
         {% endblock %}
       </div>

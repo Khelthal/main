@@ -10,10 +10,17 @@
   .main-scroll {
     width: 100%;
     flex-grow: 1;
+    position: relative;
     overflow: scroll;
     display: flex;
     flex-direction: column;
   }  
+  
+  .notificador {
+    width: 400px;
+    z-index: 10000;
+    right: 0;
+  }
 
   .titulo-seccion {
     margin: 50px;

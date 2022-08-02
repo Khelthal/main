@@ -14,13 +14,6 @@
         <h5>Datos de usuario</h5>
       </div>
       <div class="card-body">
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger">{{message}}</div>
-        {% else %}
-        <div class="alert alert-success">{{message}}</div>
-        {% endif %}
-        {% endfor %}
         <form method="POST" {% if formulario_archivos %}enctype="multipart/form-data"{% endif %}>
           {% csrf_token %}
           {{form.as_p}}
