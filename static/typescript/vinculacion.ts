@@ -7,6 +7,7 @@ interface User {
   tipoUsuario: string,
   categorias: Array<string>,
   municipio: number,
+  url: string,
 }
 
 interface ChoicesEvent {
@@ -106,7 +107,7 @@ function crearPinMapa(usuario: User, precision: number): void {
   let m: L.Marker = L.marker([usuario.latitud, usuario.longitud], {icon: icons[precision]});
   m.addTo(mapa).bindPopup(`
     <h3>${usuario.tipoUsuario}: ${usuario.username}</h3>
-    <a href="" class="btn btn-primary">Ver detalles</a>
+    <a href="${usuario.url}" class="btn btn-primary">Ver detalles</a>
     `);
   markers.push(m);
 }

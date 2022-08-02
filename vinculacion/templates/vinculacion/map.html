@@ -127,7 +127,8 @@
     "longitud": {{usuario.longitud}},
     "tipoUsuario": "{{usuario.tipoUsuario}}",
     "categorias": [{% for categoria in usuario.categorias %} "{{categoria}}",{% endfor %}],
-    "municipio": {{usuario.municipio}}
+    "municipio": {{usuario.municipio}},
+    "url": "{{usuario.url}}",
   },
   {% endfor %}
 ]);

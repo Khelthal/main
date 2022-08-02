@@ -39,6 +39,7 @@ def dashboard(request):
         "tipoUsuario": u.user.tipo_usuario.tipo,
         "categorias": list(set(itertools.chain.from_iterable([list(map(str, investigacion.categorias.all())) for investigacion in Investigacion.objects.filter(autores=u.pk)]))),
         "municipio": u.municipio,
+        "url": reverse_lazy("vinculacion:investigador_perfil", args=[u.pk])
     } for u in investigadores])
     usuarios.extend([{
         "username": u.encargado.username,
@@ -47,6 +48,7 @@ def dashboard(request):
         "tipoUsuario": u.encargado.tipo_usuario.tipo,
         "categorias": list(map(str, u.especialidades.all())),
         "municipio": u.municipio,
+        "url":""
     } for u in empresas])
     usuarios.extend([{
         "username": u.encargado.username,
@@ -55,6 +57,7 @@ def dashboard(request):
         "tipoUsuario": u.encargado.tipo_usuario.tipo,
         "categorias": list(map(str, u.especialidades.all())),
         "municipio": u.municipio,
+        "url":""
     } for u in instituciones_educativas])
     
     areas_conocimiento = list(set(map(lambda categoria: categoria.area_conocimiento, categorias)))
