@@ -1,6 +1,15 @@
+.theme-dark .screen-container, .theme-light .screen-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .theme-dark .main-scroll, .theme-light .main-scroll {
   width: 100%;
+  flex-grow: 1;
   overflow: scroll;
+  display: flex;
+  flex-direction: column;
 }
 
 .theme-dark .titulo-seccion, .theme-light .titulo-seccion {
