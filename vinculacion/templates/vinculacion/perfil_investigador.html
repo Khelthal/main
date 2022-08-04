@@ -25,7 +25,9 @@
                   <p class="card-text" style="text-align:justify; text-justify:inter-word">
                       {{investigador.acerca_de}}
                   </p>
-                  <button class="btn btn-primary block">Solicitar trabajo</button>
+                  {% if investigador.user != user%}
+                    <button class="btn btn-primary block">Solicitar trabajo</button>
+                  {% endif %}  
               </div>
           </div>
         </div>
