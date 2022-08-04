@@ -1,4 +1,5 @@
 from pathlib import Path
+from distro import version_parts
 from django.db import models
 from vinculacion.models import Categoria
 from usuarios.models import User, MUNICIPIOS
@@ -58,6 +59,7 @@ ESTADOS = [
 
 class SolicitudTrabajo(models.Model):
     titulo = models.CharField(verbose_name="Título", max_length=200)
+    descripcion = models.TextField(verbose_name="Descripción", max_length=5000)
     usuario_a_vincular = models.ForeignKey(Investigador, verbose_name="Usuario a vincular", on_delete=models.CASCADE)
     usuario_solicitante = models.ForeignKey(User, verbose_name="Usuario solicitante", on_delete=models.CASCADE)
     estado = models.CharField(choices=ESTADOS, verbose_name="Estado", max_length=2)
