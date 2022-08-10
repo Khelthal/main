@@ -94,18 +94,26 @@ def perfil(request):
     
     if tipo_usuario == "investigador":
         usuario_investigador = Investigador.objects.get(user=usuario)
-        # usuario_data = {
-        #     'email': usuario_investigador.email
-        # }
+        usuario_data = {
+            'email': usuario_investigador.user.email,
+            'imagen': usuario_investigador.imagen,
+        }
 
     elif tipo_usuario == "empresa":
-        pass
-    elif tipo_usuario == "institucion_educativa":
-        pass
-    else:
-        pass
+        usuario_empresa = Empresa.objects.get(encargado=usuario)
+        usuario_data = {
+            'email': usuario_empresa.encargado.email,
+            'imagen': usuario_empresa.imagen,
+        }
 
-    return render(request, f"vinculacion/perfil.html")
+    elif tipo_usuario == "institucion_educativa":
+        usuario_institucion = InstitucionEducativa.objects.get(encargado=usuario)
+        usuario_data = {
+            'email': usuario_institucion.encargado.email,
+            'imagen': usuario_institucion.imagen,
+        }
+
+    return render(request, "vinculacion/perfil.html", {"usuario_data":usuario_data})
 
 class InvestigadorSolicitud(CreateView):
     model = Investigador

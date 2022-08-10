@@ -10,7 +10,7 @@
 
         <div class="d-flex align-items-center overflow-auto">
           <div class="avatar avatar-xl">
-            <img src="{% static 'dist/assets/images/faces/1.jpg' %}" alt="Face 1">
+            <img src="{{MEDIA_URL}}/{{usuario_data.imagen}}" alt="Face 1">
           </div>
           <div class="ms-3 name">
             <h5 class="font-bold">{{user.username|capfirst}}</h5>
