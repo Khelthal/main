@@ -309,7 +309,6 @@ def empresas_lista(request):
 @login_required
 def instituciones_educativas_lista(request, solicitada=None):
     instituciones = InstitucionEducativa.objects.all()
-    print(type(solicitada))
     if request.user.tipo_usuario and request.user.tipo_usuario.tipo == "Investigador":
         investigador = Investigador.objects.get(user = request.user)
 

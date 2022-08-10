@@ -14,7 +14,7 @@
         <h5>Datos de usuario</h5>
       </div>
       <div class="card-body">
-        <form method="POST">
+        <form method="POST" {% if formulario_archivos %}enctype="multipart/form-data"{% endif %}>
           {% csrf_token %}
           {{form.as_p}}
           <div class="col-12 d-flex justify-content-end">
