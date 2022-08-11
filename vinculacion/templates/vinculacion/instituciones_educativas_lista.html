@@ -28,9 +28,17 @@
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">Especialidades: {{institucion_educativa.especialidades.all|join:", "}}</li>
-              <li class="list-group-item"><a href="" class="btn btn-primary">Contactar</a></li>
-              {% if user.tipo_usuario.tipo == "Investigador" and institucion_educativa.es_posible_solicitar == True%}
-                <li class="list-group-item"><a href="{% url 'vinculacion:crear_solicitud_ingreso' institucion_educativa.pk %}" class="btn btn-info">Solicitar ingreso</a></li>
+              <li class="list-group-item">
+                <a href="" class="btn btn-primary">Contactar</a>
+                {% if user.tipo_usuario.tipo == "Investigador" and institucion_educativa.es_posible_solicitar == True%}
+                  <a href="{% url 'vinculacion:crear_solicitud_ingreso' institucion_educativa.pk %}" class="btn btn-info">Solicitar ingreso</a>
+                {% endif %}
+              </li>
+              {% if user.tipo_usuario.tipo == "Investigador" and institucion_educativa.es_miembro == True%}
+                <li class="list-group-item"><span class="badge bg-light-success">Miembro</span></li>
+              {% endif %}
+              {% if user.tipo_usuario.tipo == "Investigador" and institucion_educativa.es_posible_solicitar == False%}
+                <li class="list-group-item"><span class="badge bg-light-warning">Solicitud enviada</span></li>
               {% endif %}
             </ul>
           </div>

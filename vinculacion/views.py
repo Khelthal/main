@@ -330,6 +330,11 @@ def instituciones_educativas_lista(request):
                         institucion.es_posible_solicitar = False
                         break
 
+            institucion.es_miembro = False
+            if investigador in institucion.miembros.all():
+                institucion.es_miembro = True
+                institucion.es_posible_solicitar = False
+
     return render(request, "vinculacion/instituciones_educativas_lista.html", {"instituciones":instituciones})
 
 @login_required
