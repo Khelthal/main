@@ -315,7 +315,7 @@ def empresas_lista(request):
     return render(request, "vinculacion/empresas_lista.html", {"empresas":empresas})
 
 @login_required
-def instituciones_educativas_lista(request, solicitada=None):
+def instituciones_educativas_lista(request):
     instituciones = InstitucionEducativa.objects.all()
     if request.user.tipo_usuario and request.user.tipo_usuario.tipo == "Investigador":
         investigador = Investigador.objects.get(user = request.user)
@@ -330,10 +330,7 @@ def instituciones_educativas_lista(request, solicitada=None):
                         institucion.es_posible_solicitar = False
                         break
 
-    if solicitada != None:
-        solicitada = InstitucionEducativa.objects.get(pk = solicitada)
-
-    return render(request, "vinculacion/instituciones_educativas_lista.html", {"instituciones":instituciones, "institucion":solicitada})
+    return render(request, "vinculacion/instituciones_educativas_lista.html", {"instituciones":instituciones})
 
 @login_required
 def crearSolicitudIngreso(request, institucion_id):
@@ -341,15 +338,17 @@ def crearSolicitudIngreso(request, institucion_id):
     investigador = Investigador.objects.get(user = request.user)
     solicitud_ingreso = SolicitudIngreso(institucion_educativa=institucion, investigador=investigador)
     solicitud_ingreso.save()
+    messages.success(request, "Solicitud de ingreso a la institución "+str(institucion)+" enviada")
 
-    return redirect("vinculacion:instituciones_educativas_lista", institucion.pk)
+    return redirect("vinculacion:instituciones_educativas_lista")
 
 @login_required
 def contestarSolicitudIngreso(request, investigador_id, respuesta):
 
+    investigador = Investigador.objects.get(pk = investigador_id)
+
     if respuesta == 1:
         institucion = InstitucionEducativa.objects.get(encargado = request.user)
-        investigador = Investigador.objects.get(pk = investigador_id)
         institucion.miembros.add(investigador)
 
     solicitud = SolicitudIngreso.objects.get(investigador = investigador)
