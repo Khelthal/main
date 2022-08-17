@@ -396,3 +396,12 @@ class InvestigacionNuevo(CreateView):
         if investigador not in investigacion.autores.all():
             investigacion.autores.add(investigador)
         return redirect(self.success_url)
+
+def crearSolicitudIngreso(request, institucion_id):
+    institucion = InstitucionEducativa.objects.get(pk = institucion_id)
+    investigador = Investigador.objects.get(user = request.user)
+    solicitud_ingreso = SolicitudIngreso(institucion_educativa=institucion, investigador=investigador)
+    solicitud_ingreso.save()
+    messages.success(request, "Solicitud de ingreso a la institución "+str(institucion)+" enviada")
+
+    return redirect("vinculacion:instituciones_educativas_lista")
