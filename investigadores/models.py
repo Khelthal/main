@@ -50,11 +50,9 @@ class GrupoInvestigacion(models.Model):
     integrantes = models.ManyToManyField(Investigador, related_name='%(class)s_integrantes')
 
 ESTADOS = [
-    ("P", "En proceso"),
-    ("F", "Finalizada"),
-    ("I", "Incumplida"),
+    ("E", "En espera"),
+    ("A", "Aceptada"),
     ("R", "Rechazada"),
-    ("C", "Cancelada"),
 ]
 
 class SolicitudTrabajo(models.Model):
@@ -62,7 +60,7 @@ class SolicitudTrabajo(models.Model):
     descripcion = models.TextField(verbose_name="Descripción", max_length=5000)
     usuario_a_vincular = models.ForeignKey(Investigador, verbose_name="Usuario a vincular", on_delete=models.CASCADE)
     usuario_solicitante = models.ForeignKey(User, verbose_name="Usuario solicitante", on_delete=models.CASCADE)
-    estado = models.CharField(choices=ESTADOS, verbose_name="Estado", max_length=2)
+    estado = models.CharField(choices=ESTADOS, verbose_name="Estado", max_length=1)
     
     def __str__(self):
         return self.titulo
