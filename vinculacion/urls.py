@@ -15,7 +15,6 @@ urlpatterns = [
     path('investigador/solicitud_ingreso/<int:institucion_id>', crearSolicitudIngreso, name='crear_solicitud_ingreso'),
     path('institucion_educativa/solicitud_ingreso/<int:investigador_id>/<int:respuesta>', contestarSolicitudIngreso, name='contestar_solicitud_ingreso'),
     path('institucion_educativa/miembros/eliminar/<int:investigador_id>', miembroEliminar, name='miembro_eliminar'),
-    path('perfil/investigaciones', InvestigadorInvestigaciones.as_view(),name='investigaciones'),
     
     # Formularios
     path('formularios/investigador', InvestigadorSolicitud.as_view(), name='investigador_form'),
@@ -32,6 +31,7 @@ urlpatterns = [
     
     # Listas
     path('investigadores', investigadores_lista, name='investigadores_lista'),
+    path('perfil/investigaciones', InvestigadorInvestigaciones.as_view(),name='investigaciones_lista'),
     path('empresas', empresas_lista, name="empresas_lista"),
     path('instituciones_educativas/', instituciones_educativas_lista, name="instituciones_educativas_lista"),
     path('institucion_educativa/solicitud_ingreso', solicitudIngresoLista, name="institucion_educativa_solicitudes"),

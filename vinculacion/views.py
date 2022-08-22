@@ -308,7 +308,7 @@ def investigador_perfil(request, investigador_id):
     investigador = Investigador.objects.get(pk = investigador_id)
     investigaciones = Investigacion.objects.filter(autores__in=[investigador])
 
-    return render(request, "vinculacion/perfil_investigador.html", {"investigador":investigador, "investigaciones":investigaciones})
+    return render(request, "vinculacion/perfil_investigador.html", {"investigador":investigador, "investigaciones_lista":investigaciones})
 
 @login_required
 def empresas_lista(request):
@@ -388,7 +388,7 @@ class InvestigadorInvestigaciones(ListView):
 class InvestigacionNuevo(CreateView):
     model = Investigacion
     form_class = FormInvestigacion
-    success_url = reverse_lazy('vinculacion:investigaciones')
+    success_url = reverse_lazy('vinculacion:investigaciones_lista')
     template_name = "vinculacion/formulario_perfil.html"
 
     def form_valid(self, form):

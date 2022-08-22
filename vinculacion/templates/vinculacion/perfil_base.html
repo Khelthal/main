@@ -29,9 +29,9 @@
             </li>
           {% endif %}
           {% if user.tipo_usuario.tipo == "Investigador" %}
-          <li class="nav-item">
-            <a class="nav-link" id="investigaciones" href="{% url 'vinculacion:investigaciones' %}">Investigaciones</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" id="investigaciones" href="{% url 'vinculacion:investigaciones_lista' %}">Investigaciones</a>
+            </li>
           {% endif %}
           <li class="nav-item">
             <a class="nav-link" id="eliminar" href="{% url 'vinculacion:usuario_eliminar' %}">Eliminar mi cuenta</a>
