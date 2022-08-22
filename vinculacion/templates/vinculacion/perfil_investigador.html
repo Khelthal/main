@@ -26,7 +26,7 @@
                       {{investigador.acerca_de}}
                   </p>
                   {% if investigador.user != user%}
-                    <button class="btn btn-primary block">Solicitar trabajo</button>
+                    <a href="{% url 'vinculacion:solicitud_trabajo_nueva' investigador.pk%}" class="btn btn-primary block">Solicitar trabajo</a>
                   {% endif %}  
               </div>
           </div>

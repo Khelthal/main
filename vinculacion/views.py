@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from investigadores.forms import SolicitudTrabajoForm
 from usuarios.models import TipoUsuario
 from vinculacion.models import Categoria, Noticia
 from django.views import View
@@ -397,11 +398,23 @@ class InvestigacionNuevo(CreateView):
             investigacion.autores.add(investigador)
         return redirect(self.success_url)
 
-def crearSolicitudIngreso(request, institucion_id):
-    institucion = InstitucionEducativa.objects.get(pk = institucion_id)
-    investigador = Investigador.objects.get(user = request.user)
-    solicitud_ingreso = SolicitudIngreso(institucion_educativa=institucion, investigador=investigador)
-    solicitud_ingreso.save()
-    messages.success(request, "Solicitud de ingreso a la institución "+str(institucion)+" enviada")
+def solicitudTrabajoNueva(request, investigador_id):
+    form = SolicitudTrabajoForm()
 
-    return redirect("vinculacion:instituciones_educativas_lista")
+    context = {}
+
+    if request.method == "POST":
+        form = SolicitudTrabajoForm(request.POST)
+        if form.is_valid():
+            solicitud = form.save(commit = False)
+            solicitud.usuario_solicitante = User.objects.get(pk = request.user.pk)
+            investigador = Investigador.objects.get(pk = investigador_id)
+            solicitud.usuario_a_vincular = investigador
+            solicitud.estado = "E"
+            solicitud.save()
+            return redirect("vinculacion:investigador_perfil", investigador_id)
+
+    context["form"] = form
+    context["titulo"] = "Solicitud de Trabajo"
+
+    return render(request, "vinculacion/formulario.html", context)

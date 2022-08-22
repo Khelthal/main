@@ -20,6 +20,7 @@ urlpatterns = [
     # Formularios
     path('formularios/investigador', InvestigadorSolicitud.as_view(), name='investigador_form'),
     path('formularios/investigador/actualizar', InvestigadorActualizar.as_view(), name='investigador_actualizar'),
+    path('formularios/solicitudTrabajo/<int:investigador_id>', solicitudTrabajoNueva, name='solicitud_trabajo_nueva'),
 
     path('formularios/empresa', EmpresaSolicitud.as_view(), name='empresa_form'),
     path('formularios/empresa/actualizar', EmpresaActualizar.as_view(), name='empresa_actualizar'),
