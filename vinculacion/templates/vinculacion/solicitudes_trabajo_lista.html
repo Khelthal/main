@@ -1,0 +1,27 @@
+{% extends 'vinculacion/perfil_base.html' %}
+{% load static %}
+
+{% block contenido_perfil %}
+
+<div class="row w-100 p-2 m-0">
+  {% for solicitud_trabajo in object_list %}
+  <div class="col-md-6">
+
+    <div class="card">
+      <div class="card-header">
+        <h4>{{solicitud_trabajo.titulo}}</h4>
+      </div>
+
+      <div class="card-body">
+        <h5>Solicitante</h5>
+        <p>{{solicitud_trabajo.usuario_solicitante}}</p>
+      </div>
+    </div>
+
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block elemento_activo %}solicitudes_trabajo{% endblock %}

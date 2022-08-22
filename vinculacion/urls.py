@@ -32,6 +32,7 @@ urlpatterns = [
     # Listas
     path('investigadores', investigadores_lista, name='investigadores_lista'),
     path('perfil/investigaciones', InvestigadorInvestigaciones.as_view(),name='investigaciones_lista'),
+    path('perfil/solicitudes_trabajo', InvestigadorSolicitudesTrabajo.as_view(),name='solicitudes_trabajo_lista'),
     path('empresas', empresas_lista, name="empresas_lista"),
     path('instituciones_educativas/', instituciones_educativas_lista, name="instituciones_educativas_lista"),
     path('institucion_educativa/solicitud_ingreso', solicitudIngresoLista, name="institucion_educativa_solicitudes"),

@@ -385,6 +385,14 @@ class InvestigadorInvestigaciones(ListView):
         investigador = get_object_or_404(Investigador, user=self.request.user)
         return Investigacion.objects.filter(autores__in=[investigador])
 
+class InvestigadorSolicitudesTrabajo(ListView):
+    model = SolicitudTrabajo
+    template_name = "vinculacion/solicitudes_trabajo_lista.html"
+
+    def get_queryset(self):
+        investigador = get_object_or_404(Investigador, user=self.request.user)
+        return SolicitudTrabajo.objects.filter(usuario_a_vincular__in=[investigador])
+
 class InvestigacionNuevo(CreateView):
     model = Investigacion
     form_class = FormInvestigacion
