@@ -412,6 +412,7 @@ def solicitudTrabajoNueva(request, investigador_id):
             solicitud.usuario_a_vincular = investigador
             solicitud.estado = "E"
             solicitud.save()
+            messages.success(request, "Solicitud de trabajo a el investigador "+str(investigador)+" enviada")
             return redirect("vinculacion:investigador_perfil", investigador_id)
 
     context["form"] = form
