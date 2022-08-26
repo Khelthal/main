@@ -49,4 +49,10 @@ urlpatterns = [
     path('investigaciones/nuevo', user_passes_test(user_is_staff_member)(InvestigacionNuevo.as_view()), name='investigaciones_nuevo'),
     path('investigaciones/editar/<int:pk>', user_passes_test(user_is_staff_member)(InvestigacionEditar.as_view()), name='investigaciones_editar'),
     path('investigaciones/eliminar/<int:pk>', user_passes_test(user_is_staff_member)(InvestigacionEliminar.as_view()), name='investigaciones_eliminar'),
+
+    #Noticias
+    path('noticias/lista', user_passes_test(user_is_staff_member)(NoticiaLista.as_view()), name='noticias_lista'),
+    path('noticias/nuevo', user_passes_test(user_is_staff_member)(NoticiaNueva.as_view()), name='noticias_nuevo'),
+    path('noticias/editar/<int:pk>', user_passes_test(user_is_staff_member)(NoticiaEditar.as_view()), name='noticias_editar'),
+    path('noticias/eliminar/<int:pk>', user_passes_test(user_is_staff_member)(NoticiaEliminar.as_view()), name='noticias_eliminar'),
 ]

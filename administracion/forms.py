@@ -2,7 +2,7 @@ from django import forms
 from usuarios.models import User
 from investigadores.models import Investigador, Investigacion
 from empresas.models import Empresa
-from vinculacion.models import Categoria
+from vinculacion.models import Categoria, Noticia
 from instituciones_educativas.models import InstitucionEducativa
 
 class FormUser(forms.ModelForm):
@@ -222,4 +222,15 @@ class FormInvestigacion(forms.ModelForm):
             'categorias': forms.SelectMultiple(attrs={'class':'choices form-select multiple-remove'}),
             'autores': forms.SelectMultiple(attrs={'class':'choices form-select multiple-remove'}),
             'contenido': forms.Textarea(attrs={'class':'form-control'}),
+        }
+
+class FormNoticia(forms.ModelForm):
+    class Meta:
+        model = Noticia
+        exclude = ['fecha']
+
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class':'form-control'}),
+            'contenido': forms.Textarea(attrs={'class':'form-control'}),
+            'escritor': forms.Select(attrs={'class':'choices form-select'}),
         }

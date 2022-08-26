@@ -413,3 +413,42 @@ class InvestigacionEliminar(DeleteView):
     def post(self, request, *args, **kwargs):
         messages.success(self.request, "Investigación eliminada correctamente")
         return self.delete(request, *args, **kwargs)
+
+class NoticiaLista(ListView):
+    model = Noticia
+    context_object_name = "noticias"
+    template_name = "administracion/noticias_lista.html"
+
+class NoticiaNueva(CreateView):
+    model = Noticia
+    form_class = FormNoticia
+    success_url = reverse_lazy('administracion:noticias_lista')
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Crear", "nombre_modelo": "noticia", "formulario_archivos": True }
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Noticia registrada correctamente")
+        return redirect(self.success_url)
+
+class NoticiaEditar(UpdateView):
+    model = Noticia
+    form_class = FormNoticia
+    success_url = reverse_lazy('administracion:noticias_lista')
+    template_name = "administracion/formulario.html"
+    extra_context = { "accion": "Crear", "nombre_modelo": "noticia", "formulario_archivos": True }
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Noticia actualizada correctamente")
+        return redirect(self.success_url)
+
+class NoticiaEliminar(DeleteView):
+    model = Noticia
+    success_url = reverse_lazy('administracion:noticias_lista')
+    template_name = "administracion/confirm_delete.html"
+    extra_context = { "nombre_modelo": "noticia" }
+
+    def post(self, request, *args, **kwargs):
+        messages.success(self.request, "Noticia eliminada correctamente")
+        return self.delete(request, *args, **kwargs)
