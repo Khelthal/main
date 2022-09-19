@@ -14,6 +14,33 @@
       </div>
     </div>
   </div>
+
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h4>Cargar investigaciones desde google scholar</h4>
+      </div>
+      <div class="card-body">
+        <form class="form form-vertical" method="POST" action="{% url 'vinculacion:investigaciones_fetch' %}">
+          {% csrf_token %}
+          <div class="form-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="profile-url">Ingresa enlace a tu perfil de google scholar</label>
+                  <input class="form-control" name="profile-url" id="profile-url">
+                </div>
+              </div>
+
+              <div class="col-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary me-1 mb-1">Cargar investigaciones</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="row w-100 p-2 m-0">
