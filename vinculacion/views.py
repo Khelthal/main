@@ -4,10 +4,7 @@ from django.contrib.auth.decorators import login_required
 from investigadores.forms import SolicitudTrabajoForm
 from usuarios.models import TipoUsuario
 from vinculacion.models import Categoria, Noticia
-from django.views import View
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView
-from django.views.generic.detail import DetailView
-from django.http.response import JsonResponse
 from administracion.forms import FormInvestigadorBase, FormEmpresaUpdate, FormInstitucionEducativaUpdate, FormInvestigacion
 from investigadores.models import Investigador, NivelInvestigador, Investigacion, SolicitudTrabajo
 from empresas.models import Empresa
@@ -15,9 +12,9 @@ from instituciones_educativas.models import InstitucionEducativa, SolicitudIngre
 from django.contrib import messages
 from administracion.helpers import obtener_coordenadas
 from usuarios.models import User, MUNICIPIOS
-import requests
-import json
 import itertools
+from urllib.parse import urlparse, parse_qs
+from scholarly import scholarly, ProxyGenerator
 
 # Create your views here.
 def index(request):
@@ -305,7 +302,7 @@ def investigadores_lista(request):
     return render(request, "vinculacion/investigadores_lista.html", {"investigadores":zip(investigadores, categorias)})
 
 def investigador_perfil(request, investigador_id):
-    investigador = Investigador.objects.get(pk = investigador_id)
+    investigador = Investigador.objects.get(pk=investigador_id)
     investigaciones = Investigacion.objects.filter(autores__in=[investigador])
 
     return render(request, "vinculacion/perfil_investigador.html", {"investigador":investigador, "investigaciones_lista":investigaciones})
@@ -405,6 +402,47 @@ class InvestigacionNuevo(CreateView):
         if investigador not in investigacion.autores.all():
             investigacion.autores.add(investigador)
         return redirect(self.success_url)
+
+
+def investigaciones_google(request):
+    if request.method == "POST":
+        investigador = get_object_or_404(Investigador, user=request.user)
+        parsed = urlparse(request.POST["profile-url"])
+        arguments = parse_qs(parsed.query)
+        user_id = arguments['user'][0]
+        pg = ProxyGenerator()
+        pg.FreeProxies()
+        scholarly.use_proxy(pg)
+
+        try:
+            author = scholarly.search_author_id(user_id, filled=True)
+        except:
+            messages.error(request, "No se encontró el perfil de google scholar")
+            return redirect("vinculacion:investigaciones_lista")
+
+        for publication in author["publications"]:
+            try:
+                publication = scholarly.fill(publication)
+            except:
+                pass
+
+            titulo = publication.get("bib", {}).get("title")
+
+            if titulo:
+                abstract = publication.get("bib", {}).get("abstract", "Contenido no encontrado")
+                pub_url = publication.get("pub_url")
+
+                if pub_url:
+                    abstract += f"\n\nVer más: {pub_url}"
+
+                investigacion = Investigacion.objects.create(
+                    titulo=titulo,
+                    contenido=abstract,
+                )
+                investigacion.autores.add(investigador),
+                investigacion.save()
+
+    return redirect("vinculacion:investigaciones_lista")
 
 def solicitudTrabajoNueva(request, investigador_id):
     form = SolicitudTrabajoForm()
