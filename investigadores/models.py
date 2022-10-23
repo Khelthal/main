@@ -1,11 +1,8 @@
 from pathlib import Path
-from distro import version_parts
 from django.db import models
 from vinculacion.models import Categoria
 from usuarios.models import User, MUNICIPIOS
-from investigadores.validators import *
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import fields
+from investigadores.validators import curp_validador
 from administracion.validators import cp_validator
 
 class NivelInvestigador(models.Model):
