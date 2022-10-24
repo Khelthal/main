@@ -417,6 +417,7 @@ def miembroEliminar(request, investigador_id):
 
 
 class InvestigadorInvestigaciones(ListView):
+    paginate_by = 10
     model = Investigacion
     template_name = "vinculacion/investigaciones_lista.html"
 
