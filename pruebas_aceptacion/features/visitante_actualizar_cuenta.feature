@@ -8,14 +8,14 @@ Característica: Actualizar cuenta
     Escenario: Ningún dato correcto para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
-        Y hago clic en el tipo investigador
+        Y hago clic en el tipo "Investigador"
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me pide que rellene el campo de "curp"
 
     Escenario: CURP vacío y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
-        Y hago clic en el tipo investigador
+        Y hago clic en el tipo "Investigador"
         Y relleno el campo de "codigo postal" con "99390" en el formulario
         Y elijo "Jerez" en el campo de "municipio" en el formulario
         Y relleno el campo de "colonia" con "Alamitos" en el formulario
@@ -29,7 +29,7 @@ Característica: Actualizar cuenta
     Escenario: Código postal vacío y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
-        Y hago clic en el tipo investigador
+        Y hago clic en el tipo "Investigador"
         Y relleno el campo de "curp" con "AUCJ011020HZSGRVA1" en el formulario
         Y elijo "Jerez" en el campo de "municipio" en el formulario
         Y relleno el campo de "colonia" con "Alamitos" en el formulario
@@ -43,7 +43,7 @@ Característica: Actualizar cuenta
     Escenario: Municipio vacío y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
-        Y hago clic en el tipo investigador
+        Y hago clic en el tipo "Investigador"
         Y relleno el campo de "curp" con "AUCJ011020HZSGRVA1" en el formulario
         Y relleno el campo de "codigo postal" con "99390" en el formulario
         Y relleno el campo de "colonia" con "Alamitos" en el formulario
@@ -57,7 +57,7 @@ Característica: Actualizar cuenta
     Escenario: Colonia vacía y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
-        Y hago clic en el tipo investigador
+        Y hago clic en el tipo "Investigador"
         Y relleno el campo de "curp" con "AUCJ011020HZSGRVA1" en el formulario
         Y relleno el campo de "codigo postal" con "99390" en el formulario
         Y elijo "Jerez" en el campo de "municipio" en el formulario
@@ -71,7 +71,7 @@ Característica: Actualizar cuenta
     Escenario: Calle vacía y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
-        Y hago clic en el tipo investigador
+        Y hago clic en el tipo "Investigador"
         Y relleno el campo de "curp" con "AUCJ011020HZSGRVA1" en el formulario
         Y relleno el campo de "codigo postal" con "99390" en el formulario
         Y elijo "Jerez" en el campo de "municipio" en el formulario
@@ -85,7 +85,7 @@ Característica: Actualizar cuenta
     Escenario: Número exterior vacío y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
-        Y hago clic en el tipo investigador
+        Y hago clic en el tipo "Investigador"
         Y relleno el campo de "curp" con "AUCJ011020HZSGRVA1" en el formulario
         Y relleno el campo de "codigo postal" con "99390" en el formulario
         Y elijo "Jerez" en el campo de "municipio" en el formulario
@@ -99,7 +99,7 @@ Característica: Actualizar cuenta
     Escenario: Acerca de vacío y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
-        Y hago clic en el tipo investigador
+        Y hago clic en el tipo "Investigador"
         Y relleno el campo de "curp" con "AUCJ011020HZSGRVA1" en el formulario
         Y relleno el campo de "codigo postal" con "99390" en el formulario
         Y elijo "Jerez" en el campo de "municipio" en el formulario
@@ -113,7 +113,7 @@ Característica: Actualizar cuenta
     Escenario: Imagen vacía y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
-        Y hago clic en el tipo investigador
+        Y hago clic en el tipo "Investigador"
         Y relleno el campo de "curp" con "AUCJ011020HZSGRVA1" en el formulario
         Y relleno el campo de "codigo postal" con "99390" en el formulario
         Y elijo "Jerez" en el campo de "municipio" en el formulario
@@ -127,7 +127,7 @@ Característica: Actualizar cuenta
     Escenario: Todos los datos correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
-        Y hago clic en el tipo investigador
+        Y hago clic en el tipo "Investigador"
         Y relleno el campo de "curp" con "AUCJ011020HZSGRVA1" en el formulario
         Y relleno el campo de "codigo postal" con "99390" en el formulario
         Y elijo "Jerez" en el campo de "municipio" en el formulario

@@ -16,9 +16,14 @@ def step_impl(context, usuario, contra):
     context.driver.find_element(By.NAME, 'password').send_keys(contra)
     context.driver.find_element(By.XPATH,"/html/body/div/div/div[1]/div/form/button").click()
 
-@given(u'hago clic en el tipo investigador')
-def step_impl(context):
-    context.driver.find_element(By.XPATH, '/html/body/div/div/div/div[2]/div/div[1]/a').click()
+@given(u'hago clic en el tipo "{tipo}"')
+def step_impl(context, tipo):
+    if tipo == "Investigador":
+        context.driver.find_element(By.ID, 'investigador').click()
+    if tipo == "Empresa":
+        context.driver.find_element(By.ID, 'empresa').click()
+    if tipo == "Institución Educativa":
+        context.driver.find_element(By.ID, 'institucion-educativa').click()
 
 @given(u'relleno el campo de "{campo}" con "{valor}" en el formulario')
 def step_impl(context, campo, valor):
