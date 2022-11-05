@@ -87,8 +87,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'vinculacion',
-        'USER': 'vinculacion_user',
-        'PASSWORD': 'vinculacion_password',
+        'USER': 'root',
+        'PASSWORD': 'vinculacion_root_password',
         'HOST': 'db-vinculacion',
         'PORT': 3306,
     }
