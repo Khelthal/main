@@ -36,12 +36,11 @@ def step_impl(context, curp, cp, municipio, colonia, calle, numero, acerca_de, i
     context.driver.find_element(By.NAME, 'numero_exterior').send_keys(numero)
     context.driver.find_element(By.NAME, 'acerca_de').send_keys(acerca_de)
     context.driver.find_element(By.NAME, 'imagen').send_keys(imagen)
-    sleep(3)
 
 @when(u'envío la solicitud presionando el botón de Guardar')
 def step_impl(context):
     context.driver.execute_script("window.scrollTo(0, 500)")
-    sleep(3)
+    sleep(5)
     context.driver.find_element(By.CLASS_NAME,"btn-primary").click()
 
 @then(u'se me indica que mi solicitud fue enviada')
@@ -50,3 +49,8 @@ def step_impl(context):
     tituloEsperado = "Sus datos están en espera de ser aprobados por un administrador"
 
     assert titulo == tituloEsperado
+
+@then(u'se me pide que rellene el campo de "{campo}"')
+def step_impl(context, campo):
+    campo = context.driver.find_element(By.NAME, 'curp')
+    assert campo == context.driver.switch_to.active_element
