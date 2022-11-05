@@ -54,8 +54,25 @@ def step_impl(context):
 
     assert titulo == tituloEsperado
 
-@then(u'se me pide que rellene el campo de "{campo}"')
+@then(u'se me pide que rellene correctamente el campo de "{campo}"')
 def step_impl(context, campo):
     campo = campo.replace(" ","_")
     campoEncontrado = context.driver.find_element(By.NAME, campo)
     assert campoEncontrado == context.driver.switch_to.active_element
+
+@then(u'se me muestra el mensaje de error "{mensaje}"')
+def step_impl(context, mensaje):
+    errores = context.driver.find_element(By.CLASS_NAME, "errorlist")
+    errores = errores.find_elements(By.TAG_NAME, "li")
+
+    texto_errores = []
+
+    for error in errores:
+        texto_errores.append(error.text)
+
+    assert mensaje in texto_errores
+
+@then(u'se me muestra la notificación de error "{mensaje}"')
+def step_impl(context, mensaje):
+    notificacion = context.driver.find_element(By.CLASS_NAME, "notificador").find_element(By.TAG_NAME, "div")
+    assert notificacion.text == mensaje
