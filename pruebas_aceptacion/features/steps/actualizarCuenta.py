@@ -40,6 +40,7 @@ def step_impl(context):
     context.driver.execute_script("window.scrollTo(0, 600)")
     sleep(5)
     context.driver.find_element(By.CLASS_NAME,"btn-primary").click()
+    sleep(3)
 
 @then(u'se me indica que mi solicitud fue enviada')
 def step_impl(context):
@@ -50,5 +51,6 @@ def step_impl(context):
 
 @then(u'se me pide que rellene el campo de "{campo}"')
 def step_impl(context, campo):
-    campo = context.driver.find_element(By.NAME, 'curp')
-    assert campo == context.driver.switch_to.active_element
+    campo = campo.replace(" ","_")
+    campoEncontrado = context.driver.find_element(By.NAME, campo)
+    assert campoEncontrado == context.driver.switch_to.active_element
