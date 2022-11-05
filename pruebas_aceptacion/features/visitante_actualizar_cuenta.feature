@@ -5,16 +5,14 @@ Característica: Actualizar cuenta
 
     # ---------- Actualizar a investigador ---------- #
 
-    # Ningún dato enviado para perfil de investigador
-    Escenario: 
+    Escenario: Ningún dato correcto para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
         Y hago clic en el tipo investigador
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me pide que rellene el campo de "curp"
 
-    # CURP vacío y los demás correctos enviado para perfil de investigador
-    Escenario: 
+    Escenario: CURP vacío y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
         Y hago clic en el tipo investigador
@@ -28,8 +26,7 @@ Característica: Actualizar cuenta
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me pide que rellene el campo de "curp"
 
-    # Código postal vacío y los demás correctos enviado para perfil de investigador
-    Escenario: 
+    Escenario: Código postal vacío y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
         Y hago clic en el tipo investigador
@@ -43,8 +40,7 @@ Característica: Actualizar cuenta
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me pide que rellene el campo de "codigo postal"
 
-    # Municipio vacío y los demás correctos enviado para perfil de investigador
-    Escenario: 
+    Escenario: Municipio vacío y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
         Y hago clic en el tipo investigador
@@ -58,8 +54,7 @@ Característica: Actualizar cuenta
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me pide que rellene el campo de "municipio"
 
-    # Colonia vacío y los demás correctos enviado para perfil de investigador
-    Escenario: 
+    Escenario: Colonia vacía y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
         Y hago clic en el tipo investigador
@@ -73,8 +68,7 @@ Característica: Actualizar cuenta
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me pide que rellene el campo de "colonia"
 
-    # Calle vacío y los demás correctos enviado para perfil de investigador
-    Escenario: 
+    Escenario: Calle vacía y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
         Y hago clic en el tipo investigador
@@ -88,8 +82,7 @@ Característica: Actualizar cuenta
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me pide que rellene el campo de "calle"
 
-    # Numero exterior vacío y los demás correctos enviado para perfil de investigador
-    Escenario: 
+    Escenario: Número exterior vacío y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
         Y hago clic en el tipo investigador
@@ -103,8 +96,7 @@ Característica: Actualizar cuenta
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me pide que rellene el campo de "numero exterior"
 
-    # Acerca de vacío y los demás correctos enviado para perfil de investigador
-    Escenario: 
+    Escenario: Acerca de vacío y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
         Y hago clic en el tipo investigador
@@ -118,8 +110,7 @@ Característica: Actualizar cuenta
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me pide que rellene el campo de "acerca de"
 
-    # Imagen vacía y los demás correctos enviado para perfil de investigador
-    Escenario: 
+    Escenario: Imagen vacía y los demás correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
         Y hago clic en el tipo investigador
@@ -133,8 +124,7 @@ Característica: Actualizar cuenta
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me pide que rellene el campo de "imagen"
 
-    # Todos los datos correctos para perfil de investigador
-    Escenario: 
+    Escenario: Todos los datos correctos para actualizar a perfil de investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-investigador" y contraseña "prueba"
         Y hago clic en el tipo investigador
