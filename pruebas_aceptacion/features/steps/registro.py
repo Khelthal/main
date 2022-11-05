@@ -2,11 +2,6 @@ from behave import given, then, when
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-@given(u'que ingreso al sistema en el dominio "{url}"')
-def step_impl(context, url):
-    context.driver = webdriver.Chrome()
-    context.driver.get(url)
-
 @given(u'ingreso el correo "{correo}", el usuario "{usuario}" y contraseña "{contra}"')
 def step_impl(context, correo, usuario, contra):
     context.driver.find_element(By.NAME, 'email').send_keys(correo)
