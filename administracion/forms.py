@@ -108,9 +108,9 @@ class FormEmpresa(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FormEmpresa, self).__init__(*args, **kwargs)
         self.fields["encargado"].queryset = User.objects.filter(tipo_usuario__isnull=True)
-        self.fields["encargado"].widget.attrs['class'] = 'choices form-select'
+        self.fields["encargado"].widget.attrs['class'] = 'form-select'
         self.fields["nombre_empresa"].widget.attrs['class'] = 'form-control'
-        self.fields["especialidades"].widget.attrs['class'] = 'choices form-select multiple-remove'
+        self.fields["especialidades"].widget.attrs['class'] = 'form-select multiple-remove'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
         self.fields["municipio"].widget.attrs['class'] = 'form-select'
@@ -134,7 +134,7 @@ class FormEmpresaUpdate(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FormEmpresaUpdate, self).__init__(*args, **kwargs)
         self.fields["nombre_empresa"].widget.attrs['class'] = 'form-control'
-        self.fields["especialidades"].widget.attrs['class'] = 'choices form-select multiple-remove'
+        self.fields["especialidades"].widget.attrs['class'] = 'form-select multiple-remove'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
         self.fields["municipio"].widget.attrs['class'] = 'form-select'
@@ -160,8 +160,8 @@ class FormInstitucionEducativa(forms.ModelForm):
         self.fields["encargado"].queryset = User.objects.filter(tipo_usuario__isnull=True)
         self.fields["encargado"].widget.attrs['class'] = 'choices form-select'
         self.fields["nombre_institucion"].widget.attrs['class'] = 'form-control'
-        self.fields["especialidades"].widget.attrs['class'] = 'choices form-select multiple-remove'
-        self.fields["miembros"].widget.attrs['class'] = 'choices form-select multiple-remove'
+        self.fields["especialidades"].widget.attrs['class'] = 'form-select multiple-remove'
+        self.fields["miembros"].widget.attrs['class'] = 'form-select multiple-remove'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
         self.fields["municipio"].widget.attrs['class'] = 'form-select'
@@ -185,8 +185,8 @@ class FormInstitucionEducativaUpdate(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FormInstitucionEducativaUpdate, self).__init__(*args, **kwargs)
         self.fields["nombre_institucion"].widget.attrs['class'] = 'form-control'
-        self.fields["especialidades"].widget.attrs['class'] = 'choices form-select multiple-remove'
-        self.fields["miembros"].widget.attrs['class'] = 'choices form-select multiple-remove'
+        self.fields["especialidades"].widget.attrs['class'] = 'form-select multiple-remove'
+        self.fields["miembros"].widget.attrs['class'] = 'form-select multiple-remove'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = 'Ingresa tu código postal de contacto'
         self.fields["municipio"].widget.attrs['class'] = 'form-select'
