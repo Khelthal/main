@@ -37,17 +37,17 @@
 
                             <!-- Button trigger for scrolling content modal -->
                             <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
-                                data-bs-target="#exampleModalScrollable">
+                                data-bs-target="#exampleModalScrollable{{investigador.pk}}">
                                 Ver detalles
                             </button>
 
                             <!--scrolling content Modal -->
-                            <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                            <div class="modal fade" id="exampleModalScrollable{{investigador.pk}}" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalScrollable{{investigador.pkTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalScrollableTitle">Detalles</h5>
+                                            <h5 class="modal-title" id="exampleModalScrollable{{investigador.pkTitle">Detalles</h5>
                                             <button type="button" class="close" data-bs-dismiss="modal"
                                                 aria-label="Close">
                                                 <i data-feather="x"></i>

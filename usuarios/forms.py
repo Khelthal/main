@@ -2,14 +2,28 @@ from django import forms
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
+
 class UserForm(forms.ModelForm):
     repassword = forms.CharField()
+
     class Meta:
         model = User
-        fields = ('username','password','email','repassword')
+        fields = (
+            'username',
+            'password',
+            'email',
+            'repassword')
         widgets = {
-            'username': forms.TextInput(attrs={'class':'form-control form-control-xl', 'placeholder':'Nombre de usuario'}),
-            'email': forms.EmailInput(attrs={'class':'form-control form-control-xl', 'placeholder':'Correo electrónico'}),
+            'username': forms.TextInput(
+                attrs={
+                    'class': 'form-control form-control-xl',
+                    'placeholder': 'Nombre de usuario'
+                }),
+            'email': forms.EmailInput(
+                attrs={
+                    'class': 'form-control form-control-xl',
+                    'placeholder': 'Correo electrónico'
+                }),
         }
 
     def __init__(self, *args, **kwargs):
@@ -22,9 +36,10 @@ class UserForm(forms.ModelForm):
         if commit:
             user.save()
         return user
-    
+
     def clean_password(self, *args, **kwargs):
         if self.data['password'] != self.data['repassword']:
-            raise forms.ValidationError('Las contraseñas son diferentes; favor de verificar')
-        
+            raise forms.ValidationError(
+                'Las contraseñas son diferentes; favor de verificar')
+
         return self.data['password']

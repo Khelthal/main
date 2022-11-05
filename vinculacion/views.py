@@ -4,17 +4,27 @@ from django.contrib.auth.decorators import login_required
 from investigadores.forms import SolicitudTrabajoForm
 from usuarios.models import TipoUsuario
 from vinculacion.models import Categoria, Noticia
+from vinculacion.helpers import get_author, get_publications
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView
-from administracion.forms import FormInvestigadorBase, FormEmpresaUpdate, FormInstitucionEducativaUpdate, FormInvestigacion
-from investigadores.models import Investigador, NivelInvestigador, Investigacion, SolicitudTrabajo
+from administracion.forms import (
+    FormInvestigadorBase,
+    FormEmpresaUpdate,
+    FormInstitucionEducativaUpdate,
+    FormInvestigacion)
+from investigadores.models import (
+    Investigador,
+    NivelInvestigador,
+    Investigacion,
+    SolicitudTrabajo)
 from empresas.models import Empresa
-from instituciones_educativas.models import InstitucionEducativa, SolicitudIngreso
+from instituciones_educativas.models import (
+    InstitucionEducativa,
+    SolicitudIngreso)
 from django.contrib import messages
 from administracion.helpers import obtener_coordenadas
 from usuarios.models import User, MUNICIPIOS
 import itertools
 from urllib.parse import urlparse, parse_qs
-from scholarly import scholarly, ProxyGenerator
 
 # Create your views here.
 
@@ -39,7 +49,13 @@ def dashboard(request):
         "latitud": u.latitud,
         "longitud": u.longitud,
         "tipoUsuario": u.user.tipo_usuario.tipo,
-        "categorias": list(set(itertools.chain.from_iterable([list(map(str, investigacion.categorias.all())) for investigacion in Investigacion.objects.filter(autores=u.pk)]))),
+        "categorias": list(set(itertools.chain.from_iterable(
+            [list(
+                map(
+                    str,
+                    investigacion.categorias.all())
+            ) for investigacion in Investigacion.objects.filter(
+                    autores=u.pk)]))),
         "municipio": u.municipio,
         "url": reverse_lazy("vinculacion:investigador_perfil", args=[u.pk])
     } for u in investigadores])
@@ -64,10 +80,22 @@ def dashboard(request):
 
     areas_conocimiento = list(
         set(map(lambda categoria: categoria.area_conocimiento, categorias)))
-    areas_conocimiento = [{"area": area, "categorias": Categoria.objects.filter(
-        area_conocimiento=area)} for area in areas_conocimiento]
+    areas_conocimiento = [{
+        "area": area,
+        "categorias": Categoria.objects.filter(
+             area_conocimiento=area)
+    } for area in areas_conocimiento]
 
-    return render(request, "vinculacion/map.html", {"tipos_usuario": zip(tipos_usuario, tipos_usuario_snake_case), "categorias": categorias, "usuarios": usuarios, "municipios": MUNICIPIOS, "areas_conocimiento": areas_conocimiento})
+    return render(
+        request,
+        "vinculacion/map.html",
+        {
+            "tipos_usuario": zip(tipos_usuario, tipos_usuario_snake_case),
+            "categorias": categorias,
+            "usuarios": usuarios,
+            "municipios": MUNICIPIOS,
+            "areas_conocimiento": areas_conocimiento
+        })
 
 
 @login_required
@@ -121,7 +149,10 @@ def perfil(request):
             'imagen': usuario_institucion.imagen,
         }
 
-    return render(request, "vinculacion/perfil.html", {"usuario_data": usuario_data})
+    return render(
+        request,
+        "vinculacion/perfil.html",
+        {"usuario_data": usuario_data})
 
 
 class InvestigadorSolicitud(CreateView):
@@ -137,7 +168,10 @@ class InvestigadorSolicitud(CreateView):
 
         if not coordenadas:
             messages.error(
-                self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+                self.request,
+                "Error al obtener los datos de ubicación, por favor" +
+                " verifique que los datos de dirección" +
+                " ingresados son correctos.")
             return super(InvestigadorSolicitud, self).form_invalid(form)
 
         investigador.latitud = coordenadas.latitud
@@ -168,7 +202,10 @@ class InvestigadorActualizar(UpdateView):
 
         if not coordenadas:
             messages.error(
-                self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+                self.request,
+                "Error al obtener los datos de ubicación, por favor" +
+                " verifique que los datos de dirección" +
+                " ingresados son correctos.")
             return super(InvestigadorActualizar, self).form_invalid(form)
 
         investigador.latitud = coordenadas.latitud
@@ -193,7 +230,10 @@ class EmpresaSolicitud(CreateView):
 
         if not coordenadas:
             messages.error(
-                self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+                self.request,
+                "Error al obtener los datos de ubicación, por favor" +
+                " verifique que los datos de dirección" +
+                " ingresados son correctos.")
             return super(EmpresaSolicitud, self).form_invalid(form)
 
         empresa.latitud = coordenadas.latitud
@@ -224,7 +264,10 @@ class EmpresaActualizar(UpdateView):
 
         if not coordenadas:
             messages.error(
-                self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+                self.request,
+                "Error al obtener los datos de ubicación, por favor" +
+                " verifique que los datos de dirección" +
+                " ingresados son correctos.")
             return super(EmpresaActualizar, self).form_invalid(form)
 
         empresa.latitud = coordenadas.latitud
@@ -250,8 +293,12 @@ class InstitucionEducativaSolicitud(CreateView):
 
         if not coordenadas:
             messages.error(
-                self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return super(InstitucionEducativaSolicitud, self).form_invalid(form)
+                self.request,
+                "Error al obtener los datos de ubicación, por favor" +
+                " verifique que los datos de dirección" +
+                " ingresados son correctos.")
+            return super(
+                InstitucionEducativaSolicitud, self).form_invalid(form)
 
         institucion_educativa.latitud = coordenadas.latitud
         institucion_educativa.longitud = coordenadas.longitud
@@ -273,7 +320,9 @@ class InstitucionEducativaActualizar(UpdateView):
     extra_context = {"formulario_archivos": True}
 
     def get_object(self):
-        return get_object_or_404(InstitucionEducativa, encargado=self.request.user)
+        return get_object_or_404(
+            InstitucionEducativa,
+            encargado=self.request.user)
 
     def form_valid(self, form):
         institucion_educativa = form.save(commit=False)
@@ -281,8 +330,12 @@ class InstitucionEducativaActualizar(UpdateView):
 
         if not coordenadas:
             messages.error(
-                self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
-            return super(InstitucionEducativaActualizar, self).form_invalid(form)
+                self.request,
+                "Error al obtener los datos de ubicación, por favor" +
+                " verifique que los datos de dirección" +
+                " ingresados son correctos.")
+            return super(
+                InstitucionEducativaActualizar, self).form_invalid(form)
 
         institucion_educativa.latitud = coordenadas.latitud
         institucion_educativa.longitud = coordenadas.longitud
@@ -301,7 +354,10 @@ def solicitudIngresoLista(request):
     solicitudes = SolicitudIngreso.objects.filter(
         institucion_educativa=institucion)
 
-    return render(request, "vinculacion/solicitudes_ingreso.html", {"solicitudes": solicitudes})
+    return render(
+        request,
+        "vinculacion/solicitudes_ingreso.html",
+        {"solicitudes": solicitudes})
 
 
 class UsuarioEliminar(DeleteView):
@@ -320,8 +376,9 @@ class UsuarioEliminar(DeleteView):
 @login_required
 def investigadores_lista(request):
     investigadores = list(Investigador.objects.all())
-    investigadores.sort(key=lambda investigador: SolicitudTrabajo.objects.filter(
-        usuario_a_vincular=investigador, estado="F").count(), reverse=True)
+    investigadores.sort(
+        key=lambda investigador: SolicitudTrabajo.objects.filter(
+            usuario_a_vincular=investigador, estado="F").count(), reverse=True)
     categorias = []
     for investigador in investigadores:
         categorias_investigador = set()
@@ -330,26 +387,39 @@ def investigadores_lista(request):
                 categorias_investigador.add(categoria.nombre)
         categorias.append(list(categorias_investigador))
 
-    return render(request, "vinculacion/investigadores_lista.html", {"investigadores": zip(investigadores, categorias)})
+    return render(
+        request,
+        "vinculacion/investigadores_lista.html",
+        {"investigadores": zip(investigadores, categorias)})
 
 
 def investigador_perfil(request, investigador_id):
     investigador = Investigador.objects.get(pk=investigador_id)
     investigaciones = Investigacion.objects.filter(autores__in=[investigador])
 
-    return render(request, "vinculacion/perfil_investigador.html", {"investigador": investigador, "investigaciones_lista": investigaciones})
+    return render(
+        request,
+        "vinculacion/perfil_investigador.html",
+        {
+            "investigador": investigador,
+            "investigaciones_lista": investigaciones
+        })
 
 
 @login_required
 def empresas_lista(request):
     empresas = Empresa.objects.all()
-    return render(request, "vinculacion/empresas_lista.html", {"empresas": empresas})
+    return render(
+        request,
+        "vinculacion/empresas_lista.html",
+        {"empresas": empresas})
 
 
 @login_required
 def instituciones_educativas_lista(request):
     instituciones = InstitucionEducativa.objects.all()
-    if request.user.tipo_usuario and request.user.tipo_usuario.tipo == "Investigador":
+    if (request.user.tipo_usuario
+            and request.user.tipo_usuario.tipo == "Investigador"):
         investigador = Investigador.objects.get(user=request.user)
 
         for institucion in instituciones:
@@ -368,7 +438,10 @@ def instituciones_educativas_lista(request):
                 institucion.es_miembro = True
                 institucion.es_posible_solicitar = False
 
-    return render(request, "vinculacion/instituciones_educativas_lista.html", {"instituciones": instituciones})
+    return render(
+        request,
+        "vinculacion/instituciones_educativas_lista.html",
+        {"instituciones": instituciones})
 
 
 @login_required
@@ -379,7 +452,8 @@ def crearSolicitudIngreso(request, institucion_id):
         institucion_educativa=institucion, investigador=investigador)
     solicitud_ingreso.save()
     messages.success(
-        request, "Solicitud de ingreso a la institución "+str(institucion)+" enviada")
+        request,
+        "Solicitud de ingreso a la institución "+str(institucion)+" enviada")
 
     return redirect("vinculacion:instituciones_educativas_lista")
 
@@ -404,7 +478,10 @@ def miembrosLista(request):
     institucion = InstitucionEducativa.objects.get(encargado=request.user)
     miembros = institucion.miembros.all()
 
-    return render(request, "vinculacion/miembros_lista.html", {"miembros": miembros})
+    return render(
+        request,
+        "vinculacion/miembros_lista.html",
+        {"miembros": miembros})
 
 
 @login_required
@@ -427,12 +504,15 @@ class InvestigadorInvestigaciones(ListView):
 
 
 class InvestigadorSolicitudesTrabajo(ListView):
+    paginate_by = 10
     model = SolicitudTrabajo
     template_name = "vinculacion/solicitudes_trabajo_lista.html"
 
     def get_queryset(self):
         investigador = get_object_or_404(Investigador, user=self.request.user)
-        return SolicitudTrabajo.objects.filter(usuario_a_vincular__in=[investigador])
+        return SolicitudTrabajo.objects.filter(
+            usuario_a_vincular__in=[investigador],
+            estado='E').order_by('fecha')
 
 
 class InvestigacionNuevo(CreateView):
@@ -456,43 +536,25 @@ def investigaciones_google(request):
         arguments = parse_qs(parsed.query)
         try:
             user_id = arguments['user'][0]
-        except:
-            messages.error(
-                request, "No se encontró el perfil de google scholar")
-            return redirect("vinculacion:investigaciones_lista")
-        pg = ProxyGenerator()
-        pg.FreeProxies()
-        scholarly.use_proxy(pg)
-
-        try:
-            author = scholarly.search_author_id(user_id, filled=True)
-        except:
+        except Exception:
             messages.error(
                 request, "No se encontró el perfil de google scholar")
             return redirect("vinculacion:investigaciones_lista")
 
-        for publication in author["publications"]:
-            try:
-                publication = scholarly.fill(publication)
-            except:
-                pass
+        author = get_author(user_id)
 
-            titulo = publication.get("bib", {}).get("title")
+        if author is None:
+            messages.error(
+                request, "No se encontró el perfil de google scholar")
+            return redirect("vinculacion:investigaciones_lista")
 
-            if titulo:
-                abstract = publication.get("bib", {}).get(
-                    "abstract", "Contenido no encontrado")
-                pub_url = publication.get("pub_url")
-
-                if pub_url:
-                    abstract += f"\n\nVer más: {pub_url}"
-
-                investigacion = Investigacion.objects.create(
-                    titulo=titulo,
-                    contenido=abstract,
-                )
-                investigacion.autores.add(investigador),
-                investigacion.save()
+        for publicacion in get_publications(author):
+            investigacion = Investigacion.objects.create(
+                titulo=publicacion["titulo"],
+                contenido=publicacion["contenido"],
+            )
+            investigacion.autores.add(investigador),
+            investigacion.save()
 
     return redirect("vinculacion:investigaciones_lista")
 
@@ -513,10 +575,34 @@ def solicitudTrabajoNueva(request, investigador_id):
             solicitud.estado = "E"
             solicitud.save()
             messages.success(
-                request, "Solicitud de trabajo a el investigador "+str(investigador)+" enviada")
+                request,
+                "Solicitud de trabajo a el investigador " +
+                str(investigador)+" enviada")
             return redirect("vinculacion:investigador_perfil", investigador_id)
 
     context["form"] = form
     context["titulo"] = "Solicitud de Trabajo"
 
     return render(request, "vinculacion/formulario.html", context)
+
+
+def aceptar_solicitud(request, pk):
+    solicitud = get_object_or_404(
+        SolicitudTrabajo,
+        pk=pk
+    )
+    solicitud.estado = "A"
+    solicitud.save()
+
+    return redirect("vinculacion:solicitudes_trabajo_lista")
+
+
+def rechazar_solicitud(request, pk):
+    solicitud = get_object_or_404(
+        SolicitudTrabajo,
+        pk=pk
+    )
+    solicitud.estado = "R"
+    solicitud.save()
+
+    return redirect("vinculacion:solicitudes_trabajo_lista")
