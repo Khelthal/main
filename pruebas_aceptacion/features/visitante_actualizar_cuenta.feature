@@ -440,6 +440,13 @@ Característica: Actualizar cuenta
 
     # ---------- Actualizar a institucion ---------- #
 
+    Escenario: Ningún dato correcto para actualizar a perfil de institucion
+        Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
+        Y inicio sesión con el usuario "prueba-institucion" y contraseña "prueba"
+        Y hago clic en el tipo "Institución Educativa"
+        Cuando envío la solicitud presionando el botón de Guardar
+        Entonces se me pide que rellene correctamente el campo de "nombre institucion"
+
     Escenario: Todos los datos correctos para actualizar a perfil de institución educativa
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-institucion" y contraseña "prueba"
