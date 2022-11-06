@@ -213,3 +213,12 @@ Característica: Actualizar cuenta
         Y relleno el campo de "imagen" con "/tmp/foto.png" en el formulario
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me indica que mi solicitud fue enviada
+
+        # ---------- Actualizar a empresa ---------- #
+
+    Escenario: Ningún dato correcto para actualizar a perfil de empresa
+        Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
+        Y inicio sesión con el usuario "prueba-empresa" y contraseña "prueba"
+        Y hago clic en el tipo "Empresa"
+        Cuando envío la solicitud presionando el botón de Guardar
+        Entonces se me pide que rellene correctamente el campo de "nombre empresa"
