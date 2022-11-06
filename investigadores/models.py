@@ -5,6 +5,7 @@ from usuarios.models import User, MUNICIPIOS
 from investigadores.validators import curp_validador
 from administracion.validators import cp_validator
 
+
 class NivelInvestigador(models.Model):
     nivel = models.IntegerField()
     descripcion = models.TextField()
@@ -12,12 +13,20 @@ class NivelInvestigador(models.Model):
     def __str__(self):
         return "Nivel " + str(self.nivel)
 
+
 def rutaImagenInvestigador(instance, filename):
     extension = Path(filename).suffix
-    return 'usuarios/investigadores/investigador_{0}{1}'.format(instance.user.pk, extension)
+    return 'usuarios/investigadores/investigador_{0}{1}'.format(
+        instance.user.pk,
+        extension)
+
 
 class Investigador(models.Model):
-    user = models.OneToOneField(User, verbose_name="Usuario", on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(
+        User,
+        verbose_name="Usuario",
+        on_delete=models.CASCADE,
+        primary_key=True)
     nivel = models.ForeignKey(NivelInvestigador, on_delete=models.DO_NOTHING)
     curp = models.CharField(max_length=18, validators=[curp_validador])
     latitud = models.FloatField()
@@ -27,11 +36,18 @@ class Investigador(models.Model):
     colonia = models.CharField(max_length=100)
     calle = models.CharField(max_length=100)
     numero_exterior = models.PositiveIntegerField()
-    acerca_de = models.TextField(verbose_name="Acerca de", max_length=1000, default="")
-    imagen = models.ImageField(upload_to=rutaImagenInvestigador, verbose_name="Imagen de perfil", default=None)
+    acerca_de = models.TextField(
+        verbose_name="Acerca de",
+        max_length=1000,
+        default="")
+    imagen = models.ImageField(
+        upload_to=rutaImagenInvestigador,
+        verbose_name="Imagen de perfil",
+        default=None)
 
     def __str__(self):
         return self.user.username
+
 
 class Investigacion(models.Model):
     titulo = models.CharField(max_length=500)
@@ -42,9 +58,15 @@ class Investigacion(models.Model):
     def __str__(self):
         return self.titulo
 
+
 class GrupoInvestigacion(models.Model):
-    administradores = models.ManyToManyField(Investigador, related_name='%(class)s_administradores')
-    integrantes = models.ManyToManyField(Investigador, related_name='%(class)s_integrantes')
+    administradores = models.ManyToManyField(
+        Investigador,
+        related_name='%(class)s_administradores')
+    integrantes = models.ManyToManyField(
+        Investigador,
+        related_name='%(class)s_integrantes')
+
 
 ESTADOS = [
     ("E", "En espera"),
@@ -52,12 +74,23 @@ ESTADOS = [
     ("R", "Rechazada"),
 ]
 
+
 class SolicitudTrabajo(models.Model):
     titulo = models.CharField(verbose_name="Título", max_length=200)
     descripcion = models.TextField(verbose_name="Descripción", max_length=5000)
-    usuario_a_vincular = models.ForeignKey(Investigador, verbose_name="Usuario a vincular", on_delete=models.CASCADE)
-    usuario_solicitante = models.ForeignKey(User, verbose_name="Usuario solicitante", on_delete=models.CASCADE)
-    estado = models.CharField(choices=ESTADOS, verbose_name="Estado", max_length=1)
-    
+    usuario_a_vincular = models.ForeignKey(
+        Investigador,
+        verbose_name="Usuario a vincular",
+        on_delete=models.CASCADE)
+    usuario_solicitante = models.ForeignKey(
+        User,
+        verbose_name="Usuario solicitante",
+        on_delete=models.CASCADE)
+    estado = models.CharField(
+        choices=ESTADOS,
+        verbose_name="Estado",
+        max_length=1)
+    fecha = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.titulo

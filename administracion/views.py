@@ -45,20 +45,26 @@ def dashboard(request):
         if mes_registro not in usuarios_mes:
             usuarios_mes[mes_registro] = 0
         usuarios_mes[mes_registro] += 1
-        tipo_usuario = usuario.tipo_usuario if usuario.tipo_usuario else "Visitante"
+        tipo_usuario = (
+            usuario.tipo_usuario if usuario.tipo_usuario
+            else "Visitante")
         if tipo_usuario not in usuarios_tipo:
             usuarios_tipo[tipo_usuario] = 0
         usuarios_tipo[tipo_usuario] += 1
 
     registros_mes = [(k, v) for k, v in usuarios_mes.items()]
     registros_mes = sorted(
-        registros_mes, key=lambda val: datetime.datetime.strptime(val[0], '%Y-%m'))
+        registros_mes,
+        key=lambda val: datetime.datetime.strptime(val[0], '%Y-%m'))
     actividad_usuarios = [("Activos este mes", usuarios_activos_mes),
-                          ("Inactivos este mes", len(usuarios) - usuarios_activos_mes)]
+                          ("Inactivos este mes",
+                          len(usuarios) - usuarios_activos_mes)]
     solicitudes = {
-        "investigadores": len(Investigador.objects.filter(user__aprobado=False)),
+        "investigadores": len(
+            Investigador.objects.filter(user__aprobado=False)),
         "empresas": len(Empresa.objects.filter(encargado__aprobado=False)),
-        "instituciones_educativas": len(InstitucionEducativa.objects.filter(encargado__aprobado=False)),
+        "instituciones_educativas": len(
+            InstitucionEducativa.objects.filter(encargado__aprobado=False)),
     }
 
     return render(
@@ -147,7 +153,8 @@ class InvestigadorNuevo(CreateView):
     success_url = reverse_lazy('administracion:investigadores_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Crear",
-                     "nombre_modelo": "investigador", "formulario_archivos": True}
+                     "nombre_modelo": "investigador",
+                     "formulario_archivos": True}
 
     def form_valid(self, form):
         investigador = form.save(commit=False)
@@ -155,7 +162,9 @@ class InvestigadorNuevo(CreateView):
 
         if not coordenadas:
             messages.error(
-                self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+                self.request, "Error al obtener los datos de ubicación," +
+                " por favor verifique que los datos de dirección ingresados " +
+                " son correctos.")
             return super(InvestigadorNuevo, self).form_invalid(form)
 
         investigador.latitud = coordenadas.latitud
@@ -177,7 +186,8 @@ class InvestigadorEditar(UpdateView):
     success_url = reverse_lazy('administracion:investigadores_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Editar",
-                     "nombre_modelo": "investigador", "formulario_archivos": True}
+                     "nombre_modelo": "investigador",
+                     "formulario_archivos": True}
 
     def form_valid(self, form):
         investigador = form.save(commit=False)
@@ -185,7 +195,9 @@ class InvestigadorEditar(UpdateView):
 
         if not coordenadas:
             messages.error(
-                self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+                self.request, "Error al obtener los datos de ubicación," +
+                " por favor verifique que los datos de dirección ingresados " +
+                " son correctos.")
             return super(InvestigadorEditar, self).form_invalid(form)
 
         investigador.latitud = coordenadas.latitud
@@ -244,7 +256,9 @@ class EmpresaNuevo(CreateView):
 
         if not coordenadas:
             messages.error(
-                self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+                self.request, "Error al obtener los datos de ubicación," +
+                " por favor verifique que los datos de dirección ingresados " +
+                " son correctos.")
             return super(EmpresaNuevo, self).form_invalid(form)
 
         empresa.latitud = coordenadas.latitud
@@ -275,7 +289,9 @@ class EmpresaEditar(UpdateView):
 
         if not coordenadas:
             messages.error(
-                self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+                self.request, "Error al obtener los datos de ubicación," +
+                " por favor verifique que los datos de dirección ingresados " +
+                " son correctos.")
             return super(EmpresaEditar, self).form_invalid(form)
 
         empresa.latitud = coordenadas.latitud
@@ -326,7 +342,8 @@ class InstitucionEducativaNuevo(CreateView):
     success_url = reverse_lazy('administracion:instituciones_educativas_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Crear",
-                     "nombre_modelo": "institución educativa", "formulario_archivos": True}
+                     "nombre_modelo": "institución educativa",
+                     "formulario_archivos": True}
 
     def form_valid(self, form):
         institucion_educativa = form.save(commit=False)
@@ -334,7 +351,9 @@ class InstitucionEducativaNuevo(CreateView):
 
         if not coordenadas:
             messages.error(
-                self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+                self.request, "Error al obtener los datos de ubicación," +
+                " por favor verifique que los datos de dirección ingresados " +
+                " son correctos.")
             return super(InstitucionEducativaNuevo, self).form_invalid(form)
 
         institucion_educativa.latitud = coordenadas.latitud
@@ -358,7 +377,8 @@ class InstitucionEducativaEditar(UpdateView):
     success_url = reverse_lazy('administracion:instituciones_educativas_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Editar",
-                     "nombre_modelo": "institución educativa", "formulario_archivos": True}
+                     "nombre_modelo": "institución educativa",
+                     "formulario_archivos": True}
 
     def form_valid(self, form):
         institucion_educativa = form.save(commit=False)
@@ -366,7 +386,9 @@ class InstitucionEducativaEditar(UpdateView):
 
         if not coordenadas:
             messages.error(
-                self.request, "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos.")
+                self.request, "Error al obtener los datos de ubicación," +
+                " por favor verifique que los datos de dirección ingresados " +
+                " son correctos.")
             return super(InstitucionEducativaEditar, self).form_invalid(form)
 
         institucion_educativa.latitud = coordenadas.latitud

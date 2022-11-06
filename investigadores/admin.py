@@ -1,5 +1,9 @@
 from django.contrib import admin
-from investigadores.models import Investigador, NivelInvestigador, Investigacion, SolicitudTrabajo
+from investigadores.models import (
+    Investigador,
+    NivelInvestigador,
+    Investigacion,
+    SolicitudTrabajo)
 
 # Register your models here.
 admin.site.register(Investigador)
