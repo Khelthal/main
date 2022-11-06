@@ -223,6 +223,22 @@ Característica: Actualizar cuenta
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me pide que rellene correctamente el campo de "nombre empresa"
 
+    Escenario: Datos de ubicación incorrectos para actualizar a perfil de empresa
+        Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
+        Y inicio sesión con el usuario "prueba-empresa" y contraseña "prueba"
+        Y hago clic en el tipo "Empresa"
+        Y relleno el campo de "nombre empresa" con "Empresa Juve" en el formulario
+        Y elijo "Cloud" en el campo de "especialidades" en el formulario
+        Y relleno el campo de "codigo postal" con "99394" en el formulario
+        Y elijo "Zacatecas" en el campo de "municipio" en el formulario
+        Y relleno el campo de "colonia" con "Villas" en el formulario
+        Y relleno el campo de "calle" con "Durazno" en el formulario
+        Y relleno el campo de "numero exterior" con "56" en el formulario
+        Y relleno el campo de "acerca de" con "Somos una empresa de software" en el formulario
+        Y relleno el campo de "imagen" con "/tmp/foto.png" en el formulario
+        Cuando envío la solicitud presionando el botón de Guardar
+        Entonces se me muestra la notificación de error "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos."
+
     Escenario: Todos los datos correctos para actualizar a perfil de empresa
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-empresa" y contraseña "prueba"
