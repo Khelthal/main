@@ -214,7 +214,7 @@ Característica: Actualizar cuenta
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me indica que mi solicitud fue enviada
 
-        # ---------- Actualizar a empresa ---------- #
+    # ---------- Actualizar a empresa ---------- #
 
     Escenario: Ningún dato correcto para actualizar a perfil de empresa
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
@@ -434,6 +434,25 @@ Característica: Actualizar cuenta
         Y relleno el campo de "calle" con "Mezquite" en el formulario
         Y relleno el campo de "numero exterior" con "29" en el formulario
         Y relleno el campo de "acerca de" con "Somos una empresa de software" en el formulario
+        Y relleno el campo de "imagen" con "/tmp/foto.png" en el formulario
+        Cuando envío la solicitud presionando el botón de Guardar
+        Entonces se me indica que mi solicitud fue enviada
+
+    # ---------- Actualizar a institucion ---------- #
+
+    Escenario: Todos los datos correctos para actualizar a perfil de institución educativa
+        Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
+        Y inicio sesión con el usuario "prueba-institucion" y contraseña "prueba"
+        Y hago clic en el tipo "Institución Educativa"
+        Y relleno el campo de "nombre institucion" con "Institución Juve" en el formulario
+        Y elijo "Cloud" en el campo de "especialidades" en el formulario
+        Y elijo "prueba-investigador" en el campo de "miembros" en el formulario
+        Y relleno el campo de "codigo postal" con "99390" en el formulario
+        Y elijo "Jerez" en el campo de "municipio" en el formulario
+        Y relleno el campo de "colonia" con "Alamitos" en el formulario
+        Y relleno el campo de "calle" con "Mezquite" en el formulario
+        Y relleno el campo de "numero exterior" con "29" en el formulario
+        Y relleno el campo de "acerca de" con "Soy un institucion de software" en el formulario
         Y relleno el campo de "imagen" con "/tmp/foto.png" en el formulario
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me indica que mi solicitud fue enviada
