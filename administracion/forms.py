@@ -45,7 +45,7 @@ class FormInvestigador(forms.ModelForm):
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
         self.fields["codigo_postal"].widget.attrs['placeholder'] = (
             'Ingresa tu código postal de contacto')
-        self.fields["municipio"].widget.attrs['class'] = 'choices form-select'
+        self.fields["municipio"].widget.attrs['class'] = 'form-select'
         self.fields["municipio"].widget.attrs['placeholder'] = (
             'Ingresa tu municipio de contacto')
         self.fields["colonia"].widget.attrs['class'] = 'form-control'
@@ -82,7 +82,7 @@ class FormInvestigadorUpdate(forms.ModelForm):
         self.fields["codigo_postal"].widget.attrs['placeholder'] = (
             'Ingresa tu código postal de contacto')
         self.fields["municipio"].widget.attrs['class'] = (
-            'choices form-select')
+            'form-select')
         self.fields["municipio"].widget.attrs['placeholder'] = (
             'Ingresa tu municipio de contacto')
         self.fields["colonia"].widget.attrs['class'] = (
@@ -122,7 +122,7 @@ class FormInvestigadorBase(forms.ModelForm):
         self.fields["codigo_postal"].widget.attrs['placeholder'] = (
             'Ingresa tu código postal de contacto')
         self.fields["municipio"].widget.attrs['class'] = (
-            'choices form-select')
+            'form-select')
         self.fields["municipio"].widget.attrs['placeholder'] = (
             'Ingresa tu municipio de contacto')
         self.fields["colonia"].widget.attrs['class'] = (
@@ -160,13 +160,13 @@ class FormEmpresa(forms.ModelForm):
         self.fields["nombre_empresa"].widget.attrs['class'] = (
             'form-control')
         self.fields["especialidades"].widget.attrs['class'] = (
-            'choices form-select multiple-remove')
+            'form-select multiple-remove')
         self.fields["codigo_postal"].widget.attrs['class'] = (
             'form-control')
         self.fields["codigo_postal"].widget.attrs['placeholder'] = (
             'Ingresa tu código postal de contacto')
         self.fields["municipio"].widget.attrs['class'] = (
-            'choices form-select')
+            'form-select')
         self.fields["municipio"].widget.attrs['placeholder'] = (
             'Ingresa tu municipio de contacto')
         self.fields["colonia"].widget.attrs['class'] = (
@@ -200,13 +200,13 @@ class FormEmpresaUpdate(forms.ModelForm):
         self.fields["nombre_empresa"].widget.attrs['class'] = (
             'form-control')
         self.fields["especialidades"].widget.attrs['class'] = (
-            'choices form-select multiple-remove')
+            'form-select multiple-remove')
         self.fields["codigo_postal"].widget.attrs['class'] = (
             'form-control')
         self.fields["codigo_postal"].widget.attrs['placeholder'] = (
             'Ingresa tu código postal de contacto')
         self.fields["municipio"].widget.attrs['class'] = (
-            'choices form-select')
+            'form-select')
         self.fields["municipio"].widget.attrs['placeholder'] = (
             'Ingresa tu municipio de contacto')
         self.fields["colonia"].widget.attrs['class'] = (
@@ -244,15 +244,15 @@ class FormInstitucionEducativa(forms.ModelForm):
         self.fields["nombre_institucion"].widget.attrs['class'] = (
             'form-control')
         self.fields["especialidades"].widget.attrs['class'] = (
-            'choices form-select multiple-remove')
+            'form-select multiple-remove')
         self.fields["miembros"].widget.attrs['class'] = (
-            'choices form-select multiple-remove')
+            'form-select multiple-remove')
         self.fields["codigo_postal"].widget.attrs['class'] = (
             'form-control')
         self.fields["codigo_postal"].widget.attrs['placeholder'] = (
-            'Ingresa tu código postal de contacto')
+            'Ingresa tu código de contacto')
         self.fields["municipio"].widget.attrs['class'] = (
-            'choices form-select')
+            'form-select')
         self.fields["municipio"].widget.attrs['placeholder'] = (
             'Ingresa tu municipio de contacto')
         self.fields["colonia"].widget.attrs['class'] = (
@@ -286,15 +286,15 @@ class FormInstitucionEducativaUpdate(forms.ModelForm):
         self.fields["nombre_institucion"].widget.attrs['class'] = (
             'form-control')
         self.fields["especialidades"].widget.attrs['class'] = (
-            'choices form-select multiple-remove')
+            'form-select multiple-remove')
         self.fields["miembros"].widget.attrs['class'] = (
-            'choices form-select multiple-remove')
+            'form-select multiple-remove')
         self.fields["codigo_postal"].widget.attrs['class'] = (
             'form-control')
         self.fields["codigo_postal"].widget.attrs['placeholder'] = (
-            'Ingresa tu código postal de contacto')
+            'Ingresa tu código de contacto')
         self.fields["municipio"].widget.attrs['class'] = (
-            'choices form-select')
+            'form-select')
         self.fields["municipio"].widget.attrs['placeholder'] = (
             'Ingresa tu municipio de contacto')
         self.fields["colonia"].widget.attrs['class'] = (
