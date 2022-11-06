@@ -624,6 +624,57 @@ Característica: Actualizar cuenta
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se me muestra la notificación de error "Error al obtener los datos de ubicación, por favor verifique que los datos de dirección ingresados son correctos."
 
+    Escenario: Código postal incorrecto y los demás correctos para actualizar a perfil de institución educativa
+        Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
+        Y inicio sesión con el usuario "prueba-institucion" y contraseña "prueba"
+        Y hago clic en el tipo "Institución Educativa"
+        Y relleno el campo de "nombre institucion" con "Institución Juve" en el formulario
+        Y elijo "Cloud" en el campo de "especialidades" en el formulario
+        Y elijo "prueba-investigador" en el campo de "miembros" en el formulario
+        Y relleno el campo de "codigo postal" con "9939" en el formulario
+        Y elijo "Jerez" en el campo de "municipio" en el formulario
+        Y relleno el campo de "colonia" con "Alamitos" en el formulario
+        Y relleno el campo de "calle" con "Mezquite" en el formulario
+        Y relleno el campo de "numero exterior" con "29" en el formulario
+        Y relleno el campo de "acerca de" con "Soy un institucion de software" en el formulario
+        Y relleno el campo de "imagen" con "/tmp/foto.png" en el formulario
+        Cuando envío la solicitud presionando el botón de Guardar
+        Entonces se me muestra el mensaje de error "El código postal no tiene un formato válido"
+
+    Escenario: Número exterior incorrecto y los demás correctos para actualizar a perfil de institución educativa
+        Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
+        Y inicio sesión con el usuario "prueba-institucion" y contraseña "prueba"
+        Y hago clic en el tipo "Institución Educativa"
+        Y relleno el campo de "nombre institucion" con "Institución Juve" en el formulario
+        Y elijo "Cloud" en el campo de "especialidades" en el formulario
+        Y elijo "prueba-investigador" en el campo de "miembros" en el formulario
+        Y relleno el campo de "codigo postal" con "99390" en el formulario
+        Y elijo "Jerez" en el campo de "municipio" en el formulario
+        Y relleno el campo de "colonia" con "Alamitos" en el formulario
+        Y relleno el campo de "calle" con "Mezquite" en el formulario
+        Y relleno el campo de "numero exterior" con "-1" en el formulario
+        Y relleno el campo de "acerca de" con "Soy un institucion de software" en el formulario
+        Y relleno el campo de "imagen" con "/tmp/foto.png" en el formulario
+        Cuando envío la solicitud presionando el botón de Guardar
+        Entonces se me pide que rellene correctamente el campo de "numero exterior"
+
+    Escenario: Imagen incorrecta y los demás correctos para actualizar a perfil de institución educativa
+        Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
+        Y inicio sesión con el usuario "prueba-institucion" y contraseña "prueba"
+        Y hago clic en el tipo "Institución Educativa"
+        Y relleno el campo de "nombre institucion" con "Institución Juve" en el formulario
+        Y elijo "Cloud" en el campo de "especialidades" en el formulario
+        Y elijo "prueba-investigador" en el campo de "miembros" en el formulario
+        Y relleno el campo de "codigo postal" con "99390" en el formulario
+        Y elijo "Jerez" en el campo de "municipio" en el formulario
+        Y relleno el campo de "colonia" con "Alamitos" en el formulario
+        Y relleno el campo de "calle" con "Mezquite" en el formulario
+        Y relleno el campo de "numero exterior" con "29" en el formulario
+        Y relleno el campo de "acerca de" con "Soy un institucion de software" en el formulario
+        Y relleno el campo de "imagen" con "/tmp/incorrecto.txt" en el formulario
+        Cuando envío la solicitud presionando el botón de Guardar
+        Entonces se me muestra el mensaje de error "Seleccione una imagen válida. El archivo que ha seleccionado no es una imagen o es un un archivo de imagen corrupto."
+
     Escenario: Todos los datos correctos para actualizar a perfil de institución educativa
         Dado que ingreso al sistema en el dominio "http://localhost:8000/perfil"
         Y inicio sesión con el usuario "prueba-institucion" y contraseña "prueba"
