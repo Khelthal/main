@@ -55,7 +55,7 @@ def dashboard(request):
                     str,
                     investigacion.categorias.all())
             ) for investigacion in Investigacion.objects.filter(
-                    autores=u.pk)]))),
+                autores=u.pk)]))),
         "municipio": u.municipio,
         "url": reverse_lazy("vinculacion:investigador_perfil", args=[u.pk])
     } for u in investigadores])
@@ -83,7 +83,7 @@ def dashboard(request):
     areas_conocimiento = [{
         "area": area,
         "categorias": Categoria.objects.filter(
-             area_conocimiento=area)
+            area_conocimiento=area)
     } for area in areas_conocimiento]
 
     return render(

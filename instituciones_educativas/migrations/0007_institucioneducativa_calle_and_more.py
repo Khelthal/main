@@ -20,7 +20,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='institucioneducativa',
             name='codigo_postal',
-            field=models.CharField(default=11111, max_length=5, validators=[django.core.validators.RegexValidator(code='cp_invalido', message='El código postal no tiene un formato válido', regex='\\d{5}')]),
+            field=models.CharField(default=11111, max_length=5, validators=[django.core.validators.RegexValidator(
+                code='cp_invalido', message='El código postal no tiene un formato válido', regex='\\d{5}')]),
             preserve_default=False,
         ),
         migrations.AddField(

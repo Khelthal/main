@@ -15,24 +15,28 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Empresa',
             fields=[
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE,
+                 primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='InstitucionEducativa',
             fields=[
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE,
+                 primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='Investigador',
             fields=[
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE,
+                 primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.AlterField(
             model_name='user',
             name='tipo_usuario',
-            field=models.PositiveSmallIntegerField(choices=[('0', 'Invitado'), ('1', 'Institucion Educativa'), ('2', 'Investigador'), ('3', 'Empresa')]),
+            field=models.PositiveSmallIntegerField(choices=[(
+                '0', 'Invitado'), ('1', 'Institucion Educativa'), ('2', 'Investigador'), ('3', 'Empresa')]),
         ),
     ]

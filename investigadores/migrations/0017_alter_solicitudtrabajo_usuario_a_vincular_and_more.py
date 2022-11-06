@@ -16,11 +16,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='solicitudtrabajo',
             name='usuario_a_vincular',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='investigadores.investigador', verbose_name='Usuario a vincular'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                    to='investigadores.investigador', verbose_name='Usuario a vincular'),
         ),
         migrations.AlterField(
             model_name='solicitudtrabajo',
             name='usuario_solicitante',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Usuario solicitante'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                    to=settings.AUTH_USER_MODEL, verbose_name='Usuario solicitante'),
         ),
     ]

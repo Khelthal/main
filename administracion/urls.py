@@ -27,24 +27,24 @@ urlpatterns = [
     path('investigadores/lista', user_passes_test(user_is_staff_member)
          (views.InvestigadorLista.as_view()), name='investigadores_lista'),
     path(
-          'investigadores/solicitud', user_passes_test(user_is_staff_member)
-          (views.InvestigadorSolicitud.as_view()),
-          name='investigadores_solicitud'),
+        'investigadores/solicitud', user_passes_test(user_is_staff_member)
+        (views.InvestigadorSolicitud.as_view()),
+        name='investigadores_solicitud'),
     path(
-          'investigadores/nuevo',
-          user_passes_test(user_is_staff_member)
-          (views.InvestigadorNuevo.as_view()),
-          name='investigadores_nuevo'),
+        'investigadores/nuevo',
+        user_passes_test(user_is_staff_member)
+        (views.InvestigadorNuevo.as_view()),
+        name='investigadores_nuevo'),
     path(
-          'investigadores/editar/<int:pk>',
-          user_passes_test(user_is_staff_member)
-          (views.InvestigadorEditar.as_view()),
-          name='investigadores_editar'),
+        'investigadores/editar/<int:pk>',
+        user_passes_test(user_is_staff_member)
+        (views.InvestigadorEditar.as_view()),
+        name='investigadores_editar'),
     path(
-          'investigadores/eliminar/<int:pk>',
-          user_passes_test(user_is_staff_member)
-          (views.InvestigadorEliminar.as_view()),
-          name='investigadores_eliminar'),
+        'investigadores/eliminar/<int:pk>',
+        user_passes_test(user_is_staff_member)
+        (views.InvestigadorEliminar.as_view()),
+        name='investigadores_eliminar'),
 
     # Empresas
     path('empresas/lista', user_passes_test(user_is_staff_member)
@@ -60,30 +60,30 @@ urlpatterns = [
 
     # Instituciones Educativas
     path(
-          'instituciones_educativas/lista',
-          user_passes_test(user_is_staff_member)
-          (views.InstitucionEducativaLista.as_view()),
-          name='instituciones_educativas_lista'),
+        'instituciones_educativas/lista',
+        user_passes_test(user_is_staff_member)
+        (views.InstitucionEducativaLista.as_view()),
+        name='instituciones_educativas_lista'),
     path(
-          'instituciones_educativas/solicitud',
-          user_passes_test(user_is_staff_member)
-          (views.InstitucionEducativaSolicitud.as_view()),
-          name='instituciones_educativas_solicitud'),
+        'instituciones_educativas/solicitud',
+        user_passes_test(user_is_staff_member)
+        (views.InstitucionEducativaSolicitud.as_view()),
+        name='instituciones_educativas_solicitud'),
     path(
-          'instituciones_educativas/nuevo',
-          user_passes_test(user_is_staff_member)
-          (views.InstitucionEducativaNuevo.as_view()),
-          name='instituciones_educativas_nuevo'),
+        'instituciones_educativas/nuevo',
+        user_passes_test(user_is_staff_member)
+        (views.InstitucionEducativaNuevo.as_view()),
+        name='instituciones_educativas_nuevo'),
     path(
-          'instituciones_educativas/editar/<int:pk>',
-          user_passes_test(user_is_staff_member)
-          (views.InstitucionEducativaEditar.as_view()),
-          name='instituciones_educativas_editar'),
+        'instituciones_educativas/editar/<int:pk>',
+        user_passes_test(user_is_staff_member)
+        (views.InstitucionEducativaEditar.as_view()),
+        name='instituciones_educativas_editar'),
     path(
-          'instituciones_educativas/eliminar/<int:pk>',
-          user_passes_test(user_is_staff_member)
-          (views.InstitucionEducativaEliminar.as_view()),
-          name='instituciones_educativas_eliminar'),
+        'instituciones_educativas/eliminar/<int:pk>',
+        user_passes_test(user_is_staff_member)
+        (views.InstitucionEducativaEliminar.as_view()),
+        name='instituciones_educativas_eliminar'),
 
     # Categorias
     path('categorias/lista', user_passes_test(user_is_staff_member)
@@ -101,15 +101,15 @@ urlpatterns = [
     path('investigaciones/nuevo', user_passes_test(user_is_staff_member)
          (views.InvestigacionNuevo.as_view()), name='investigaciones_nuevo'),
     path(
-          'investigaciones/editar/<int:pk>',
-          user_passes_test(user_is_staff_member)
-          (views.InvestigacionEditar.as_view()),
-          name='investigaciones_editar'),
+        'investigaciones/editar/<int:pk>',
+        user_passes_test(user_is_staff_member)
+        (views.InvestigacionEditar.as_view()),
+        name='investigaciones_editar'),
     path(
-          'investigaciones/eliminar/<int:pk>',
-          user_passes_test(user_is_staff_member)
-          (views.InvestigacionEliminar.as_view()),
-          name='investigaciones_eliminar'),
+        'investigaciones/eliminar/<int:pk>',
+        user_passes_test(user_is_staff_member)
+        (views.InvestigacionEliminar.as_view()),
+        name='investigaciones_eliminar'),
 
     # Noticias
     path('noticias/lista', user_passes_test(user_is_staff_member)

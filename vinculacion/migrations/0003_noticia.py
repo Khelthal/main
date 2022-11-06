@@ -16,12 +16,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Noticia',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('titulo', models.CharField(max_length=65, verbose_name='Título')),
-                ('contenido', models.TextField(max_length=5000, verbose_name='Contenido')),
+                ('contenido', models.TextField(
+                    max_length=5000, verbose_name='Contenido')),
                 ('fecha', models.DateField(verbose_name='Fecha')),
-                ('imagen', models.ImageField(upload_to='noticias/', verbose_name='Imagen')),
-                ('escritor', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL, verbose_name='Escritor')),
+                ('imagen', models.ImageField(
+                    upload_to='noticias/', verbose_name='Imagen')),
+                ('escritor', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING,
+                 to=settings.AUTH_USER_MODEL, verbose_name='Escritor')),
             ],
         ),
     ]

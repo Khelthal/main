@@ -24,6 +24,6 @@ def step_impl(context):
 @then(u'se me indica que mi solicitud fue enviada')
 def step_impl(context):
     titulo = context.driver.find_element(By.CLASS_NAME, "titulo-seccion").text
-    tituloEsperado = "Sus datos están en espera de ser aprobados por un administrador"
+    actual = "Sus datos están en espera de ser aprobados por un administrador"
 
-    assert titulo == tituloEsperado
+    assert titulo == actual
