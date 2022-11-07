@@ -6,7 +6,7 @@ Característica: Registrarse en el sistema
     Escenario: Creación de usuario como investigador
         Dado que ingreso al sistema en el dominio "http://localhost:8000/usuarios/registrar"
         Y relleno el campo de "email" con "prueba-investigador@prueba.com" en el formulario
-        Y relleno el campo de "usename" con "prueba-investigador" en el formulario
+        Y relleno el campo de "username" con "prueba-investigador" en el formulario
         Y relleno el campo de "password" con "prueba" en el formulario
         Y relleno el campo de "repassword" con "prueba" en el formulario
         Cuando hago clic en Crear cuenta
@@ -15,7 +15,7 @@ Característica: Registrarse en el sistema
     Escenario: Creación de usuario como empresa
         Dado que ingreso al sistema en el dominio "http://localhost:8000/usuarios/registrar"
         Y relleno el campo de "email" con "prueba-empresa@prueba.com" en el formulario
-        Y relleno el campo de "usename" con "prueba-empresa" en el formulario
+        Y relleno el campo de "username" con "prueba-empresa" en el formulario
         Y relleno el campo de "password" con "prueba" en el formulario
         Y relleno el campo de "repassword" con "prueba" en el formulario
         Cuando hago clic en Crear cuenta
@@ -24,7 +24,7 @@ Característica: Registrarse en el sistema
     Escenario: Creación de usuario como institucion educativa
         Dado que ingreso al sistema en el dominio "http://localhost:8000/usuarios/registrar"
         Y relleno el campo de "email" con "prueba-institucion@prueba.com" en el formulario
-        Y relleno el campo de "usename" con "prueba-institucion" en el formulario
+        Y relleno el campo de "username" con "prueba-institucion" en el formulario
         Y relleno el campo de "password" con "prueba" en el formulario
         Y relleno el campo de "repassword" con "prueba" en el formulario
         Cuando hago clic en Crear cuenta
