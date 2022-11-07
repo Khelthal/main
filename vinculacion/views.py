@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from investigadores.forms import SolicitudTrabajoForm
 from usuarios.models import TipoUsuario
@@ -25,6 +27,8 @@ from administracion.helpers import obtener_coordenadas
 from usuarios.models import User, MUNICIPIOS
 import itertools
 from urllib.parse import urlparse, parse_qs
+from . import helpers
+
 
 # Create your views here.
 
@@ -55,7 +59,7 @@ def dashboard(request):
                     str,
                     investigacion.categorias.all())
             ) for investigacion in Investigacion.objects.filter(
-                    autores=u.pk)]))),
+                autores=u.pk)]))),
         "municipio": u.municipio,
         "url": reverse_lazy("vinculacion:investigador_perfil", args=[u.pk])
     } for u in investigadores])
@@ -83,7 +87,7 @@ def dashboard(request):
     areas_conocimiento = [{
         "area": area,
         "categorias": Categoria.objects.filter(
-             area_conocimiento=area)
+            area_conocimiento=area)
     } for area in areas_conocimiento]
 
     return render(
@@ -603,6 +607,99 @@ def rechazar_solicitud(request, pk):
         pk=pk
     )
     solicitud.estado = "R"
+    solicitud.estado_investigador = "R"
     solicitud.save()
 
     return redirect("vinculacion:solicitudes_trabajo_lista")
+
+
+def trabajos_en_curso(request):
+    usuario = get_object_or_404(User, pk=request.user.pk)
+    trabajos = SolicitudTrabajo.objects.filter(
+        Q(usuario_a_vincular__user=usuario) | Q(usuario_solicitante=usuario),
+        estado__in=['A', 'P']).order_by('fecha').reverse()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(trabajos, 5)
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+
+    return render(
+        request,
+        "vinculacion/trabajos_en_curso.html",
+        {"trabajos": trabajos, "page_obj": page_obj})
+
+
+def historial_trabajos(request):
+    investigador = get_object_or_404(User, pk=request.user.pk)
+    trabajos = SolicitudTrabajo.objects.filter(
+        Q(usuario_a_vincular__user=investigador) |
+        Q(usuario_solicitante=investigador),
+        estado__in=['R', 'C', 'F']).order_by('fecha').reverse()
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(trabajos, 5)
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+
+    return render(
+        request,
+        "vinculacion/historial_trabajos.html",
+        {"trabajos": trabajos, "page_obj": page_obj})
+
+
+def cambiar_estado(request, pk, estado):
+    solicitud = get_object_or_404(
+        SolicitudTrabajo,
+        pk=pk
+    )
+
+    if solicitud.estado == "F" or solicitud.estado == "C":
+        messages.error(
+            request,
+            "No se puede cambiar el estado de una solicitud finalizada")
+        return redirect('vinculacion:trabajos_lista')
+
+    if estado == "C":
+        messages.success(
+            request,
+            "Estado de trabajo canceldo")
+        helpers.cancelar_trabajo(request, solicitud)
+
+    elif estado == "F":
+        messages.success(
+            request,
+            "Estado de trabajo finalizado")
+        helpers.finalizar_trabajo(request, solicitud)
+
+    elif estado == "R":
+        messages.success(
+            request,
+            "Estado de trabajo rechazado")
+        helpers.rechazar_trabajo(request, solicitud)
+
+    elif estado == "P":
+        messages.success(
+            request,
+            "Estado de trabajo en proceso")
+        helpers.trabajo_en_proceso(request, solicitud)
+
+    elif estado == "E":
+        messages.success(
+            request,
+            "Estado de trabajo en Revision")
+        helpers.trabajo_en_revision(request, solicitud)
+
+    else:
+        messages.error(
+            request,
+            "Estado no válido")
+
+    return redirect('vinculacion:trabajos_lista')

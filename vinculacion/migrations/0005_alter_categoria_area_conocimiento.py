@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='categoria',
             name='area_conocimiento',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='vinculacion.areaconocimiento', verbose_name='Área de conocimiento'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE,
+                                    to='vinculacion.areaconocimiento', verbose_name='Área de conocimiento'),
             preserve_default=False,
         ),
     ]

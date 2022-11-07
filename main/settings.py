@@ -86,10 +86,10 @@ WSGI_APPLICATION = 'main.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vinculacion',
-        'USER': 'vinculacion_user',
-        'PASSWORD': 'vinculacion_password',
-        'HOST': 'db-vinculacion',
+        'NAME': 'db-vinculacion',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
         'PORT': 3306,
     }
 }
@@ -145,3 +145,12 @@ LOGOUT_REDIRECT_URL = reverse_lazy('usuarios:login')
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+#Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'inve.est.zac1@gmail.com'
+EMAIL_HOST_PASSWORD = 'nfrkxrwfaknoafbs'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
