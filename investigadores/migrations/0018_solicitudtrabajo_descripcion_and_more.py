@@ -13,12 +13,14 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='solicitudtrabajo',
             name='descripcion',
-            field=models.TextField(default='Descripcion', max_length=5000, verbose_name='Descripción'),
+            field=models.TextField(default='Descripcion',
+                                   max_length=5000, verbose_name='Descripción'),
             preserve_default=False,
         ),
         migrations.AlterField(
             model_name='solicitudtrabajo',
             name='estado',
-            field=models.CharField(choices=[('E', 'En espera'), ('A', 'Aceptada'), ('R', 'Rechazada')], max_length=1, verbose_name='Estado'),
+            field=models.CharField(choices=[('E', 'En espera'), ('A', 'Aceptada'), (
+                'R', 'Rechazada')], max_length=1, verbose_name='Estado'),
         ),
     ]

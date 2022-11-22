@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AreaConocimiento',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('nombre', models.CharField(max_length=30)),
                 ('descripcion', models.TextField()),
             ],
@@ -22,6 +23,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='categoria',
             name='area_conocimiento',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='vinculacion.areaconocimiento', verbose_name='Área de conocimiento'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE,
+                                    to='vinculacion.areaconocimiento', verbose_name='Área de conocimiento'),
         ),
     ]

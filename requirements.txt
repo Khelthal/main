@@ -64,3 +64,4 @@ typing_extensions==4.4.0
 urllib3==1.26.12
 wrapt==1.14.1
 wsproto==1.2.0
+python-decouple==3.6
