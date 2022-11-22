@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_sass',
+    'behave_django',
     'vinculacion',
     'usuarios',
     'investigadores',
@@ -87,12 +87,18 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'vinculacion',
-        'USER': 'vinculacion_user',
-        'PASSWORD': 'vinculacion_password',
+        'USER': 'root',
+        'PASSWORD': 'vinculacion_root_password',
         'HOST': 'db-vinculacion',
         'PORT': 3306,
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -131,7 +137,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-#Location of static files
+# Location of static files
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
 # Default primary key field type

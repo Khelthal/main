@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from investigadores.forms import SolicitudTrabajoForm
 from usuarios.models import TipoUsuario
 from vinculacion.models import Categoria, Noticia
-from vinculacion.helpers import get_author, get_publications
+from vinculacion.helpers import (
+    get_author,
+    get_publications,
+    get_user_specific_data)
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView
 from administracion.forms import (
     FormInvestigadorBase,
@@ -125,29 +129,7 @@ def perfil(request):
     if not usuario.aprobado:
         return render(request, "vinculacion/perfil_pendiente.html")
 
-    tipo_usuario = "_".join(usuario.tipo_usuario.tipo.split()).lower()
-
-    if tipo_usuario == "investigador":
-        usuario_investigador = Investigador.objects.get(user=usuario)
-        usuario_data = {
-            'email': usuario_investigador.user.email,
-            'imagen': usuario_investigador.imagen,
-        }
-
-    elif tipo_usuario == "empresa":
-        usuario_empresa = Empresa.objects.get(encargado=usuario)
-        usuario_data = {
-            'email': usuario_empresa.encargado.email,
-            'imagen': usuario_empresa.imagen,
-        }
-
-    elif tipo_usuario == "institucion_educativa":
-        usuario_institucion = InstitucionEducativa.objects.get(
-            encargado=usuario)
-        usuario_data = {
-            'email': usuario_institucion.encargado.email,
-            'imagen': usuario_institucion.imagen,
-        }
+    usuario_data = get_user_specific_data(usuario)
 
     return render(
         request,
@@ -427,11 +409,10 @@ def instituciones_educativas_lista(request):
                 institucion_educativa=institucion)
             institucion.es_posible_solicitar = True
 
-            if solicitudes:
-                for solicitud in solicitudes:
-                    if solicitud.investigador == investigador:
-                        institucion.es_posible_solicitar = False
-                        break
+            for solicitud in solicitudes:
+                if solicitud.investigador == investigador:
+                    institucion.es_posible_solicitar = False
+                    break
 
             institucion.es_miembro = False
             if investigador in institucion.miembros.all():
@@ -559,50 +540,68 @@ def investigaciones_google(request):
     return redirect("vinculacion:investigaciones_lista")
 
 
-def solicitudTrabajoNueva(request, investigador_id):
-    form = SolicitudTrabajoForm()
+class CrearSolicitudTrabajo(LoginRequiredMixin, CreateView):
+    model = SolicitudTrabajo
+    form_class = SolicitudTrabajoForm
+    template_name = "vinculacion/formulario.html"
 
-    context = {}
+    def form_valid(self, form):
+        investigador_id = self.kwargs['investigador_id']
+        if self.request.user.pk == investigador_id:
+            messages.error(
+                self.request,
+                "Un investigador no puede hacer una solicitud a sí mismo")
+            return super(CrearSolicitudTrabajo, self).form_invalid(form)
+        solicitud = form.save(commit=False)
+        solicitud.usuario_solicitante = User.objects.get(
+            pk=self.request.user.pk)
+        investigador = get_object_or_404(
+            Investigador,
+            pk=investigador_id
+        )
+        solicitud.usuario_a_vincular = investigador
+        solicitud.estado = "E"
+        solicitud.save()
+        messages.success(
+            self.request,
+            "Solicitud de trabajo a el investigador " +
+            str(investigador)+" enviada")
+        return redirect("vinculacion:investigador_perfil", investigador_id)
 
-    if request.method == "POST":
-        form = SolicitudTrabajoForm(request.POST)
-        if form.is_valid():
-            solicitud = form.save(commit=False)
-            solicitud.usuario_solicitante = User.objects.get(
-                pk=request.user.pk)
-            investigador = Investigador.objects.get(pk=investigador_id)
-            solicitud.usuario_a_vincular = investigador
-            solicitud.estado = "E"
-            solicitud.save()
-            messages.success(
-                request,
-                "Solicitud de trabajo a el investigador " +
-                str(investigador)+" enviada")
-            return redirect("vinculacion:investigador_perfil", investigador_id)
 
-    context["form"] = form
-    context["titulo"] = "Solicitud de Trabajo"
-
-    return render(request, "vinculacion/formulario.html", context)
-
-
+@login_required
 def aceptar_solicitud(request, pk):
+    investigador = get_object_or_404(
+        Investigador,
+        user=request.user
+    )
     solicitud = get_object_or_404(
         SolicitudTrabajo,
-        pk=pk
+        pk=pk,
+        usuario_a_vincular=investigador,
+        estado="E"
     )
     solicitud.estado = "A"
     solicitud.save()
+    messages.success(request, "La solicitud ha sido aceptada")
 
     return redirect("vinculacion:solicitudes_trabajo_lista")
 
 
+@login_required
 def rechazar_solicitud(request, pk):
+    investigador = get_object_or_404(
+        Investigador,
+        user=request.user
+    )
     solicitud = get_object_or_404(
         SolicitudTrabajo,
-        pk=pk
+        pk=pk,
+        usuario_a_vincular=investigador,
+        estado="E"
     )
     solicitud.estado = "R"
     solicitud.save()
+    messages.success(request, "La solicitud ha sido rechazada")
 
     return redirect("vinculacion:solicitudes_trabajo_lista")
