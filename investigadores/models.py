@@ -71,7 +71,17 @@ class GrupoInvestigacion(models.Model):
 ESTADOS = [
     ("E", "En espera"),
     ("A", "Aceptada"),
+    ("P", "En proceso"),
     ("R", "Rechazada"),
+    ("C", "Cancelada"),
+]
+
+ESTADOS_TRABAJO_FINALIZACION = [
+    ("E", "En revisión"),
+    ("P", "En proceso"),
+    ("A", "Aceptada"),
+    ("R", "Rechazada"),
+    ("F", "Finalizada"),
 ]
 
 
@@ -90,7 +100,19 @@ class SolicitudTrabajo(models.Model):
         choices=ESTADOS,
         verbose_name="Estado",
         max_length=1)
+    estado_investigador = models.CharField(
+        choices=ESTADOS_TRABAJO_FINALIZACION,
+        verbose_name="Estado del investigador",
+        default="A",
+        max_length=1)
+    estado_empleador = models.CharField(
+        choices=ESTADOS_TRABAJO_FINALIZACION,
+        verbose_name="Estado del empleador",
+        default="P",
+        max_length=1)
+    descripcion = models.TextField(verbose_name="Descripción", max_length=5000)
     fecha = models.DateTimeField(auto_now=True)
+    fecha_finalizado = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.titulo

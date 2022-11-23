@@ -18,7 +18,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='NivelInvestigador',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('nivel', models.IntegerField()),
                 ('descripcion', models.TextField()),
             ],
@@ -26,19 +27,24 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Investigador',
             fields=[
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE,
+                 primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
                 ('curp', models.TextField()),
-                ('nivel', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='investigadores.nivelinvestigador')),
-                ('ubicacion', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='usuarios.ubicacion')),
+                ('nivel', models.ForeignKey(
+                    on_delete=django.db.models.deletion.DO_NOTHING, to='investigadores.nivelinvestigador')),
+                ('ubicacion', models.ForeignKey(blank=True, null=True,
+                 on_delete=django.db.models.deletion.DO_NOTHING, to='usuarios.ubicacion')),
             ],
         ),
         migrations.CreateModel(
             name='Investigacion',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('titulo', models.TextField()),
                 ('contenido', models.TextField()),
-                ('autores', models.ManyToManyField(to='investigadores.investigador')),
+                ('autores', models.ManyToManyField(
+                    to='investigadores.investigador')),
                 ('categorias', models.ManyToManyField(to='vinculacion.categoria')),
             ],
         ),

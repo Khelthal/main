@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='investigador',
             name='acerca_de',
-            field=models.TextField(default='', max_length=1000, verbose_name='Acerca de'),
+            field=models.TextField(
+                default='', max_length=1000, verbose_name='Acerca de'),
         ),
     ]

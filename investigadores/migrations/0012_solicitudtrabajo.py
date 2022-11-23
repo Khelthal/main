@@ -16,11 +16,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SolicitudTrabajo',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('titulo', models.CharField(max_length=200, verbose_name='Título')),
-                ('estado', models.CharField(choices=[('P', 'En proceso'), ('F', 'Finalizada'), ('I', 'Incumplida'), ('R', 'Rechazada'), ('C', 'Cancelada')], max_length=2, verbose_name='Estado')),
-                ('usuario_a_vincular', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='investigadores.investigador', verbose_name='Usuario a vincular')),
-                ('usuario_solicitante', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL, verbose_name='Usuario solicitante')),
+                ('estado', models.CharField(choices=[('P', 'En proceso'), ('F', 'Finalizada'), (
+                    'I', 'Incumplida'), ('R', 'Rechazada'), ('C', 'Cancelada')], max_length=2, verbose_name='Estado')),
+                ('usuario_a_vincular', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING,
+                 to='investigadores.investigador', verbose_name='Usuario a vincular')),
+                ('usuario_solicitante', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING,
+                 to=settings.AUTH_USER_MODEL, verbose_name='Usuario solicitante')),
             ],
         ),
     ]

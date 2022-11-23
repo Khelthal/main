@@ -14,6 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='investigador',
             name='imagen',
-            field=models.ImageField(default=None, upload_to=investigadores.models.rutaImagenInvestigador, verbose_name='Imagen de perfil'),
+            field=models.ImageField(
+                default=None, upload_to=investigadores.models.rutaImagenInvestigador, verbose_name='Imagen de perfil'),
         ),
     ]

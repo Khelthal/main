@@ -34,8 +34,8 @@ urlpatterns = [
         views.InvestigadorActualizar.as_view(),
         name='investigador_actualizar'),
     path(
-        'formularios/solicitudTrabajo/<int:investigador_id>',
-        views.solicitudTrabajoNueva, name='solicitud_trabajo_nueva'),
+        'formularios/solicitud_trabajo/<int:investigador_id>',
+        views.CrearSolicitudTrabajo.as_view(), name='solicitud_trabajo_nueva'),
 
     path(
         'formularios/empresa', views.EmpresaSolicitud.as_view(),
@@ -97,4 +97,16 @@ urlpatterns = [
         'perfil/solicitudes_trabajo/rechazar/<int:pk>',
         views.rechazar_solicitud,
         name='rechazar_solicitud'),
+
+    # Trabajos
+    path(
+        'perfil/trabajos', views.trabajos_en_curso,
+        name='trabajos_lista'),
+    path(
+        'perfil/trabajos/historial', views.historial_trabajos,
+        name='trabajos_historial'),
+    path(
+        'perfil/trabajos/cambiar_estado/<int:pk>/<str:estado>',
+        views.cambiar_estado,
+        name='cambiar_estado_solicitud'),
 ]

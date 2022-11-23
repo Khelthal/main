@@ -29,8 +29,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GrupoInvestigacion',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('integrantes', models.ManyToManyField(to='investigadores.investigador')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('integrantes', models.ManyToManyField(
+                    to='investigadores.investigador')),
             ],
         ),
     ]
