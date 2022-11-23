@@ -234,3 +234,79 @@ class TestActualizarCuentaInstitucion(TestCase):
             especialidad], 'codigo_postal': '99390', 'municipio': 'Jerez', 'colonia': 'Alamitos', 'calle': 'Mezquite', 'numero_exterior': '29', 'acerca_de': 'Info'}
         form = FormInstitucionEducativaUpdate(data=datos)
         self.assertFalse(form.is_valid())
+from investigadores.forms import SolicitudTrabajoForm
+
+
+class TestSolicitudTrabajoForm(TestCase):
+
+    def test_form_valido(self):
+        form = SolicitudTrabajoForm({
+            "titulo": "Titulo valido",
+            "descripcion": "Descripcion valida"
+        })
+        self.assertTrue(form.is_valid())
+
+    def test_form_vacio(self):
+        form = SolicitudTrabajoForm({
+        })
+        self.assertFalse(form.is_valid())
+
+    def test_form_no_titulo(self):
+        form = SolicitudTrabajoForm({
+            "descripcion": "Descripcion valida"
+        })
+        self.assertFalse(form.is_valid())
+
+    def test_form_no_titulo_error(self):
+        form = SolicitudTrabajoForm({
+            "descripcion": "Descripcion valida"
+        })
+        self.assertEquals(
+            form.errors["titulo"],
+            ['Este campo es obligatorio.'])
+
+    def test_form_titulo_vacio(self):
+        form = SolicitudTrabajoForm({
+            "titulo": "",
+            "descripcion": "Descripcion valida"
+        })
+        self.assertFalse(form.is_valid())
+
+    def test_form_titulo_largo(self):
+        form = SolicitudTrabajoForm({
+            "titulo": "a"*250,
+            "descripcion": "Descripcion valida"
+        })
+        if form.is_valid():
+            print(form.cleaned_data["titulo"])
+            self.assertEquals(len(form.cleaned_data["titulo"]), 200)
+
+    def test_form_no_descripcion(self):
+        form = SolicitudTrabajoForm({
+            "titulo": "Titulo valido",
+        })
+        self.assertFalse(form.is_valid())
+
+    def test_form_no_descripcion_error(self):
+        form = SolicitudTrabajoForm({
+            "titulo": "Titulo valido",
+        })
+        self.assertEquals(
+            form.errors["descripcion"],
+            ['Este campo es obligatorio.'])
+
+    def test_form_descripcion_vacio(self):
+        form = SolicitudTrabajoForm({
+            "titulo": "Titulo valido",
+            "descripcion": ""
+        })
+        self.assertFalse(form.is_valid())
+
+    def test_form_descripcion_largo(self):
+        form = SolicitudTrabajoForm({
+            "titulo": "Titulo valido",
+            "descripcion": "a"*5001
+        })
+        if form.is_valid():
+            print(form.cleaned_data["titulo"])
+            self.assertEquals(len(form.cleaned_data["titulo"]), 5000)

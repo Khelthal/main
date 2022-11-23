@@ -37,6 +37,12 @@
             </li>
           {% endif %}
           <li class="nav-item">
+            <a class="nav-link" id="trabajo_en_curso" href="{% url 'vinculacion:trabajos_lista' %}">Trabajos en curso</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="historial_de_trabajo" href="{% url 'vinculacion:trabajos_historial' %}">Historial de trabajos</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" id="eliminar" href="{% url 'vinculacion:usuario_eliminar' %}">Eliminar mi cuenta</a>
           </li>
         </ul>
