@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth.decorators import login_required
 import vinculacion.views as views
 
 app_name = "vinculacion"
@@ -28,7 +29,7 @@ urlpatterns = [
     # Formularios
     path(
         'formularios/investigador',
-        views.InvestigadorSolicitud.as_view(), name='investigador_form'),
+        login_required(views.InvestigadorSolicitud.as_view()), name='investigador_form'),
     path(
         'formularios/investigador/actualizar',
         views.InvestigadorActualizar.as_view(),
@@ -38,7 +39,8 @@ urlpatterns = [
         views.solicitudTrabajoNueva, name='solicitud_trabajo_nueva'),
 
     path(
-        'formularios/empresa', views.EmpresaSolicitud.as_view(),
+        'formularios/empresa', login_required(
+            views.EmpresaSolicitud.as_view()),
         name='empresa_form'),
     path(
         'formularios/empresa/actualizar',
@@ -46,7 +48,7 @@ urlpatterns = [
 
     path(
         'formularios/institucion_educativa',
-        views.InstitucionEducativaSolicitud.as_view(),
+        login_required(views.InstitucionEducativaSolicitud.as_view()),
         name='institucion_educativa_form'),
     path(
         'formularios/institucion_educativa/actualizar',
