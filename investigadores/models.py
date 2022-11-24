@@ -116,3 +116,11 @@ class SolicitudTrabajo(models.Model):
 
     def __str__(self):
         return self.titulo
+
+
+class InvestigacionGoogleScholar(models.Model):
+    investigador = models.ForeignKey("Investigador", on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=500)
+
+    class Meta:
+        unique_together = ('investigador', 'titulo')
