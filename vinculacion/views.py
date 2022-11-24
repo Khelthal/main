@@ -39,7 +39,7 @@ from . import helpers
 
 
 def index(request):
-    return render(request, "vinculacion/index.html")
+    return redirect("usuarios:login")
 
 
 @login_required
