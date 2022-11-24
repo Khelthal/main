@@ -43,6 +43,8 @@ class Investigador(models.Model):
     imagen = models.ImageField(
         upload_to=rutaImagenInvestigador,
         verbose_name="Imagen de perfil",
+        blank=True,
+        null=True,
         default=None)
 
     def __str__(self):
