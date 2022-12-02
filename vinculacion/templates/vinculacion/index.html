@@ -14,31 +14,34 @@
 
 <body>
 
-  <header class="header contenedor">
-    <div class="header__logo">
-      <img src="{% static 'dist/assets/images/logo/logo.png' %}" alt="logo labsol">
+  <div class="d-flex w-100 flex-column justify-content-between min-vh-100">
+    <div>
+      <header class="header contenedor">
+        <div class="header__logo">
+        </div>
+
+        <nav class="navegacion">
+          <a href="{% url 'usuarios:login' %}" class="navegacion__link">Iniciar Sesión</a>
+          <a href="{% url 'usuarios:registrar' %}" class="navegacion__link">Crear Cuenta</a>
+        </nav>
+      </header>
+
+      <section class="contenedor formulario">
+        <div class="formulario__grid">
+          <div class="formulario__contenido">
+            <h2 class="formulario__heading">Encuentra y vincula con los mejores investigadores y universidades del estado
+            </h2>
+          </div>
+          <div class="formulario__imagen-contenedor">
+            <img class="formulario__imagen" src="{% static 'img/Logocozcyt.jpg' %}" alt="dibujo investigador">
+          </div>
+        </div>
+      </section>
     </div>
 
-    <nav class="navegacion">
-      <a href="{% url 'usuarios:login' %}" class="navegacion__link">Iniciar Sesión</a>
-      <a href="{% url 'usuarios:registrar' %}" class="navegacion__link">Crear Cuenta</a>
-    </nav>
-  </header>
-
-  <section class="contenedor formulario">
-    <div class="formulario__grid">
-      <div class="formulario__contenido">
-        <h2 class="formulario__heading">Encuentra y vincula con los mejores investigadores y universidades del estado
-        </h2>
-      </div>
-      <div class="formulario__imagen-contenedor">
-        <img class="formulario__imagen" src="{% static 'img/InvestigadorIndex.jpg' %}" alt="dibujo investigador">
-      </div>
+    <div class="pasos d-flex flex-column align-content-end">
+      <img class="pasos__wave" src="{% static 'img/wave.svg'%}" alt="imagen wave" style="">
     </div>
-  </section>
-
-  <div class="pasos">
-    <img class="pasos__wave" src="{% static 'img/wave.svg'%}" alt="imagen wave" style="">
   </div>
 
 </body>

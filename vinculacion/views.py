@@ -21,6 +21,7 @@ from investigadores.models import (
     Investigador,
     NivelInvestigador,
     Investigacion,
+    InvestigacionGoogleScholar,
     SolicitudTrabajo)
 from empresas.models import Empresa
 from instituciones_educativas.models import (
@@ -38,7 +39,7 @@ from . import helpers
 
 
 def index(request):
-    return render(request, "vinculacion/index.html")
+    return redirect("usuarios:login")
 
 
 @login_required
@@ -534,12 +535,19 @@ def investigaciones_google(request):
             return redirect("vinculacion:investigaciones_lista")
 
         for publicacion in get_publications(author):
-            investigacion = Investigacion.objects.create(
-                titulo=publicacion["titulo"],
-                contenido=publicacion["contenido"],
-            )
-            investigacion.autores.add(investigador),
-            investigacion.save()
+            try:
+                InvestigacionGoogleScholar.objects.create(
+                    titulo=publicacion["titulo"],
+                    investigador=investigador,
+                )
+                investigacion = Investigacion.objects.create(
+                    titulo=publicacion["titulo"],
+                    contenido=publicacion["contenido"],
+                )
+                investigacion.autores.add(investigador),
+                investigacion.save()
+            except Exception:
+                continue
 
     return redirect("vinculacion:investigaciones_lista")
 
