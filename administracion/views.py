@@ -83,7 +83,7 @@ def aprobar_perfil(request, pk):
     usuario.aprobado = True
     usuario.save()
 
-    return redirect('administracion:dashboard')
+    return redirect('administracion:instituciones_educativas_lista')
 
 # Usuarios
 
@@ -374,7 +374,7 @@ class InstitucionEducativaNuevo(CreateView):
 class InstitucionEducativaEditar(UpdateView):
     model = InstitucionEducativa
     form_class = FormInstitucionEducativaUpdate
-    success_url = reverse_lazy('administracion:instituciones_educativas_lista')
+    success_url = reverse_lazy('administracion:instituciones_educativas_solicitud')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Editar",
                      "nombre_modelo": "institución educativa",
@@ -404,7 +404,7 @@ class InstitucionEducativaEditar(UpdateView):
 
 class InstitucionEducativaEliminar(DeleteView):
     model = InstitucionEducativa
-    success_url = reverse_lazy('administracion:instituciones_educativas_lista')
+    success_url = reverse_lazy('administracion:instituciones_educativas_solicitud')
     template_name = "administracion/confirm_delete.html"
     extra_context = {"nombre_modelo": "institución educativa"}
 
