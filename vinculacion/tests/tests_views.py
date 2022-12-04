@@ -1,5 +1,7 @@
 from django.test import TestCase
-from usuarios.models import User
+from usuarios.models import User, TipoUsuario
+from investigadores.models import Investigador, NivelInvestigador
+from instituciones_educativas.models import InstitucionEducativa
 
 
 class TestSmoke(TestCase):
@@ -137,3 +139,100 @@ class TestEliminarUsuario(TestCase):
     def test_eliminar_cuenta(self):
         self.client.post('/perfil/eliminar')
         self.assertEqual(User.objects.count(), 0)
+
+
+class TestInstitucionEducativaMiembros(TestCase):
+    def setUp(self):
+        pass
+        self.nivel = NivelInvestigador.objects.create(
+            nivel=1,
+            descripcion="XD"
+        )
+        self.usuario_institucion = User.objects.create(
+            username='testuser',
+            aprobado=True,
+            is_active=True,
+            tipo_usuario=TipoUsuario.objects.get(tipo="Institucion Educativa"),
+            email="test@test.com",
+        )
+        self.institucion = InstitucionEducativa.objects.create(
+            encargado=self.usuario_institucion,
+            acerca_de="a",
+            calle="Esmeralda",
+            codigo_postal=98613,
+            colonia="Las Joyas",
+            latitud=0,
+            longitud=0,
+            municipio=16,
+            nombre_institucion="Institucioncita",
+            numero_exterior=35
+        )
+        self.usuario_investigador = User.objects.create(
+            username='user_investigador',
+            aprobado=True,
+            is_active=True,
+            email="test2@test.com",
+            tipo_usuario=TipoUsuario.objects.get(tipo="Investigador")
+        )
+        self.investigador = Investigador.objects.create(
+            acerca_de="a",
+            calle="Esmeralda",
+            codigo_postal=98613,
+            colonia="Las Joyas",
+            curp="BEGE010204HZSLNLA5",
+            municipio=16,
+            numero_exterior=35,
+            latitud=0,
+            longitud=0,
+            user=self.usuario_investigador,
+            nivel=self.nivel,
+        )
+        self.usuario_institucion.set_password("12345")
+        self.usuario_institucion.save()
+        self.usuario_investigador.set_password("12345")
+        self.usuario_investigador.save()
+        self.client.login(username='user_investigador', password='12345')
+        self.client.get(
+            f"/investigador/solicitud_ingreso/{self.institucion.pk}")
+        self.client.login(username='testuser', password='12345')
+
+    def test_listar_solicitud_miembros(self):
+        r = self.client.get("/institucion_educativa/solicitud_ingreso")
+        self.assertEquals(r.status_code, 200)
+
+    def test_listar_miembros(self):
+        r = self.client.get("/institucion_educativa/miembros")
+        self.assertEquals(r.status_code, 200)
+
+    def test_aceptar_solicitud_miembro(self):
+        self.client.get(
+            "/institucion_educativa/solicitud_ingreso/" +
+            f"{self.investigador.pk}/1")
+        self.assertEquals(
+            len(
+                InstitucionEducativa.objects.get(
+                    pk=self.institucion.pk).miembros.all()),
+            1)
+
+    def test_rechazar_solicitud_miembro(self):
+        self.client.get(
+            "/institucion_educativa/solicitud_ingreso/" +
+            f"{self.investigador.pk}/0")
+        self.assertEquals(
+            len(
+                InstitucionEducativa.objects.get(
+                    pk=self.institucion.pk).miembros.all()),
+            0)
+
+    def test_eliminar_miembro(self):
+        self.client.get(
+            "/institucion_educativa/solicitud_ingreso/" +
+            f"{self.investigador.pk}/1")
+        self.client.get(
+            "/institucion_educativa/miembros/eliminar/" +
+            f"{self.investigador.pk}")
+        self.assertEquals(
+            len(
+                InstitucionEducativa.objects.get(
+                    pk=self.institucion.pk).miembros.all()),
+            0)

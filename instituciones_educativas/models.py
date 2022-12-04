@@ -23,7 +23,7 @@ class InstitucionEducativa(models.Model):
     especialidades = models.ManyToManyField(Categoria)
     latitud = models.FloatField()
     longitud = models.FloatField()
-    miembros = models.ManyToManyField(Investigador)
+    miembros = models.ManyToManyField(Investigador, blank=True)
     codigo_postal = models.CharField(max_length=5, validators=[cp_validator])
     municipio = models.IntegerField(choices=MUNICIPIOS)
     colonia = models.CharField(max_length=100)
