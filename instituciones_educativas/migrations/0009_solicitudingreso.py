@@ -15,9 +15,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SolicitudIngreso',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('institucion_educativa', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='instituciones_educativas.institucioneducativa')),
-                ('investigador', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='investigadores.investigador')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('institucion_educativa', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='instituciones_educativas.institucioneducativa')),
+                ('investigador', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='investigadores.investigador')),
             ],
         ),
     ]

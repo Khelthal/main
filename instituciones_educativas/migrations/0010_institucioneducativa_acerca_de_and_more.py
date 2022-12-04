@@ -14,11 +14,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='institucioneducativa',
             name='acerca_de',
-            field=models.TextField(default='', max_length=1000, verbose_name='Acerca de'),
+            field=models.TextField(
+                default='', max_length=1000, verbose_name='Acerca de'),
         ),
         migrations.AddField(
             model_name='institucioneducativa',
             name='imagen',
-            field=models.ImageField(default=None, upload_to=instituciones_educativas.models.rutaImagenInstitucion, verbose_name='Imagen de perfil'),
+            field=models.ImageField(
+                default=None, upload_to=instituciones_educativas.models.rutaImagenInstitucion, verbose_name='Imagen de perfil'),
         ),
     ]
