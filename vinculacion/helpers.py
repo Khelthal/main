@@ -1,4 +1,7 @@
 from scholarly import scholarly, ProxyGenerator
+from investigadores.models import Investigador
+from empresas.models import Empresa
+from instituciones_educativas.models import InstitucionEducativa
 from django.conf import settings
 from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
@@ -6,7 +9,6 @@ from investigadores.models import (
     SolicitudTrabajo)
 from usuarios.models import User
 from datetime import datetime
-from . import helpers
 
 
 def get_author(user_id):
@@ -52,6 +54,33 @@ def get_publications(author):
 
     return publicaciones
 
+
+def get_user_specific_data(usuario):
+    tipo_usuario = "_".join(usuario.tipo_usuario.tipo.split()).lower()
+
+    if tipo_usuario == "investigador":
+        usuario_investigador = Investigador.objects.get(user=usuario)
+        usuario_data = {
+            'email': usuario_investigador.user.email,
+            'imagen': usuario_investigador.imagen,
+        }
+
+    elif tipo_usuario == "empresa":
+        usuario_empresa = Empresa.objects.get(encargado=usuario)
+        usuario_data = {
+            'email': usuario_empresa.encargado.email,
+            'imagen': usuario_empresa.imagen,
+        }
+
+    elif tipo_usuario == "institucion_educativa":
+        usuario_institucion = InstitucionEducativa.objects.get(
+            encargado=usuario)
+        usuario_data = {
+            'email': usuario_institucion.encargado.email,
+            'imagen': usuario_institucion.imagen,
+        }
+
+    return usuario_data
 # Cambiar estados de trabajo
 
 
@@ -66,10 +95,11 @@ def cancelar_trabajo(request, solicitud):
         empleado = User.objects.filter(
             pk=solicitud.usuario_a_vincular.pk).first()
         correos = [empleador.email, empleado.email]
-        helpers.enviar_correo_estado(solicitud.pk,
-                                     "Cancelación de trabajo",
-                                     "El trabajo ha sido cancelado por el investigador",
-                                     correos)
+        enviar_correo_estado(
+            solicitud.pk,
+            "Cancelación de trabajo",
+            "El trabajo ha sido cancelado por el investigador",
+            correos)
         solicitud.save()
 
     elif request.user.pk == solicitud.usuario_solicitante.pk:
@@ -81,10 +111,11 @@ def cancelar_trabajo(request, solicitud):
         empleado = User.objects.filter(
             pk=solicitud.usuario_a_vincular.pk).first()
         correos = [empleador.email, empleado.email]
-        helpers.enviar_correo_estado(solicitud.pk,
-                                     "Cancelación de trabajo",
-                                     "El trabajo ha sido cancelado por el solicitante",
-                                     correos)
+        enviar_correo_estado(
+            solicitud.pk,
+            "Cancelación de trabajo",
+            "El trabajo ha sido cancelado por el solicitante",
+            correos)
         solicitud.save()
 
 
@@ -97,10 +128,11 @@ def finalizar_trabajo(request, solicitud):
         empleado = User.objects.filter(
             pk=solicitud.usuario_a_vincular.pk).first()
         correos = [empleador.email, empleado.email]
-        helpers.enviar_correo_estado(solicitud.pk,
-                                     "Finalización de trabajo",
-                                     "El trabajo ha sido finalizado por el investigador",
-                                     correos)
+        enviar_correo_estado(
+            solicitud.pk,
+            "Finalización de trabajo",
+            "El trabajo ha sido finalizado por el investigador",
+            correos)
         solicitud.save()
     elif request.user.pk == solicitud.usuario_solicitante.pk:
         solicitud.estado_empleador = "F"
@@ -110,10 +142,11 @@ def finalizar_trabajo(request, solicitud):
         empleado = User.objects.filter(
             pk=solicitud.usuario_a_vincular.pk).first()
         correos = [empleador.email, empleado.email]
-        helpers.enviar_correo_estado(solicitud.pk,
-                                     "Finalización de trabajo",
-                                     "El trabajo ha sido finalizado por el solicitante",
-                                     correos)
+        enviar_correo_estado(
+            solicitud.pk,
+            "Finalización de trabajo",
+            "El trabajo ha sido finalizado por el solicitante",
+            correos)
         solicitud.save()
 
 
@@ -127,10 +160,11 @@ def rechazar_trabajo(request, solicitud):
             pk=solicitud.usuario_a_vincular.pk).first()
         correos = [empleador.email, empleado.email]
 
-        helpers.enviar_correo_estado(solicitud.pk,
-                                     "Rechazo de trabajo",
-                                     "El trabajo ha sido rechazado por el solicitante",
-                                     correos)
+        enviar_correo_estado(
+            solicitud.pk,
+            "Rechazo de trabajo",
+            "El trabajo ha sido rechazado por el solicitante",
+            correos)
         solicitud.save()
 
 
@@ -143,10 +177,11 @@ def trabajo_en_proceso(request, solicitud):
         empleado = User.objects.filter(
             pk=solicitud.usuario_a_vincular.pk).first()
         correos = [empleador.email, empleado.email]
-        helpers.enviar_correo_estado(solicitud.pk,
-                                     "Estado de trabajo en proceso",
-                                     "El trabajo ha sido colocado en proceso por el investigador",
-                                     correos)
+        enviar_correo_estado(
+            solicitud.pk,
+            "Estado de trabajo en proceso",
+            "El trabajo ha sido colocado en proceso por el investigador",
+            correos)
         solicitud.save()
 
 
@@ -158,10 +193,11 @@ def trabajo_en_revision(request, solicitud):
         empleado = User.objects.filter(
             pk=solicitud.usuario_a_vincular.pk).first()
         correos = [empleador.email, empleado.email]
-        helpers.enviar_correo_estado(solicitud.pk,
-                                     "Estado de trabajo en espera",
-                                     "El trabajo ha sido colocado en revision por el solicitante",
-                                     correos)
+        enviar_correo_estado(
+            solicitud.pk,
+            "Estado de trabajo en espera",
+            "El trabajo ha sido colocado en revision por el solicitante",
+            correos)
         solicitud.save()
     elif request.user.pk == solicitud.usuario_a_vincular.pk:
         solicitud.estado_investigador = "E"
@@ -170,10 +206,11 @@ def trabajo_en_revision(request, solicitud):
         empleado = User.objects.filter(
             pk=solicitud.usuario_a_vincular.pk).first()
         correos = [empleador.email, empleado.email]
-        helpers.enviar_correo_estado(solicitud.pk,
-                                     "Estado de trabajo en espera",
-                                     "El trabajo ha sido colocado en revision por el investigador",
-                                     correos)
+        enviar_correo_estado(
+            solicitud.pk,
+            "Estado de trabajo en espera",
+            "El trabajo ha sido colocado en revision por el investigador",
+            correos)
         solicitud.save()
 
 # Envio de correo para notificar la finalización de un trabajo

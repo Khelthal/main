@@ -34,8 +34,8 @@ urlpatterns = [
         views.InvestigadorActualizar.as_view(),
         name='investigador_actualizar'),
     path(
-        'formularios/solicitudTrabajo/<int:investigador_id>',
-        views.solicitudTrabajoNueva, name='solicitud_trabajo_nueva'),
+        'formularios/solicitud_trabajo/<int:investigador_id>',
+        views.CrearSolicitudTrabajo.as_view(), name='solicitud_trabajo_nueva'),
 
     path(
         'formularios/empresa', views.EmpresaSolicitud.as_view(),

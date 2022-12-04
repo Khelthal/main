@@ -109,3 +109,31 @@ class TestSolicitarTrabajoNuevo(TestCase):
         response = self.client.get('/formularios/solicitudTrabajo/')
         self.assertEqual(response.status_code, 404)
 
+
+class TestConsultaMapa(TestCase):
+    def setUp(self):
+        usuario = User.objects.create_user(
+            username='testuser', password='12345')
+        usuario.save()
+        self.client.login(username='testuser', password='12345')
+
+    def test_consultar_mapa_loggeado(self):
+        response = self.client.get('/dashboard')
+        self.assertEqual(response.status_code, 200)
+
+    def test_consultar_mapa_no_loggeado(self):
+        self.client.logout()
+        response = self.client.get('/dashboard')
+        self.assertEqual(response.status_code, 302)
+
+
+class TestEliminarUsuario(TestCase):
+    def setUp(self):
+        usuario = User.objects.create_user(
+            username='testuser', password='12345')
+        usuario.save()
+        self.client.login(username='testuser', password='12345')
+
+    def test_eliminar_cuenta(self):
+        self.client.post('/perfil/eliminar')
+        self.assertEqual(User.objects.count(), 0)

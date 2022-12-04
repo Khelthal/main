@@ -43,6 +43,8 @@ class Investigador(models.Model):
     imagen = models.ImageField(
         upload_to=rutaImagenInvestigador,
         verbose_name="Imagen de perfil",
+        blank=True,
+        null=True,
         default=None)
 
     def __str__(self):
@@ -116,3 +118,11 @@ class SolicitudTrabajo(models.Model):
 
     def __str__(self):
         return self.titulo
+
+
+class InvestigacionGoogleScholar(models.Model):
+    investigador = models.ForeignKey("Investigador", on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=500)
+
+    class Meta:
+        unique_together = ('investigador', 'titulo')
