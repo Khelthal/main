@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.db.models import Q
@@ -23,6 +24,13 @@ from instituciones_educativas.models import (
     InstitucionEducativa,
     SolicitudIngreso)
 from django.contrib import messages
+from administracion.helpers import obtener_coordenadas
+from usuarios.models import User, MUNICIPIOS
+import itertools
+from urllib.parse import urlparse, parse_qs
+from . import helpers
+
+
 from administracion.helpers import obtener_coordenadas
 from usuarios.models import User, MUNICIPIOS
 import itertools
@@ -612,7 +620,7 @@ def rechazar_solicitud(request, pk):
 
     return redirect("vinculacion:solicitudes_trabajo_lista")
 
-
+@login_required
 def trabajos_en_curso(request):
     usuario = get_object_or_404(User, pk=request.user.pk)
     trabajos = SolicitudTrabajo.objects.filter(
@@ -632,7 +640,7 @@ def trabajos_en_curso(request):
         "vinculacion/trabajos_en_curso.html",
         {"trabajos": trabajos, "page_obj": page_obj})
 
-
+@login_required
 def historial_trabajos(request):
     investigador = get_object_or_404(User, pk=request.user.pk)
     trabajos = SolicitudTrabajo.objects.filter(
@@ -655,6 +663,7 @@ def historial_trabajos(request):
         {"trabajos": trabajos, "page_obj": page_obj})
 
 
+@login_required
 def cambiar_estado(request, pk, estado):
     solicitud = get_object_or_404(
         SolicitudTrabajo,
@@ -703,3 +712,4 @@ def cambiar_estado(request, pk, estado):
             "Estado no válido")
 
     return redirect('vinculacion:trabajos_lista')
+
