@@ -112,19 +112,6 @@ class TestSolicitudTrabajoModel(TestCase):
         with self.assertRaises(ValidationError):
             solicitud.full_clean()
 
-    def test_titulo_largo(self):
-        with self.assertRaises(Exception):
-            solicitud = SolicitudTrabajo.objects.create(
-                descripcion="Solicitud de ejemplo",
-                titulo="a"*201,
-                usuario_a_vincular=self.investigador,
-                usuario_solicitante=self.usuario_visitante,
-                estado="E",
-            )
-
-            with self.assertRaises(ValidationError):
-                solicitud.full_clean()
-
     def test_no_descripcion(self):
         solicitud = SolicitudTrabajo.objects.create(
             titulo="Solicitud",
