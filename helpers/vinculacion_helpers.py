@@ -1,4 +1,4 @@
-from vinculacion.models import AreaConocimiento, Categoria
+from vinculacion.models import AreaConocimiento, Categoria, Noticia
 
 
 def crear_area_conocimiento(nombre, descripcion):
@@ -16,3 +16,12 @@ def crear_categoria(nombre, area_conocimiento, descripcion):
         descripcion=descripcion
     )
     return categoria
+
+def crear_noticia(titulo, contenido, escritor, imagen):
+    noticia = Noticia.objects.create(
+        titulo=titulo,
+        contenido=contenido,
+        escritor=escritor,
+        imagen=imagen
+    )
+    return noticia
