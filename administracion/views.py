@@ -404,7 +404,7 @@ class InstitucionEducativaEditar(UpdateView):
 
 class InstitucionEducativaEliminar(DeleteView):
     model = InstitucionEducativa
-    success_url = reverse_lazy('administracion:instituciones_educativas_solicitud')
+    success_url = reverse_lazy('administracion:instituciones_educativas_lista')
     template_name = "administracion/confirm_delete.html"
     extra_context = {"nombre_modelo": "institución educativa"}
 
