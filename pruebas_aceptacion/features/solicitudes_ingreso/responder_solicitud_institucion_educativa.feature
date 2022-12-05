@@ -9,7 +9,7 @@ Característica: Responder solicitud de una institución educativa
         Y inicio sesión como administrador con el usuario "root" y contraseña "prueba"
         Y busco el registro de "prueba-institucion"
         Cuando hago clic en la opción "aprobar"
-        Entonces se muestra el registro de "prueba-institucion" en la tabla de "instituciones educativas"
+        Entonces se muestra el registro de "prueba-institucion"
 	
 	Escenario: Rechazar solicitud
 	Dado que existe una solicitud de una institución educativa llamada "prueba-institucion"
