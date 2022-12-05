@@ -113,35 +113,17 @@ class TestSolicitudTrabajoModel(TestCase):
             solicitud.full_clean()
 
     def test_titulo_largo(self):
-        solicitud = SolicitudTrabajo.objects.create(
-            descripcion="Solicitud de ejemplo",
-            titulo="a"*201,
-            usuario_a_vincular=self.investigador,
-            usuario_solicitante=self.usuario_visitante,
-            estado="E",
-        )
-
-        with self.assertRaises(ValidationError):
-            solicitud.full_clean()
-
-    def test_titulo_largo_error(self):
-        solicitud = SolicitudTrabajo.objects.create(
-            descripcion="Solicitud de ejemplo",
-            titulo="a"*201,
-            usuario_a_vincular=self.investigador,
-            usuario_solicitante=self.usuario_visitante,
-            estado="E",
-        )
-
-        try:
-            solicitud.full_clean()
-            self.assertTrue(False)
-        except ValidationError as err:
-            self.assertEquals(
-                err.message_dict["titulo"],
-                ['Asegúrese de que este valor tenga' +
-                    ' como máximo 200 caracteres (tiene 201).'],
+        with self.assertRaises(Exception):
+            solicitud = SolicitudTrabajo.objects.create(
+                descripcion="Solicitud de ejemplo",
+                titulo="a"*201,
+                usuario_a_vincular=self.investigador,
+                usuario_solicitante=self.usuario_visitante,
+                estado="E",
             )
+
+            with self.assertRaises(ValidationError):
+                solicitud.full_clean()
 
     def test_no_descripcion(self):
         solicitud = SolicitudTrabajo.objects.create(

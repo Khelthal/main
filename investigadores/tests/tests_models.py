@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.core.exceptions import ValidationError
 from usuarios.models import User
 from investigadores.models import (
     SolicitudTrabajo,
@@ -7,9 +8,266 @@ from investigadores.models import (
 from empresas.models import Empresa
 
 
-class SmokeTest(TestCase):
-    def test_smoke(self):
-        self.assertTrue(True)
+class TestInvestigador(TestCase):
+    def setUp(self):
+        self.nivel = NivelInvestigador.objects.create(
+            nivel=1,
+            descripcion="XD"
+        )
+        self.usuario = User.objects.create_user(
+            username='testuser', password='12345', email="test@mail.com")
+        self.usuario.save()
+
+    def test_usuario_requerido(self):
+        with self.assertRaises(Exception):
+            investigador = Investigador.objects.create(
+                acerca_de="a",
+                calle="Esmeralda",
+                codigo_postal=98613,
+                colonia="Las Joyas",
+                curp="BEGE010204HZSLNLA5",
+                municipio=16,
+                numero_exterior=35,
+                latitud=0,
+                longitud=0,
+                # user=self.usuario,
+                nivel=self.nivel,
+            )
+
+            investigador.full_clean()
+
+    def test_curp_requerido(self):
+        investigador = Investigador.objects.create(
+            acerca_de="a",
+            calle="Esmeralda",
+            codigo_postal=98613,
+            colonia="Las Joyas",
+            # curp="BEGE010204HZSLNLA5",
+            municipio=16,
+            numero_exterior=35,
+            latitud=0,
+            longitud=0,
+            user=self.usuario,
+            nivel=self.nivel,
+        )
+
+        with self.assertRaises(ValidationError):
+            investigador.full_clean()
+
+    def test_curp_formato(self):
+        investigador = Investigador.objects.create(
+            acerca_de="a",
+            calle="Esmeralda",
+            codigo_postal=98613,
+            colonia="Las Joyas",
+            curp="BEGE010204HZSLNLA",
+            municipio=16,
+            numero_exterior=35,
+            latitud=0,
+            longitud=0,
+            user=self.usuario,
+            nivel=self.nivel,
+        )
+
+        with self.assertRaises(ValidationError):
+            investigador.full_clean()
+
+    def test_calle_requerido(self):
+        investigador = Investigador.objects.create(
+            acerca_de="a",
+            # calle="Esmeralda",
+            codigo_postal=98613,
+            colonia="Las Joyas",
+            curp="BEGE010204HZSLNLA",
+            municipio=16,
+            numero_exterior=35,
+            latitud=0,
+            longitud=0,
+            user=self.usuario,
+            nivel=self.nivel,
+        )
+
+        with self.assertRaises(ValidationError):
+            investigador.full_clean()
+
+    def test_descripcion_requerida(self):
+        investigador = Investigador.objects.create(
+            # acerca_de="a",
+            calle="Esmeralda",
+            codigo_postal=98613,
+            colonia="Las Joyas",
+            curp="BEGE010204HZSLNLA",
+            municipio=16,
+            numero_exterior=35,
+            latitud=0,
+            longitud=0,
+            user=self.usuario,
+            nivel=self.nivel,
+        )
+
+        with self.assertRaises(ValidationError):
+            investigador.full_clean()
+
+    def test_codigo_postal_requerido(self):
+        investigador = Investigador.objects.create(
+            acerca_de="a",
+            calle="Esmeralda",
+            # codigo_postal=98613,
+            colonia="Las Joyas",
+            curp="BEGE010204HZSLNLA",
+            municipio=16,
+            numero_exterior=35,
+            latitud=0,
+            longitud=0,
+            user=self.usuario,
+            nivel=self.nivel,
+        )
+
+        with self.assertRaises(ValidationError):
+            investigador.full_clean()
+
+    def test_codigo_postal_formato(self):
+        investigador = Investigador.objects.create(
+            acerca_de="a",
+            calle="Esmeralda",
+            codigo_postal=9861,
+            colonia="Las Joyas",
+            curp="BEGE010204HZSLNLA",
+            municipio=16,
+            numero_exterior=35,
+            latitud=0,
+            longitud=0,
+            user=self.usuario,
+            nivel=self.nivel,
+        )
+
+        with self.assertRaises(ValidationError):
+            investigador.full_clean()
+
+    def test_colonia_requerido(self):
+        investigador = Investigador.objects.create(
+            acerca_de="a",
+            calle="Esmeralda",
+            codigo_postal=9861,
+            # colonia="Las Joyas",
+            curp="BEGE010204HZSLNLA",
+            municipio=16,
+            numero_exterior=35,
+            latitud=0,
+            longitud=0,
+            user=self.usuario,
+            nivel=self.nivel,
+        )
+
+        with self.assertRaises(ValidationError):
+            investigador.full_clean()
+
+    def test_municipio_requerido(self):
+        with self.assertRaises(Exception):
+            investigador = Investigador.objects.create(
+                acerca_de="a",
+                calle="Esmeralda",
+                codigo_postal=9861,
+                colonia="Las Joyas",
+                curp="BEGE010204HZSLNLA",
+                # municipio=16,
+                numero_exterior=35,
+                latitud=0,
+                longitud=0,
+                user=self.usuario,
+                nivel=self.nivel,
+            )
+
+            investigador.full_clean()
+
+    def test_numero_exterior_requerido(self):
+        with self.assertRaises(Exception):
+            investigador = Investigador.objects.create(
+                acerca_de="a",
+                calle="Esmeralda",
+                codigo_postal=9861,
+                colonia="Las Joyas",
+                curp="BEGE010204HZSLNLA",
+                municipio=16,
+                # numero_exterior=35,
+                latitud=0,
+                longitud=0,
+                user=self.usuario,
+                nivel=self.nivel,
+            )
+
+            investigador.full_clean()
+
+    def test_nivel_requerido(self):
+        with self.assertRaises(Exception):
+            investigador = Investigador.objects.create(
+                acerca_de="a",
+                calle="Esmeralda",
+                codigo_postal=9861,
+                colonia="Las Joyas",
+                curp="BEGE010204HZSLNLA",
+                municipio=16,
+                numero_exterior=35,
+                latitud=0,
+                longitud=0,
+                user=self.usuario,
+                # nivel=self.nivel,
+            )
+
+            investigador.full_clean()
+
+    def test_latitud_requerido(self):
+        with self.assertRaises(Exception):
+            investigador = Investigador.objects.create(
+                acerca_de="a",
+                calle="Esmeralda",
+                codigo_postal=9861,
+                colonia="Las Joyas",
+                curp="BEGE010204HZSLNLA",
+                municipio=16,
+                numero_exterior=35,
+                # latitud=0,
+                longitud=0,
+                user=self.usuario,
+                nivel=self.nivel,
+            )
+
+            investigador.full_clean()
+
+    def test_longitud_requerido(self):
+        with self.assertRaises(Exception):
+            investigador = Investigador.objects.create(
+                acerca_de="a",
+                calle="Esmeralda",
+                codigo_postal=9861,
+                colonia="Las Joyas",
+                curp="BEGE010204HZSLNLA",
+                municipio=16,
+                numero_exterior=35,
+                latitud=0,
+                # longitud=0,
+                user=self.usuario,
+                nivel=self.nivel,
+            )
+
+            investigador.full_clean()
+
+
+class TestNivelInvestigador(TestCase):
+    def test_nivel_requerido(self):
+        with self.assertRaises(Exception):
+            NivelInvestigador.objects.create(
+                # nivel=1,
+                descripcion="XD"
+            )
+
+    def test_descripcion_requerida(self):
+        nivel = NivelInvestigador.objects.create(
+            nivel=1,
+            # descripcion="XD"
+        )
+        with self.assertRaises(ValidationError):
+            nivel.full_clean()
 
 
 class TestModelSolicitudTrabajo(TestCase):

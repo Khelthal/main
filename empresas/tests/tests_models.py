@@ -5,10 +5,7 @@ from usuarios.models import User, TipoUsuario
 
 
 # Create your tests here.
-class TestSmoke(TestCase):
-
-    def test_smoke(self):
-        self.assertEquals(2+2, 4)
+class TestEmpresa(TestCase):
 
     def setUp(self):
         self.tipo_empresa = TipoUsuario.objects.create(tipo="Empresa")
@@ -20,7 +17,7 @@ class TestSmoke(TestCase):
             tipo_usuario=self.tipo_empresa,
             aprobado=True)
 
-    def test_insertar_empresa_conteno(self):
+    def test_insertar_empresa_contenido(self):
         Empresa.objects.create(
             encargado=self.usuario,
             nombre_empresa="Oxxo",
