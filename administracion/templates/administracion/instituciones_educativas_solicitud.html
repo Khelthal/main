@@ -15,7 +15,7 @@
       <h4 class="card-title">Instituciones Educativas</h4>
     </div>
     <div class="card-body">
-      <table class="table" id="table1">
+      <table class="table" id="table1" name="solicitudes-de-instituciones">
         <thead>
           <tr>
             <th>Encargado</th>
@@ -29,9 +29,9 @@
             <td>{{institucion_educativa.encargado.username}}</td>
             <td>{{institucion_educativa.nombre_institucion}}</td>
             <td>
-              <a href="{% url 'administracion:aprobar_perfil' institucion_educativa.encargado.pk %}"><span
+              <a id="aprobar" href="{% url 'administracion:aprobar_perfil' institucion_educativa.encargado.pk %}"><span
                   class="badge bg-success">Aprobar</span></a>
-              <a href="{% url 'administracion:instituciones_educativas_eliminar' institucion_educativa.pk %}"><span
+              <a id="rechazar" href="{% url 'administracion:instituciones_educativas_eliminar' institucion_educativa.pk %}"><span
                   class="badge bg-danger">Rechazar</span></a>
             </td>
           </tr>

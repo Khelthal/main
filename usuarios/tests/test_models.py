@@ -24,3 +24,27 @@ class TestUsuario(TestCase):
     def test_password_requerido(self):
         self.usuario.password = ""
         self.assertRaises(ValidationError, self.usuario.full_clean)
+
+    def test_password_min_size(self):
+        self.usuario.password = "a"*7
+        self.assertRaises(ValidationError, self.usuario.full_clean)
+
+    def test_nombre_min_size(self):
+        self.usuario.username = "a"*2
+        self.assertRaises(ValidationError, self.usuario.full_clean)
+
+    def test_nombre_max_size(self):
+        self.usuario.username = "a"*31
+        self.assertRaises(ValidationError, self.usuario.full_clean)
+
+    def test_nombre_caracteres_especiales(self):
+        self.usuario.username = "Nombre invalido\n"
+        self.assertRaises(ValidationError, self.usuario.full_clean)
+
+    def test_email_requerido(self):
+        self.usuario.email = ""
+        self.assertRaises(ValidationError, self.usuario.full_clean)
+
+    def test_email_formato(self):
+        self.usuario.email = "formatonovalido.com"
+        self.assertRaises(ValidationError, self.usuario.full_clean)

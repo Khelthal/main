@@ -14,6 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='tipo_usuario',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='usuarios.tipousuario'),
+            field=models.ForeignKey(
+                blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='usuarios.tipousuario'),
         ),
     ]

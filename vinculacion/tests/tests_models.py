@@ -3,11 +3,6 @@ from django.core.exceptions import ValidationError
 from vinculacion.models import AreaConocimiento, Categoria
 
 
-class TestSmoke(TestCase):
-    def test_smoke(self):
-        self.assertTrue(True)
-
-
 class TestAreaConocimiento(TestCase):
     def setUp(self):
         self.area = AreaConocimiento(nombre="Test", descripcion="Test")

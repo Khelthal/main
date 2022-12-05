@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinLengthValidator
 
 
 class TipoUsuario(models.Model):
@@ -16,6 +17,9 @@ class User(AbstractUser):
         null=True,
         blank=True)
     email = models.EmailField(unique=True)
+    password = models.TextField(
+        validators=[MinLengthValidator(8)]
+    )
     aprobado = models.BooleanField(default=False)
 
     def __str__(self):

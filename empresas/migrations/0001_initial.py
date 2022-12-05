@@ -17,7 +17,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Empresa',
             fields=[
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE,
+                 primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
                 ('nombre_empresa', models.CharField(max_length=80)),
                 ('latitud', models.FloatField()),
                 ('longitud', models.FloatField()),

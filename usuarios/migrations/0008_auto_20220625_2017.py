@@ -2,6 +2,7 @@
 
 from django.db import migrations
 
+
 def agregar_tipos_usuario(apps, schema_editor):
     TipoUsuario = apps.get_model('usuarios', 'TipoUsuario')
 
@@ -9,6 +10,7 @@ def agregar_tipos_usuario(apps, schema_editor):
         nuevo_tipo_usuario = TipoUsuario()
         nuevo_tipo_usuario.tipo = tipo
         nuevo_tipo_usuario.save()
+
 
 class Migration(migrations.Migration):
 

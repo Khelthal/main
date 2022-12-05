@@ -83,7 +83,7 @@ def aprobar_perfil(request, pk):
     usuario.aprobado = True
     usuario.save()
 
-    return redirect('administracion:dashboard')
+    return redirect('administracion:instituciones_educativas_lista')
 
 # Usuarios
 

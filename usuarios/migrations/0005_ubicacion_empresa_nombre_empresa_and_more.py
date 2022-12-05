@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Ubicacion',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('latitud', models.FloatField()),
                 ('longitud', models.FloatField()),
             ],
@@ -37,11 +38,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='empresa',
             name='ubicacion',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='usuarios.ubicacion'),
+            field=models.ForeignKey(
+                blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='usuarios.ubicacion'),
         ),
         migrations.AddField(
             model_name='institucioneducativa',
             name='ubicacion',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='usuarios.ubicacion'),
+            field=models.ForeignKey(
+                blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='usuarios.ubicacion'),
         ),
     ]
