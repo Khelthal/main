@@ -1,6 +1,13 @@
-from behave import when
+from behave import when, given
 from selenium.webdriver.common.by import By
+from time import sleep
 
+
+@given(u'hago clic en "{boton}"')
+def step_impl(context, boton):
+    sleep(1)
+    context.driver.find_element(By.NAME, boton).click()
+    sleep(1)
 
 @when(u'hago clic en "{boton}"')
 def step_impl(context, boton):

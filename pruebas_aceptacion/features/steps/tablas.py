@@ -1,6 +1,5 @@
 from behave import given, then
 from selenium.webdriver.common.by import By
-from time import sleep
 
 @given(u'busco el registro de "{nombre_registro}" en la tabla de "{nombre_tabla}"')
 def step_impl(context, nombre_registro, nombre_tabla):
