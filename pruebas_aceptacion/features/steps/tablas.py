@@ -1,11 +1,10 @@
 from behave import given, then
 from selenium.webdriver.common.by import By
 
-@given(u'busco el registro de "{nombre_registro}" en la tabla de "{nombre_tabla}"')
-def step_impl(context, nombre_registro, nombre_tabla):
-    nombre_tabla = nombre_tabla.replace(" ", "-")
-    tabla = context.driver.find_element(By.NAME, nombre_tabla)
-    tbody = tabla.find_element(By.TAG_NAME, "tbody")
+
+@given(u'busco el registro de "{nombre_registro}"')
+def step_impl(context, nombre_registro):
+    tbody = context.driver.find_element(By.TAG_NAME, "tbody")
     trs = tbody.find_elements(By.TAG_NAME, "tr")
 
     for tr in trs:
@@ -16,11 +15,9 @@ def step_impl(context, nombre_registro, nombre_tabla):
             context.boton = tds[-1]
             break
 
-@then(u'se muestra el registro de "{nombre_registro}" en la tabla de "{nombre_tabla}"')
-def step_impl(context, nombre_registro, nombre_tabla):
-    nombre_tabla = nombre_tabla.replace(" ", "-")
-    tabla = context.driver.find_element(By.NAME, nombre_tabla)
-    tbody = tabla.find_element(By.TAG_NAME, "tbody")
+@then(u'se muestra el registro de "{nombre_registro}"')
+def step_impl(context, nombre_registro):
+    tbody = context.driver.find_element(By.TAG_NAME, "tbody")
     trs = tbody.find_elements(By.TAG_NAME, "tr")
 
     registros = []
@@ -31,11 +28,9 @@ def step_impl(context, nombre_registro, nombre_tabla):
 
     assert nombre_registro in registros
 
-@then(u'no se encuentra el registro de "{nombre_registro}" en la tabla de "{nombre_tabla}"')
-def step_impl(context, nombre_registro, nombre_tabla):
-    nombre_tabla = nombre_tabla.replace(" ", "-")
-    tabla = context.driver.find_element(By.NAME, nombre_tabla)
-    tbody = tabla.find_element(By.TAG_NAME, "tbody")
+@then(u'no se encuentra el registro de "{nombre_registro}"')
+def step_impl(context, nombre_registro):
+    tbody = context.driver.find_element(By.TAG_NAME, "tbody")
     trs = tbody.find_elements(By.TAG_NAME, "tr")
 
     registros = []

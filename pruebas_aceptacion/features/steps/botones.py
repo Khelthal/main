@@ -9,7 +9,11 @@ def step_impl(context, boton):
     context.driver.find_element(By.NAME, boton).click()
     sleep(1)
 
-@when(u'hago clic en "{boton}"')
+@given(u'hago clic en la opción "{boton}"')
+def step_impl(context, boton):
+    context.boton.find_element(By.ID, boton).click()
+
+@when(u'hago clic en la opción "{boton}"')
 def step_impl(context, boton):
     context.boton.find_element(By.ID, boton).click()
 
