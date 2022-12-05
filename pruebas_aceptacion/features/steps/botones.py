@@ -5,8 +5,8 @@ from time import sleep
 
 @given(u'hago clic en "{boton}"')
 def step_impl(context, boton):
-    btn = context.driver.find_element(By.NAME, boton)
-    context.driver.execute_script("arguments[0].click();", btn)
+    sleep(2)
+    context.driver.find_element(By.NAME, boton).click()
 
 @given(u'hago clic en la opción "{boton}"')
 def step_impl(context, boton):
