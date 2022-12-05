@@ -360,5 +360,5 @@ class FormNoticia(forms.ModelForm):
             'contenido': forms.Textarea(
                 attrs={'class': 'form-control'}),
             'escritor': forms.Select(
-                attrs={'class': 'choices form-select'}),
+                attrs={'class': 'form-select'}),
         }
