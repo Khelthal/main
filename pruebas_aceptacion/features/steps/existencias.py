@@ -9,7 +9,7 @@ from helpers.investigadores_helpers import crear_nivel_investigador, crear_inves
 @given(u'que existe una noticia llamada "{titulo_noticia}"')
 def step_impl(context, titulo_noticia):
     escritor = crear_usuario("escritor","escritor@escritor.com","12345678")
-    context.noticia = crear_noticia(titulo_noticia,"Contenido",escritor,"/tmp/noticia.png")
+    context.noticia = crear_noticia(titulo_noticia,"Contenido",escritor,"/noticias/noticia.png")
 
 @given(u'que existe una solicitud de una institución educativa llamada "{nombre_institucion}"')
 def step_impl(context, nombre_institucion):

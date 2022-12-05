@@ -7,6 +7,7 @@ from usuarios.models import User
 
 @given(u'inicio sesión con el usuario "{usuario}" y contraseña "{contra}"')
 def step_impl(context, usuario, contra):
+    crear_usuario(usuario=usuario, correo="prueba@prueba.com", contra=contra)
     context.driver.find_element(By.NAME, 'username').send_keys(usuario)
     context.driver.find_element(By.NAME, 'password').send_keys(contra)
     context.driver.find_element(
