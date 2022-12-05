@@ -2,6 +2,11 @@ from django.test import TestCase
 from usuarios.models import User, TipoUsuario
 from investigadores.models import Investigador, NivelInvestigador
 from empresas.models import Empresa
+from instituciones_educativas.models import InstitucionEducativa
+from helpers.instituciones_educativas_helpers import crear_institucion_educativa
+from helpers.usuarios_helpers import crear_usuario, crear_tipo_usuario
+from helpers.vinculacion_helpers import crear_area_conocimiento, crear_categoria
+from helpers.investigadores_helpers import crear_investigador, crear_nivel_investigador
 
 
 class TestCrudUsuario(TestCase):
@@ -207,3 +212,65 @@ class TestSolicitudEmpres(TestCase):
 
         self.assertEquals(
             Empresa.objects.count(), 0)
+
+
+class TestSolicitudInstitucionEducativa (TestCase):
+    def setUp(self):
+        self.admin = crear_usuario(
+            "root",
+            "root@root.com",
+            "12345",
+            superusuario=True,
+            staff=True
+        )
+        self.tipo_institucion = crear_tipo_usuario("Institucion")
+        self.tipo_investigador = crear_tipo_usuario("Investigador")
+        self.usuario_institucion = crear_usuario(
+            "prueba-institucion", "prueba-institucion@prueba.com", "prueba", self.tipo_institucion)
+        self.usuario_investigador = crear_usuario(
+            "Investigador", "prueba-investigador@prueba.com", "prueba", self.tipo_investigador)
+        self.area_conocimiento = crear_area_conocimiento("Ingeniería", "Sobre ingeniería")
+        self.categoria = crear_categoria("Software", self.area_conocimiento, "Sobre software")
+        self.nivel_1 = crear_nivel_investigador(1, "Nivel 1")
+        self.investigador = crear_investigador(
+            usuario=self.usuario_investigador,
+            nivel=self.nivel_1,
+            curp="AUCJ011020HZSGRVA1",
+            latitud=0,
+            longitud=0,
+            codigo_postal=99390,
+            municipio=20,
+            colonia="Alamitos",
+            calle="Mezquite",
+            numero_exterior=29,
+            acerca_de="Soy un investigador"
+        )
+        self.institucion_educativa = crear_institucion_educativa(
+            encargado=self.usuario_institucion,
+            nombre_institucion="Institución Prueba",
+            especialidades=[self.categoria],
+            latitud=0,
+            longitud=0,
+            miembros=[self.investigador],
+            codigo_postal=99390,
+            municipio=20,
+            colonia="Alamitos",
+            calle="Mezquite",
+            numero_exterior=29,
+            acerca_de="Soy una institución"
+        )
+        self.client.login(username='root', password='12345')
+
+    def test_aprobar_solicitud_institucion_educativa(self):
+        self.client.get(
+            f"/administracion/aprobar_perfil/{self.usuario_institucion.pk}")
+
+        self.assertTrue(
+            User.objects.get(pk=self.usuario_institucion.pk).aprobado)
+
+    def test_rechazar_solicitud_institucion_educativa(self):
+        self.client.post(
+            f"/administracion/instituciones_educativas/eliminar/{self.institucion_educativa.pk}")
+
+        self.assertEquals(
+            InstitucionEducativa.objects.count(), 0)
