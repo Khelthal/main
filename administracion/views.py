@@ -374,7 +374,7 @@ class InstitucionEducativaNuevo(CreateView):
 class InstitucionEducativaEditar(UpdateView):
     model = InstitucionEducativa
     form_class = FormInstitucionEducativaUpdate
-    success_url = reverse_lazy('administracion:instituciones_educativas_solicitud')
+    success_url = reverse_lazy('administracion:instituciones_educativas_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Editar",
                      "nombre_modelo": "institución educativa",
