@@ -14,13 +14,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TipoUsuario',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('tipo', models.TextField()),
             ],
         ),
         migrations.AlterField(
             model_name='user',
             name='tipo_usuario',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='usuarios.tipousuario'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING, to='usuarios.tipousuario'),
         ),
     ]

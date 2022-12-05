@@ -1,14 +1,5 @@
-from behave import given, then, when
-from selenium import webdriver
+from behave import then, when
 from selenium.webdriver.common.by import By
-
-
-@given(u'ingreso el correo "{correo}", el usuario "{usuario}" y contraseña "{contra}"')
-def step_impl(context, correo, usuario, contra):
-    context.driver.find_element(By.NAME, 'email').send_keys(correo)
-    context.driver.find_element(By.NAME, 'username').send_keys(usuario)
-    context.driver.find_element(By.NAME, 'password').send_keys(contra)
-    context.driver.find_element(By.NAME, 'repassword').send_keys(contra)
 
 
 @when(u'hago clic en Crear cuenta')
