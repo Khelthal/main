@@ -229,8 +229,10 @@ class TestSolicitudInstitucionEducativa (TestCase):
             "prueba-institucion", "prueba-institucion@prueba.com", "prueba", self.tipo_institucion)
         self.usuario_investigador = crear_usuario(
             "Investigador", "prueba-investigador@prueba.com", "prueba", self.tipo_investigador)
-        self.area_conocimiento = crear_area_conocimiento("Ingeniería", "Sobre ingeniería")
-        self.categoria = crear_categoria("Software", self.area_conocimiento, "Sobre software")
+        self.area_conocimiento = crear_area_conocimiento(
+            "Ingeniería", "Sobre ingeniería")
+        self.categoria = crear_categoria(
+            "Software", self.area_conocimiento, "Sobre software")
         self.nivel_1 = crear_nivel_investigador(1, "Nivel 1")
         self.investigador = crear_investigador(
             usuario=self.usuario_investigador,
