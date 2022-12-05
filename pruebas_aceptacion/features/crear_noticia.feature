@@ -3,7 +3,7 @@ Característica: Agregar una noticia
 	Quiero crear una noticia
 	Para que los usuarios puedan consultarla
 
-	Escenario: Datos correctos
+	Escenario: Datos correctos al crear noticia
         Dado que ingreso al sistema en el dominio "/usuarios/login"
         Y inicio sesión como administrador con el usuario "root" y contraseña "prueba"
         Y hago clic en "perfil"
@@ -16,3 +16,9 @@ Característica: Agregar una noticia
         Y relleno el campo de "imagen" con "/tmp/noticia.png" en el formulario
         Cuando envío la solicitud presionando el botón de Guardar
         Entonces se muestra el mensaje de éxito "Noticia registrada correctamente"
+
+        Escenario: Datos incorrectos al crear noticia
+        Dado que ingreso al sistema en el dominio "/administracion/noticias/nuevo"
+        Y inicio sesión como administrador con el usuario "root" y contraseña "prueba"
+        Cuando envío la solicitud presionando el botón de Guardar
+        Entonces se me pide que rellene correctamente el campo de "titulo"
