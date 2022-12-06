@@ -6,6 +6,7 @@ from investigadores.models import (
     NivelInvestigador,
     Investigador)
 from empresas.models import Empresa
+from django.utils import timezone
 
 
 class TestInvestigador(TestCase):
@@ -323,8 +324,8 @@ class TestModelSolicitudTrabajo(TestCase):
             estado_investigador='P',
             estado_empleador='P',
             descripcion='test',
-            fecha='2020-01-01',
-            fecha_finalizado='2020-01-01',
+            fecha=timezone.now(),
+            fecha_finalizado=timezone.now(),
         )
         solicitud.save()
 

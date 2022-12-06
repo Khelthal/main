@@ -8,7 +8,7 @@ from django.core.mail import EmailMultiAlternatives
 from investigadores.models import (
     SolicitudTrabajo)
 from usuarios.models import User
-from datetime import datetime
+from django.utils import timezone
 
 
 def get_author(user_id):
@@ -88,7 +88,7 @@ def cancelar_trabajo(request, solicitud):
     if request.user.pk == solicitud.usuario_a_vincular.pk:
         solicitud.estado_investigador = "C"
         solicitud.estado = "C"
-        solicitud.fecha_finalizado = datetime.now()
+        solicitud.fecha_finalizado = timezone.now()
 
         empleador = User.objects.filter(
             pk=solicitud.usuario_solicitante.pk).first()
@@ -105,7 +105,7 @@ def cancelar_trabajo(request, solicitud):
     elif request.user.pk == solicitud.usuario_solicitante.pk:
         solicitud.estado_empleador = "C"
         solicitud.estado = "C"
-        solicitud.fecha_finalizado = datetime.now()
+        solicitud.fecha_finalizado = timezone.now()
         empleador = User.objects.filter(
             pk=solicitud.usuario_solicitante.pk).first()
         empleado = User.objects.filter(
