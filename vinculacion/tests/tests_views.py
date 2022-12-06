@@ -9,6 +9,8 @@ from investigadores.models import (
     SolicitudTrabajo)
 from usuarios.models import User, TipoUsuario
 from django.urls import reverse
+from helpers.usuarios_helpers import crear_usuario
+from helpers.vinculacion_helpers import crear_noticia
 
 
 class TestCrearSolicitud(TestCase):
@@ -611,3 +613,21 @@ class TestInstitucionEducativaMiembros(TestCase):
                 InstitucionEducativa.objects.get(
                     pk=self.institucion.pk).miembros.all()),
             0)
+
+class TestConsultarNoticias (TestCase):
+    def setUp(self):
+        crear_usuario(usuario="root", correo="root@root.com",
+                      contra="12345678", superusuario=True, staff=True)
+        self.client.login(username='root', password='12345678')
+        self.escritor = crear_usuario(
+            "escritor", "escritor@escritor.com", "12345678")
+        self.noticia = crear_noticia(
+            "Noticia", "Contenido", self.escritor, "/noticias/noticia.png")
+
+    def test_consultar_listado_noticias(self):
+        respuesta = self.client.get("/noticias")
+        self.assertEquals(respuesta.status_code, 200)
+
+    def test_consultar_detalle_noticia(self):
+        respuesta = self.client.get(f"/noticias/{self.noticia.pk}")
+        self.assertEquals(respuesta.status_code, 200)
