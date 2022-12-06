@@ -1,3 +1,4 @@
+from investigadores.forms import SolicitudTrabajoForm
 from django.test import TestCase
 from usuarios.models import User
 from administracion.forms import FormInvestigadorBase, FormEmpresaUpdate, FormInstitucionEducativaUpdate
@@ -234,7 +235,6 @@ class TestActualizarCuentaInstitucion(TestCase):
             especialidad], 'codigo_postal': '99390', 'municipio': 'Jerez', 'colonia': 'Alamitos', 'calle': 'Mezquite', 'numero_exterior': '29', 'acerca_de': 'Info'}
         form = FormInstitucionEducativaUpdate(data=datos)
         self.assertFalse(form.is_valid())
-from investigadores.forms import SolicitudTrabajoForm
 
 
 class TestSolicitudTrabajoForm(TestCase):
