@@ -46,9 +46,6 @@ class TestActualizarCuenta(TestCase):
         self.client.logout()
         response = self.client.get('/formularios/institucion_educativa')
         self.assertEqual(response.status_code, 302)
-class TestSmoke(TestCase):
-    def test_smoke(self):
-        self.assertTrue(True)
 
 
 class TestVistaHistorialTrabajos(TestCase):
