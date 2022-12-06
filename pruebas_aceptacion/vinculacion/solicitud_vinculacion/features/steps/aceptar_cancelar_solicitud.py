@@ -7,7 +7,6 @@ from selenium.webdriver.common.by import By
 @given(u'que tengo una solicitud de trabajo e ingrso a "{link}" ' +
        'con el usuario "{usuarioC}" y la password "{passwordC}"')
 def step_impl(context, link, usuarioC, passwordC):
-    print(usuarioC, passwordC)
     driver = webdriver.Firefox()
     driver.get('http://127.0.0.1:8000/usuarios/login')
     time.sleep(3)
