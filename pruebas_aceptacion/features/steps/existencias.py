@@ -4,8 +4,38 @@ from helpers.usuarios_helpers import crear_tipo_usuario, crear_usuario
 from helpers.instituciones_educativas_helpers import crear_institucion_educativa
 from helpers.vinculacion_helpers import crear_area_conocimiento, crear_categoria, crear_noticia
 from helpers.investigadores_helpers import crear_nivel_investigador, crear_investigador
+from helpers.empresas_helpers import crear_empresa
 import navegador
 
+@given(u'dado que existe la categoría "{categoria_nombre}" del área "{area_nombre}')
+def step_impl(context, categoria_nombre, area_nombre):
+    context.area = crear_area_conocimiento(area_nombre, "area")
+    context.categoria = crear_categoria(categoria_nombre, context.area, "categoria")
+
+@given(u'que existe una empresa llamada "{nombre_empresa}" con el encargado "{encargado}"')
+def step_impl(context, nombre_empresa, encargado):
+    area_conocimiento = crear_area_conocimiento("Ingeniería", "Sobre ingeniería")
+    categoria = crear_categoria("Software", area_conocimiento, "Sobre software")
+    tipo_empresa = crear_tipo_usuario("Empresa")
+    usuario_encargado = crear_usuario(
+        usuario=encargado,
+        correo="encargado@encargado.com",
+        contra="12345678",
+        tipo=tipo_empresa,
+        aprobado=True
+    )
+    context.empresa = crear_empresa(
+        encargado=usuario_encargado,
+        nombre_empresa= nombre_empresa,
+        codigo_postal= '99390',
+        municipio= 19,
+        especialidades= [categoria],
+        colonia= 'Alamitos',
+        calle= 'Mezquite',
+        numero_exterior= '29',
+        acerca_de= 'Info',
+        imagen= "/tmp/noticia.png"
+    )
 
 @given(u'que existe una noticia llamada "{titulo_noticia}"')
 def step_impl(context, titulo_noticia):

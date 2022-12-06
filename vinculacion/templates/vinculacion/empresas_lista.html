@@ -11,18 +11,22 @@
 
   <h1 class="titulo-seccion">Empresas</h1>
 
+  {% if not empresas %}
+    <div class="alert alert-secondary">No existen empresas</div>
+  {% endif %}
+
   <div class="row w-75">
 
     {% for empresa in empresas %}
     <div class="col-md-6">
-      <div class="card">
+      <div class="card empresa">
         <div class="row no-gutters">
           <div class="col-4">
             <img src="{% static 'img/empresa.jpg' %}" class="card-img m-2" alt="...">
           </div>
           <div class="col-8">
             <div class="card-body">
-              <h5 class="card-title">{{empresa.encargado.username|capfirst}}</h5>
+              <h5 class="card-title">{{empresa.nombre_empresa}}</h5>
               <p class="card-text">
               </p>
             </div>

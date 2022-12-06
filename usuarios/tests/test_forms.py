@@ -16,8 +16,7 @@ class TestUsuarioForm(TestCase):
         if self.form.is_valid():
             self.form.save()
         else:
-            for error in self.form.errors:
-                print(error)
+            pass
         self.assertEquals(User.objects.count(), 1)
 
     def test_nombre_requerido(self):
