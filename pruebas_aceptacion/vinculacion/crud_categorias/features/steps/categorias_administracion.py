@@ -1,13 +1,13 @@
 import time
 from behave import given, when, then
-from selenium import webdriver
 from selenium.webdriver.common.by import By
+from pruebas_aceptacion.features.steps.navegador import navegador
 
 
 @given(u'que deseo ingresar una nueva categoría como administrador' +
        ' con el usuario "{usuarioC}" y password "{passwordC}"')
 def step_impl(context, usuarioC, passwordC):
-    driver = webdriver.Firefox()
+    driver = navegador.get_navegador()
     driver.get('http://localhost:8000/administracion/categorias/nuevo')
     time.sleep(3)
 
@@ -59,7 +59,7 @@ def step_impl(context):
 @given(u'que deseo eliminar la categotía "Prueba" logeo ' +
        'como administrador "{usuarioC}" con la password "{passwordC}"')
 def step_impl(context, usuarioC, passwordC):
-    driver = webdriver.Firefox()
+    driver = navegador.get_navegador()
     driver.get('http://localhost:8000/administracion/categorias/lista')
     time.sleep(3)
 
@@ -105,7 +105,7 @@ def step_impl(context):
        '"{usuarioC}" con la password "{passwordC}" ' +
        'en la categoria "{id_categoria}"')
 def step_impl(context, usuarioC, passwordC, id_categoria):
-    driver = webdriver.Firefox()
+    driver = navegador.get_navegador()
     driver.get(
         'http://localhost:8000/administracion/categorias/editar/'+id_categoria)
     time.sleep(3)
@@ -151,7 +151,7 @@ def step_impl(context, mensaje_exito):
 @given(u'que deseo mirar las categorías que existen logeo como ' +
        'administrador "{usuarioC}" con la password "{passwordC}"')
 def step_impl(context, usuarioC, passwordC):
-    driver = webdriver.Firefox()
+    driver = navegador.get_navegador()
     driver.get('http://localhost:8000/administracion/categorias/lista')
     time.sleep(3)
 
