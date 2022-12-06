@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -28,6 +29,13 @@ from instituciones_educativas.models import (
     InstitucionEducativa,
     SolicitudIngreso)
 from django.contrib import messages
+from administracion.helpers import obtener_coordenadas
+from usuarios.models import User, MUNICIPIOS
+import itertools
+from urllib.parse import urlparse, parse_qs
+from . import helpers
+
+
 from administracion.helpers import obtener_coordenadas
 from usuarios.models import User, MUNICIPIOS
 import itertools
@@ -623,7 +631,7 @@ def rechazar_solicitud(request, pk):
 
     return redirect("vinculacion:solicitudes_trabajo_lista")
 
-
+@login_required
 def trabajos_en_curso(request):
     usuario = get_object_or_404(User, pk=request.user.pk)
     trabajos = SolicitudTrabajo.objects.filter(
@@ -643,7 +651,7 @@ def trabajos_en_curso(request):
         "vinculacion/trabajos_en_curso.html",
         {"trabajos": trabajos, "page_obj": page_obj})
 
-
+@login_required
 def historial_trabajos(request):
     investigador = get_object_or_404(User, pk=request.user.pk)
     trabajos = SolicitudTrabajo.objects.filter(
@@ -666,6 +674,7 @@ def historial_trabajos(request):
         {"trabajos": trabajos, "page_obj": page_obj})
 
 
+@login_required
 def cambiar_estado(request, pk, estado):
     solicitud = get_object_or_404(
         SolicitudTrabajo,
@@ -682,31 +691,31 @@ def cambiar_estado(request, pk, estado):
         messages.success(
             request,
             "Estado de trabajo canceldo")
-        helpers.cancelar_trabajo(request, solicitud)
+        helpers.cancelar_trabajo(request.user.pk, solicitud)
 
     elif estado == "F":
         messages.success(
             request,
             "Estado de trabajo finalizado")
-        helpers.finalizar_trabajo(request, solicitud)
+        helpers.finalizar_trabajo(request.user.pk, solicitud)
 
     elif estado == "R":
         messages.success(
             request,
             "Estado de trabajo rechazado")
-        helpers.rechazar_trabajo(request, solicitud)
+        helpers.rechazar_trabajo(request.user.pk, solicitud)
 
     elif estado == "P":
         messages.success(
             request,
             "Estado de trabajo en proceso")
-        helpers.trabajo_en_proceso(request, solicitud)
+        helpers.trabajo_en_proceso(request.user.pk, solicitud)
 
     elif estado == "E":
         messages.success(
             request,
             "Estado de trabajo en Revision")
-        helpers.trabajo_en_revision(request, solicitud)
+        helpers.trabajo_en_revision(request.user.pk, solicitud)
 
     else:
         messages.error(
@@ -714,3 +723,4 @@ def cambiar_estado(request, pk, estado):
             "Estado no válido")
 
     return redirect('vinculacion:trabajos_lista')
+
