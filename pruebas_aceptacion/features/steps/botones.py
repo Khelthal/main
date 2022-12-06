@@ -19,6 +19,7 @@ def step_impl(context, boton):
     boton = boton.replace(" ","-")
     opcion = context.boton.find_element(By.ID, boton)
     context.driver.execute_script("arguments[0].click();", opcion)
+    sleep(0.1)
 
 @when(u'confirmo mi decisión')
 def step_impl(context):
