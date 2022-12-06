@@ -11,11 +11,11 @@ def step_impl(context, titulo):
         if titulo_texto == titulo:
             context.boton = n.find_element(By.CLASS_NAME, "list-group")
             break
-    
 
 
 @then(u'se muestra la noticia con el título "{titulo}"')
 def step_impl(context, titulo):
-    titulo_texto = context.driver.find_element(By.CLASS_NAME, "card-title").text
+    titulo_texto = context.driver.find_element(
+        By.CLASS_NAME, "card-title").text
 
     assert titulo == titulo_texto

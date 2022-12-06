@@ -15,6 +15,7 @@ def step_impl(context, nombre_registro):
             context.boton = tds[-1]
             break
 
+
 @then(u'se muestra el registro de "{nombre_registro}"')
 def step_impl(context, nombre_registro):
     tbody = context.driver.find_element(By.TAG_NAME, "tbody")
@@ -27,6 +28,7 @@ def step_impl(context, nombre_registro):
         registros.append(tds[0].text)
 
     assert nombre_registro in registros
+
 
 @then(u'no se encuentra el registro de "{nombre_registro}"')
 def step_impl(context, nombre_registro):

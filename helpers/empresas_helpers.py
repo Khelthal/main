@@ -1,5 +1,6 @@
 from empresas.models import Empresa
 
+
 def crear_empresa(
     encargado,
     nombre_empresa,

@@ -4,11 +4,15 @@ from investigadores.models import Investigador, NivelInvestigador
 from empresas.models import Empresa
 from vinculacion.models import Noticia
 from instituciones_educativas.models import InstitucionEducativa
-from helpers.instituciones_educativas_helpers import crear_institucion_educativa
+from helpers.instituciones_educativas_helpers import (
+    crear_institucion_educativa)
 from helpers.usuarios_helpers import crear_usuario, crear_tipo_usuario
-from helpers.vinculacion_helpers import crear_area_conocimiento, crear_categoria, crear_noticia
-from helpers.investigadores_helpers import crear_investigador, crear_nivel_investigador
+from helpers.vinculacion_helpers import (
+    crear_area_conocimiento, crear_categoria, crear_noticia)
+from helpers.investigadores_helpers import (
+    crear_investigador, crear_nivel_investigador)
 from helpers.empresas_helpers import crear_empresa
+
 
 class TestCrudUsuario(TestCase):
     def setUp(self):
@@ -227,9 +231,11 @@ class TestSolicitudInstitucionEducativa (TestCase):
         self.tipo_institucion = crear_tipo_usuario("Institucion")
         self.tipo_investigador = crear_tipo_usuario("Investigador")
         self.usuario_institucion = crear_usuario(
-            "prueba-institucion", "prueba-institucion@prueba.com", "prueba", self.tipo_institucion)
+            "prueba-institucion",
+            "prueba-institucion@prueba.com", "prueba", self.tipo_institucion)
         self.usuario_investigador = crear_usuario(
-            "Investigador", "prueba-investigador@prueba.com", "prueba", self.tipo_investigador)
+            "Investigador", "prueba-investigador@prueba.com",
+            "prueba", self.tipo_investigador)
         self.area_conocimiento = crear_area_conocimiento(
             "Ingeniería", "Sobre ingeniería")
         self.categoria = crear_categoria(
@@ -273,7 +279,8 @@ class TestSolicitudInstitucionEducativa (TestCase):
 
     def test_rechazar_solicitud_institucion_educativa(self):
         self.client.post(
-            f"/administracion/instituciones_educativas/eliminar/{self.institucion_educativa.pk}")
+            "/administracion/instituciones_educativas/eliminar/" +
+            f"{self.institucion_educativa.pk}")
 
         self.assertEquals(
             InstitucionEducativa.objects.count(), 0)
@@ -317,7 +324,8 @@ class TestEditarNoticia(TestCase):
                       contra="12345678", superusuario=True, staff=True)
         self.client.login(username='root', password='12345678')
         self.escritor = crear_usuario(
-            "escritor", "escritor@escritor.com", "12345678", aprobado=True, superusuario=True, staff=True)
+            "escritor", "escritor@escritor.com",
+            "12345678", aprobado=True, superusuario=True, staff=True)
         self.noticia = crear_noticia(
             "Noticia", "Contenido", self.escritor, "/noticias/noticia.png")
 
@@ -329,7 +337,8 @@ class TestEditarNoticia(TestCase):
             "imagen": ""
         }
         self.client.post(
-            f"/administracion/noticias/editar/{self.noticia.pk}", noticiaEditada)
+            f"/administracion/noticias/editar/{self.noticia.pk}",
+            noticiaEditada)
         self.assertEquals(
             Noticia.objects.get(pk=self.noticia.pk).titulo, "Noticia")
 

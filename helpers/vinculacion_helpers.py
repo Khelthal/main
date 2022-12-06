@@ -9,6 +9,7 @@ def crear_area_conocimiento(nombre, descripcion):
 
     return area_conocimiento
 
+
 def crear_categoria(nombre, area_conocimiento, descripcion):
     categoria = Categoria.objects.create(
         nombre=nombre,
@@ -16,6 +17,7 @@ def crear_categoria(nombre, area_conocimiento, descripcion):
         descripcion=descripcion
     )
     return categoria
+
 
 def crear_noticia(titulo, contenido, escritor, imagen):
     noticia = Noticia.objects.create(

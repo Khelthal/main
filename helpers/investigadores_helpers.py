@@ -9,7 +9,9 @@ def crear_nivel_investigador(nivel, descripcion):
     return nivel_investigador
 
 
-def crear_investigador(usuario, nivel, curp, codigo_postal, municipio, colonia, calle, numero_exterior, acerca_de, latitud=0, longitud=0):
+def crear_investigador(usuario, nivel, curp, codigo_postal, municipio,
+                       colonia, calle, numero_exterior, acerca_de,
+                       latitud=0, longitud=0):
     investigador = Investigador.objects.create(
         user=usuario,
         nivel=nivel,
