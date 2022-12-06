@@ -86,10 +86,10 @@ WSGI_APPLICATION = 'main.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vinculacion',
+        'NAME': 'db-vinculacion',
         'USER': 'root',
-        'PASSWORD': 'vinculacion_root_password',
-        'HOST': 'db-vinculacion',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
         'PORT': 3306,
     }
 }

@@ -687,31 +687,31 @@ def cambiar_estado(request, pk, estado):
         messages.success(
             request,
             "Estado de trabajo canceldo")
-        helpers.cancelar_trabajo(request, solicitud)
+        helpers.cancelar_trabajo(request.user.pk, solicitud)
 
     elif estado == "F":
         messages.success(
             request,
             "Estado de trabajo finalizado")
-        helpers.finalizar_trabajo(request, solicitud)
+        helpers.finalizar_trabajo(request.user.pk, solicitud)
 
     elif estado == "R":
         messages.success(
             request,
             "Estado de trabajo rechazado")
-        helpers.rechazar_trabajo(request, solicitud)
+        helpers.rechazar_trabajo(request.user.pk, solicitud)
 
     elif estado == "P":
         messages.success(
             request,
             "Estado de trabajo en proceso")
-        helpers.trabajo_en_proceso(request, solicitud)
+        helpers.trabajo_en_proceso(request.user.pk, solicitud)
 
     elif estado == "E":
         messages.success(
             request,
             "Estado de trabajo en Revision")
-        helpers.trabajo_en_revision(request, solicitud)
+        helpers.trabajo_en_revision(request.user.pk, solicitud)
 
     else:
         messages.error(
