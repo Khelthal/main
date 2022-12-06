@@ -7,6 +7,7 @@ from helpers.investigadores_helpers import crear_nivel_investigador, crear_inves
 from helpers.empresas_helpers import crear_empresa
 import navegador
 
+
 @given(u'dado que existe la categoría "{categoria_nombre}" del área "{area_nombre}')
 def step_impl(context, categoria_nombre, area_nombre):
     context.area = crear_area_conocimiento(area_nombre, "area")

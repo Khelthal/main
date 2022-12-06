@@ -208,7 +208,7 @@ class InvestigadorActualizar(UpdateView):
 
         investigador.save()
 
-        messages.success(self.request, "Solicitud registrada correctamente")
+        messages.success(self.request, "Perfil actualizado correctamente")
         return redirect('vinculacion:perfil')
 
 
@@ -271,7 +271,7 @@ class EmpresaActualizar(UpdateView):
         empresa.save()
         form.save_m2m()
 
-        messages.success(self.request, "Solicitud registrada correctamente")
+        messages.success(self.request, "Perfil actualizado correctamente")
         return redirect('vinculacion:perfil')
 
 
@@ -338,7 +338,7 @@ class InstitucionEducativaActualizar(UpdateView):
         institucion_educativa.save()
         form.save_m2m()
 
-        messages.success(self.request, "Solicitud registrada correctamente")
+        messages.success(self.request, "Perfil actualizado correctamente")
         return redirect('vinculacion:perfil')
 
 
