@@ -9,7 +9,7 @@ Característica: Responder solicitud de una institución educativa
         Y inicio sesión como administrador con el usuario "root" y contraseña "prueba"
         Y busco el registro de "prueba-institucion" en la tabla de "solicitudes de instituciones"
         Cuando hago clic en "aprobar"
-        Entonces se muestra el registro de "prueba-institucion" en la tabla de "instituciones educativas"
+        Entonces se muestra el mensaje "Solicitud aceptada"
 	
 	Escenario: Rechazar solicitud
 	Dado que existe una solicitud de una institución educativa llamada "prueba-institucion"
@@ -18,5 +18,4 @@ Característica: Responder solicitud de una institución educativa
         Y busco el registro de "prueba-institucion" en la tabla de "solicitudes de instituciones"
         Cuando hago clic en "rechazar"
         Y confirmo mi decisión
-        Y me redirijo a la ruta "/administracion/instituciones_educativas/solicitud"
-        Entonces no se encuentra el registro de "prueba-institucion" en la tabla de "solicitudes de instituciones"
+        Entonces se muestra el mensaje "Institución Educativa eliminada correctamente"

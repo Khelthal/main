@@ -2,6 +2,15 @@
 {% load static %}
 
 {% block contenido %}
+
+{% for message in messages %}
+{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+<div class="alert alert-danger">{{message}}</div>
+{% else %}
+<div class="alert alert-success">{{message}}</div>
+{% endif %}
+{% endfor %}
+
 <section class="section">
   <div class="row">
     <div class="col-4">

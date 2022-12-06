@@ -8,7 +8,6 @@ import navegador
 
 @given(u'que existe una solicitud de una institución educativa llamada "{nombre_institucion}"')
 def step_impl(context, nombre_institucion):
-    context.driver = navegador.get_navegador()
     context.tipo_institucion = crear_tipo_usuario("Institucion")
     context.tipo_investigador = crear_tipo_usuario("Investigador")
     context.usuario_institucion = crear_usuario(

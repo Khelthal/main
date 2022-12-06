@@ -5,6 +5,10 @@ from investigadores.models import (
     Investigacion)
 from vinculacion.models import Categoria, AreaConocimiento
 from usuarios.models import User, TipoUsuario
+from instituciones_educativas.models import (
+    SolicitudIngreso,
+    InstitucionEducativa)
+from empresas.models import Empresa
 
 
 def poblar_base_de_datos():
@@ -22,13 +26,33 @@ def poblar_base_de_datos():
         aprobado=False,
         is_active=True,
     )
-    User.objects.create(
+    usuario_investigador = User.objects.create(
         username="usuario_investigador",
         email="usuario@investigador.com",
         aprobado=True,
         tipo_usuario=TipoUsuario.objects.get(tipo="Investigador"),
         is_active=True,
     )
+    usuario_investigador.set_password("password1234")
+    usuario_investigador.save()
+    usuario_institucion = User.objects.create(
+        username="usuario_institucion",
+        email="usuario@institucion.com",
+        aprobado=True,
+        tipo_usuario=TipoUsuario.objects.get(tipo="Institucion Educativa"),
+        is_active=True,
+    )
+    usuario_institucion.set_password("password1234")
+    usuario_institucion.save()
+    usuario_empresa = User.objects.create(
+        username="usuario_empresa",
+        email="usuario@empresa.com",
+        aprobado=False,
+        tipo_usuario=TipoUsuario.objects.get(tipo="Empresa"),
+        is_active=True,
+    )
+    usuario_empresa.set_password("password1234")
+    usuario_empresa.save()
     Investigador.objects.create(
         nivel=NivelInvestigador.objects.get(nivel=1),
         acerca_de="a",
@@ -41,6 +65,30 @@ def poblar_base_de_datos():
         municipio=16,
         numero_exterior=35,
         user=User.objects.get(username="usuario_investigador")
+    )
+    InstitucionEducativa.objects.create(
+        acerca_de="a",
+        calle="Esmeralda",
+        codigo_postal=98613,
+        colonia="Las joyas",
+        encargado=usuario_institucion,
+        latitud=0,
+        longitud=0,
+        municipio=16,
+        nombre_institucion="Asdasd",
+        numero_exterior=35
+    )
+    Empresa.objects.create(
+        acerca_de="a",
+        calle="Esmeralda",
+        codigo_postal=98613,
+        colonia="Las joyas",
+        latitud=0,
+        longitud=0,
+        municipio=16,
+        numero_exterior=35,
+        encargado=usuario_empresa,
+        nombre_empresa="horda"
     )
     AreaConocimiento.objects.create(
         nombre="TestArea",
@@ -62,7 +110,12 @@ def poblar_base_de_datos():
         nombre="Software"
     ))
     investigacion.save()
-    print("ADSADASDASD")
+    SolicitudIngreso.objects.create(
+        investigador=Investigador.objects.get(user=usuario_investigador),
+        institucion_educativa=InstitucionEducativa.objects.get(
+            encargado=usuario_institucion
+        )
+    )
 
 
 @given(u'que inicio el sistema')
