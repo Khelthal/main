@@ -4,6 +4,7 @@ from investigadores.models import (
     SolicitudTrabajo,
     NivelInvestigador,
     Investigador)
+from django.utils import timezone
 from vinculacion.helpers import (
     cancelar_trabajo,
     finalizar_trabajo,
@@ -57,8 +58,8 @@ class TestCambioEstados(TestCase):
             estado_investigador='P',
             estado_empleador='P',
             descripcion='test',
-            fecha='2020-01-01',
-            fecha_finalizado='2020-01-01',
+            fecha=timezone.now(),
+            fecha_finalizado=timezone.now(),
         )
         self.solicitud.save()
 

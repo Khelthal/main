@@ -43,7 +43,6 @@ class TestSolicitudTrabajoForm(TestCase):
             "descripcion": "Descripcion valida"
         })
         if form.is_valid():
-            print(form.cleaned_data["titulo"])
             self.assertEquals(len(form.cleaned_data["titulo"]), 200)
 
     def test_form_no_descripcion(self):
@@ -73,5 +72,4 @@ class TestSolicitudTrabajoForm(TestCase):
             "descripcion": "a"*5001
         })
         if form.is_valid():
-            print(form.cleaned_data["titulo"])
             self.assertEquals(len(form.cleaned_data["titulo"]), 5000)
