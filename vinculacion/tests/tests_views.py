@@ -777,3 +777,43 @@ class TestConsultarUsuarios(TestCase):
     def test_consultar_instituciones_educativas(self):
         r = self.client.get("/instituciones_educativas/")
         self.assertEquals(r.status_code, 200)
+
+class TestConsultaPerfilPublico(TestCase):
+    def setUp(self):
+        self.usuario_investigador = User.objects.create(
+            username='user_investigador',
+            aprobado=True,
+            is_active=True,
+            email="test2@test.com",
+            tipo_usuario=TipoUsuario.objects.get(tipo=
+                                                "Investigador")
+        )
+        self.nivel = NivelInvestigador.objects.create(
+            nivel=1,
+            descripcion="XD"
+        )
+        self.investigador = Investigador.objects.create(
+            acerca_de="a",
+            calle="Esmeralda",
+            codigo_postal=98613,
+            colonia="Las Joyas",
+            curp="BEGE010204HZSLNLA5",
+            municipio=16,
+            numero_exterior=35,
+            latitud=0,
+            longitud=0,
+            user=self.usuario_investigador,
+            nivel=self.nivel,
+        )
+        self.investigador.save()
+        self.usuario_investigador.set_password("12345678")
+        self.usuario_investigador.save()
+
+    def test_consultar_perfil_investigador(self):
+        self.client.login(username=
+                        self.usuario_investigador.username,
+                        password='12345678'
+                    )
+        r = self.client.get(
+            f"/investigadores/{self.usuario_investigador.pk}")
+        self.assertEquals(r.status_code, 200)
