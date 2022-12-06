@@ -10,7 +10,7 @@ from django.urls import reverse
 from helpers.usuarios_helpers import crear_usuario, crear_tipo_usuario
 from helpers.vinculacion_helpers import crear_noticia, crear_area_conocimiento, crear_categoria
 from helpers.investigadores_helpers import crear_nivel_investigador, crear_investigador
-
+from helpers.instituciones_educativas_helpers import crear_institucion_educativa
 
 class TestCrearSolicitud(TestCase):
 
@@ -471,6 +471,64 @@ class TestSolicitarIngresoInstitucionEducativa(TestCase):
 
 
 class TestActualizarPerfilInvestigador(TestCase):
+    def setUp(self):
+        tipo_investigador = crear_tipo_usuario("Investigador")
+        self.usuario_investigador = crear_usuario(usuario='prueba-investigador', correo="prueba@prueba.com",
+                    contra='12345', tipo=tipo_investigador, aprobado=True)
+        self.usuario_investigador.save()
+        self.client.login(
+            username='prueba-investigador', password='12345')
+        nivel_1 = crear_nivel_investigador(1, "Nivel 1")
+        self.investigador = crear_investigador(
+            usuario=self.usuario_investigador,
+            nivel=nivel_1,
+            curp="AUCJ011020HZSGRVA1",
+            codigo_postal=99390,
+            municipio=19,
+            colonia="Alamitos",
+            calle="Mezquite",
+            numero_exterior=29,
+            acerca_de="Soy un investigador"
+        )
+
+    def test_actualizar_perfil_investigador_datos_correctos(self):
+        datos = {
+            'curp':"AUCJ011020HZSGRVA1",
+            'codigo_postal':99390,
+            'municipio':19,
+            'colonia':"Alamitos",
+            'calle':"Mezquite",
+            'numero_exterior':29,
+            'acerca_de':"Hola"
+        }
+        respuesta = self.client.post("/formularios/investigador/actualizar",datos)
+        self.assertEqual(respuesta.status_code, 302)
+
+    def test_actualizar_perfil_investigador_datos_incorrectos(self):
+        datos = {
+            'curp':"AUCJ011020HZSGRVA1",
+            'codigo_postal':99390,
+            'municipio':19,
+            'colonia':"Alamitos",
+            'calle':"Mezquite",
+            'numero_exterior':29,
+            'acerca_de':" "
+        }
+        respuesta = self.client.post("/formularios/investigador/actualizar",datos)
+        self.assertEqual(respuesta.status_code, 200)
+
+    def test_actualizar_perfil_investigador_localizacion_invalida(self):
+        datos = {
+            'curp':"AUCJ011020HZSGRVA1",
+            'codigo_postal':99390,
+            'municipio':2,
+            'colonia':"Alamos",
+            'calle':"Mezquites",
+            'numero_exterior':329,
+            'acerca_de':"Hola"
+        }
+        respuesta = self.client.post("/formularios/investigador/actualizar",datos)
+        self.assertEqual(respuesta.status_code, 200)
 
 
 class TestVistaHistorialTrabajos(TestCase):
