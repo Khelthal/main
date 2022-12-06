@@ -4,7 +4,11 @@ from usuarios.models import User
 from investigadores.models import (
     SolicitudTrabajo,
     NivelInvestigador,
-    Investigador)
+    Investigador,
+    Investigacion,)
+from vinculacion.models import (
+    Categoria,
+    AreaConocimiento)
 from empresas.models import Empresa
 from django.utils import timezone
 
@@ -360,3 +364,99 @@ class TestModelSolicitudTrabajo(TestCase):
     def test_solicitud_trabajo_str(self):
         solicitud = SolicitudTrabajo.objects.get(titulo="Titulo")
         self.assertEqual(str(solicitud), "Titulo")
+
+
+class TestInvestigacion(TestCase):
+    def setUp(self):
+        self.usuario = User.objects.create_user(
+            username='testuser',
+            password='12345',
+            email="mail@mail.com",
+        )
+        self.usuario.save()
+        self.usuario2 = User.objects.create_user(
+            username='testuser2',
+            password='12345',
+            email="mail3@mail.com",
+        )
+        self.usuario2.save()
+        self.nivel = NivelInvestigador.objects.create(
+            nivel=1,
+            descripcion="Descripcion",
+        )
+        self.nivel.save()
+
+        self.investigador = Investigador.objects.create(
+            user=self.usuario,
+            nivel=self.nivel,
+            curp='JISD770826MSPMTV51',
+            latitud=0.0,
+            longitud=0.0,
+            codigo_postal=99360,
+            municipio=1,
+            colonia='Alamedas',
+            calle='Jomulquillo',
+            numero_exterior=22,
+            acerca_de='Robamos tesis a domicilio'
+        )
+        self.investigador.save()
+
+        self.investigador2 = Investigador.objects.create(
+            user=self.usuario2,
+            nivel=self.nivel,
+            curp='JISD770826MSPMTV51',
+            latitud=0.0,
+            longitud=0.0,
+            codigo_postal=99360,
+            municipio=1,
+            colonia='Alamedas',
+            calle='Jomulquillo',
+            numero_exterior=22,
+            acerca_de='Robamos tesis a domicilio'
+        )
+        self.investigador2.save()
+
+        self.areaconocimiento = AreaConocimiento.objects.create(
+            nombre="Area",
+            descripcion="Descripcion"
+        )
+
+        self.categoria = Categoria.objects.create(
+            nombre="Categoria",
+            descripcion="Descripcion",
+            area_conocimiento=self.areaconocimiento
+        )
+        self.categoria.save()
+
+        self.investigacion = Investigacion.objects.create(
+            titulo="Titulo",
+            contenido="Contenido",
+        )
+        self.investigacion.categorias.add(self.categoria)
+        self.investigacion.autores.add(self.investigador)
+        self.investigacion.save()
+
+    def test_investigacion(self):
+        investigacion = Investigacion.objects.get(titulo="Titulo")
+        self.assertEqual(investigacion.titulo, "Titulo")
+
+    def test_investigacion_contenido(self):
+        investigacion = Investigacion.objects.get(titulo="Titulo")
+        self.assertEqual(investigacion.contenido, "Contenido")
+
+    def test_investigacion_categorias(self):
+        investigacion = Investigacion.objects.get(titulo="Titulo")
+        self.assertEqual(investigacion.categorias.all()[0], self.categoria)
+
+    def test_investigacion_autores(self):
+        investigacion = Investigacion.objects.get(titulo="Titulo")
+        self.assertEqual(investigacion.autores.all()[0], self.investigador)
+
+    def test_investigacion_str(self):
+        investigacion = Investigacion.objects.get(titulo="Titulo")
+        self.assertEqual(str(investigacion), "Titulo")
+
+    def test_investigacion_add_investigador(self):
+        investigacion = Investigacion.objects.get(titulo="Titulo")
+        investigacion.autores.add(self.investigador2)
+        self.assertEqual(investigacion.autores.all()[1], self.investigador2)

@@ -6,6 +6,7 @@ from investigadores.validators import curp_validador
 from administracion.validators import cp_validator
 
 
+
 class NivelInvestigador(models.Model):
     nivel = models.IntegerField()
     descripcion = models.TextField()
@@ -27,12 +28,17 @@ class Investigador(models.Model):
         verbose_name="Usuario",
         on_delete=models.CASCADE,
         primary_key=True)
-    nivel = models.ForeignKey(NivelInvestigador, on_delete=models.DO_NOTHING)
-    curp = models.CharField(max_length=18, validators=[curp_validador])
+    nivel = models.ForeignKey(NivelInvestigador, 
+                            on_delete=models.DO_NOTHING)
+    curp = models.CharField(max_length=18, 
+                            validators=[curp_validador])
     latitud = models.FloatField()
     longitud = models.FloatField()
-    codigo_postal = models.CharField(max_length=5, validators=[cp_validator])
-    municipio = models.IntegerField(choices=MUNICIPIOS)
+    codigo_postal = models.CharField(
+                                    max_length=5, 
+                                    validators=[cp_validator])
+    municipio = models.IntegerField(
+                                    choices=MUNICIPIOS)
     colonia = models.CharField(max_length=100)
     calle = models.CharField(max_length=100)
     numero_exterior = models.PositiveIntegerField()
