@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from vinculacion.models import AreaConocimiento, Categoria
+from vinculacion.models import AreaConocimiento, Categoria, Noticia
+from helpers.usuarios_helpers import crear_usuario
+from helpers.vinculacion_helpers import crear_noticia
 
 
 class TestAreaConocimiento(TestCase):
@@ -80,3 +82,14 @@ class TestCategoria(TestCase):
     def test_area_conocimiento_blank(self):
         self.categoria.area_conocimiento = None
         self.assertRaises(ValidationError, self.categoria.full_clean)
+
+class TestNoticia(TestCase):
+
+    def setUp(self):
+        self.escritor = crear_usuario(
+            "escritor", "escritor@escritor.com", "12345678")
+        self.noticia = crear_noticia(
+            "Noticia", "Contenido", self.escritor, "/noticias/noticia.png")
+
+    def test_titulo_noticia_str(self):
+        self.assertEquals(str(self.noticia), "Noticia")
