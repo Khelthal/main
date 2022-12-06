@@ -2,6 +2,9 @@ from django.test import TestCase
 from django.core.exceptions import ValidationError
 from empresas.models import Empresa
 from usuarios.models import User, TipoUsuario
+from helpers.empresas_helpers import crear_empresa
+from helpers.vinculacion_helpers import crear_area_conocimiento, crear_categoria
+from helpers.usuarios_helpers import crear_tipo_usuario, crear_usuario
 
 
 # Create your tests here.
@@ -62,3 +65,28 @@ class TestEmpresa(TestCase):
         empresa.nombre_empresa = "A"*500
         with self.assertRaises(ValidationError):
             empresa.full_clean()
+
+    def test_nombre_empresa_str(self):
+        area_conocimiento = crear_area_conocimiento("Ingeniería", "Sobre ingeniería")
+        categoria = crear_categoria("Software", area_conocimiento, "Sobre software")
+        tipo_empresa = crear_tipo_usuario("Empresa")
+        usuario_encargado = crear_usuario(
+            usuario="encargado",
+            correo="encargado@encargado.com",
+            contra="12345678",
+            tipo=tipo_empresa,
+            aprobado=True
+        )
+        self.empresa = crear_empresa(
+            encargado=usuario_encargado,
+            nombre_empresa= "Empresa",
+            codigo_postal= '99390',
+            municipio= 19,
+            especialidades= [categoria],
+            colonia= 'Alamitos',
+            calle= 'Mezquite',
+            numero_exterior= '29',
+            acerca_de= 'Info',
+            imagen= "/tmp/noticia.png"
+        )
+        self.assertEquals(str(self.empresa), "Empresa")
