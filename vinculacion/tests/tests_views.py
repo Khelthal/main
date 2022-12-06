@@ -6,9 +6,14 @@ from investigadores.models import (
     Investigador,
     NivelInvestigador,
     SolicitudTrabajo)
+from vinculacion.models import (
+    Categoria,)
 from django.urls import reverse
 from helpers.usuarios_helpers import crear_usuario, crear_tipo_usuario
-from helpers.vinculacion_helpers import crear_noticia, crear_area_conocimiento, crear_categoria
+from helpers.vinculacion_helpers import (crear_noticia,
+crear_area_conocimiento,
+crear_categoria,
+crear_solicitud_trabajo)
 from helpers.investigadores_helpers import crear_nivel_investigador, crear_investigador
 
 
@@ -817,3 +822,160 @@ class TestConsultaPerfilPublico(TestCase):
         r = self.client.get(
             f"/investigadores/{self.usuario_investigador.pk}")
         self.assertEquals(r.status_code, 200)
+
+
+class TestConsultaInvestigacionNueva(TestCase):
+    def setUp(self):
+        self.usuario_investigador = User.objects.create(
+            username='user_investigador',
+            aprobado=True,
+            is_active=True,
+            email="test2@test.com",
+            tipo_usuario=TipoUsuario.objects.get(tipo=
+                                                "Investigador")
+        )
+        self.nivel = NivelInvestigador.objects.create(
+            nivel=1,
+            descripcion="XD"
+        )
+        self.investigador = Investigador.objects.create(
+            acerca_de="a",
+            calle="Esmeralda",
+            codigo_postal=98613,
+            colonia="Las Joyas",
+            curp="BEGE010204HZSLNLA5",
+            municipio=16,
+            numero_exterior=35,
+            latitud=0,
+            longitud=0,
+            user=self.usuario_investigador,
+            nivel=self.nivel,
+        )
+
+        self.investigador.save()
+        self.usuario_investigador.set_password("12345678")
+        self.usuario_investigador.save()
+        self.area = crear_area_conocimiento("Ingeniería", "Las ingenierías")
+        self.categoria = crear_categoria("Software", self.area, "El software")
+
+    def test_crear_investigacion_status_code(self):
+        self.client.login(username=
+                        self.usuario_investigador.username, password='12345678')
+        r = self.client.get("/formularios/investigacion")
+        self.assertEquals(r.status_code, 200)
+
+    def test_crear_investigacion(self):
+        self.client.login(username=
+                        self.usuario_investigador.username, password='12345678')
+        r = self.client.post("/formularios/investigacion", {
+            "titulo": "Investigacion de prueba",
+            "categoria": [7],
+            "autores": [self.investigador.pk],
+            "contenido": "Contenido de prueba",
+        })
+        self.assertEquals(r.status_code, 200)
+
+    def test_crea_investigacion_autor_no_existe(self):
+        self.client.login(username=
+                        self.usuario_investigador.username, password='12345678')
+        r = self.client.post("/formularios/investigacion", {
+            "titulo": "Investigacion de prueba",
+            "categoria": self.categoria.pk,
+            "autores": -11,
+            "contenido": "Contenido de prueba"
+        })
+        self.assertEquals(r.status_code, 200)
+
+class cambioEstadoTest(TestCase):
+    def setUp(self):
+        self.nivel = crear_nivel_investigador(1, "Uno")
+        self.tipo_investigador = crear_tipo_usuario("Investigador")
+        self.usuario_investigador = crear_usuario(
+            "usuario-investigador",
+            "inv@inv.com",
+            "12345678",
+            self.tipo_investigador
+        )
+        self.usuario_contratador = crear_usuario(
+            "usuario-contratador",
+            "mailC@mail.com",
+            "12345678",
+            self.tipo_investigador
+        )
+        self.investigador= crear_investigador(
+            usuario=self.usuario_investigador,
+            nivel=self.nivel,
+            curp="AUCJ011020HZSGRVA1",
+            latitud=0,
+            longitud=0,
+            codigo_postal=99390,
+            municipio=20,
+            colonia="Alamitos",
+            calle="Mezquite",
+            numero_exterior=29,
+            acerca_de="Soy un investigador"
+        )
+        self.investigador2 = crear_investigador(
+            usuario=self.usuario_contratador,
+            nivel=self.nivel,
+            curp="AUCJ011020HZSGRVA1",
+            latitud=0,
+            longitud=0,
+            codigo_postal=99390,
+            municipio=20,
+            colonia="Alamitos",
+            calle="Mezquite",
+            numero_exterior=29,
+            acerca_de="Soy un investigador"
+        )
+        self.investigador.save()
+        self.investigador2.save()
+        self.solicitud_trabajo = crear_solicitud_trabajo(
+            titulo="Solicitud de trabajo",
+            descripcion="Solicitud de trabajo",
+            usuario_a_vincular=self.investigador,
+            usuario_solicitante=self.usuario_contratador
+        )
+        self.solicitud_trabajo.save()
+
+    def test_cambio_estado_p(self):
+        self.client.login(username=
+                        self.usuario_investigador.username, password='12345678')
+        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/P")
+        self.assertEquals(r.status_code, 302)
+
+    def test_cambio_estado_c(self):
+        self.client.login(username=
+                        self.usuario_investigador.username, password='12345678')
+        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/C")
+        self.assertEquals(r.status_code, 302)
+
+    def test_cambio_estado_f(self):
+        self.client.login(username=
+                        self.usuario_investigador.username, password='12345678')
+        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/F")
+        self.assertEquals(r.status_code, 302)
+    
+    def test_cambio_estado_r(self):
+        self.client.login(username=
+                        self.usuario_investigador.username, password='12345678')
+        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/R")
+        self.assertEquals(r.status_code, 302)
+
+    def test_cambio_estado_p(self):
+        self.client.login(username=
+                        self.usuario_contratador.username, password='12345678')
+        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/P")
+        self.assertEquals(r.status_code, 302)
+
+    def test_cambio_estado_e(self):
+        self.client.login(username=
+                        self.usuario_contratador.username, password='12345678')
+        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/E")
+        self.assertEquals(r.status_code, 302)
+
+    def test_cambio_estado_no_valido(self):
+        self.client.login(username=
+                        self.usuario_contratador.username, password='12345678')
+        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/Z")
+        self.assertEquals(r.status_code, 302)
