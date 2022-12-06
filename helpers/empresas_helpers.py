@@ -4,15 +4,15 @@ def crear_empresa(
     encargado,
     nombre_empresa,
     especialidades,
-    latitud,
-    longitud,
     codigo_postal,
     municipio,
     colonia,
     calle,
     numero_exterior,
     acerca_de,
-    imagen
+    imagen,
+    latitud=0,
+    longitud=0,
 ):
     empresa = Empresa.objects.create(
         encargado=encargado,
