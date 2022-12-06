@@ -82,8 +82,9 @@ def aprobar_perfil(request, pk):
     usuario = User.objects.get(pk=pk)
     usuario.aprobado = True
     usuario.save()
+    messages.success(request, "Solicitud aceptada")
 
-    return redirect('administracion:instituciones_educativas_lista')
+    return redirect('administracion:dashboard')
 
 # Usuarios
 

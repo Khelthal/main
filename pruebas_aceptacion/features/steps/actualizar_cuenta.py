@@ -16,9 +16,9 @@ def step_impl(context, tipo):
 @when(u'envío la solicitud presionando el botón de Guardar')
 def step_impl(context):
     context.driver.execute_script("window.scrollTo(0, 1000)")
-    sleep(5)
+    sleep(1)
     context.driver.find_element(By.CLASS_NAME, "btn-primary").click()
-    sleep(3)
+    sleep(1)
 
 
 @then(u'se me indica que mi solicitud fue enviada')

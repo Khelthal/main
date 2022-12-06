@@ -46,6 +46,18 @@ def step_impl(context, mensaje):
     assert mensaje in texto_errores
 
 
+@then(u'se muestra el mensaje de error "{mensaje}"')
+def step_impl(context, mensaje):
+    errores = context.driver.find_elements(By.CLASS_NAME, "alert-danger")
+
+    texto_errores = []
+
+    for error in errores:
+        texto_errores.append(error.text)
+
+    assert mensaje in "".join(texto_errores)
+
+
 @then(u'se me muestra la notificación de error "{mensaje}"')
 def step_impl(context, mensaje):
     notificacion = context.driver.find_element(
