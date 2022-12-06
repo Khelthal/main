@@ -490,7 +490,8 @@ class InvestigadorInvestigaciones(ListView):
 
     def get_queryset(self):
         investigador = get_object_or_404(Investigador, user=self.request.user)
-        return Investigacion.objects.filter(autores__in=[investigador])
+        return Investigacion.objects.filter(
+            autores__in=[investigador]).order_by('titulo')
 
 
 class InvestigadorSolicitudesTrabajo(ListView):

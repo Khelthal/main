@@ -355,7 +355,8 @@ class TestEditarNoticia(TestCase):
                 f"/administracion/noticias/editar/{self.noticia.pk}", noticia)
 
             self.assertEquals(
-                Noticia.objects.get(pk=self.noticia.pk).titulo, "Noticia modificada")
+                Noticia.objects.get(
+                    pk=self.noticia.pk).titulo, "Noticia modificada")
 
 
 class TestEliminarNoticia(TestCase):
@@ -380,7 +381,8 @@ class TestCrearEmpresa(TestCase):
         crear_usuario(usuario="root", correo="root@root.com",
                       contra="12345678", superusuario=True, staff=True)
         self.client.login(username='root', password='12345678')
-        area_conocimiento = crear_area_conocimiento("Ingeniería", "Sobre ingeniería")
+        area_conocimiento = crear_area_conocimiento(
+            "Ingeniería", "Sobre ingeniería")
         crear_categoria("Software", area_conocimiento, "Sobre software")
         self.tipo_empresa = TipoUsuario.objects.get(tipo="Empresa")
         self.usuario_encargado = crear_usuario(
@@ -402,7 +404,7 @@ class TestCrearEmpresa(TestCase):
         ruta_imagen = '/tmp/noticia.png'
         with open(ruta_imagen, 'rb') as imagen:
             empresa = {
-                'encargado':[1],
+                'encargado': [1],
                 'nombre_empresa': "Empresa",
                 'codigo_postal': '99390',
                 'municipio': 19,
@@ -421,7 +423,7 @@ class TestCrearEmpresa(TestCase):
         ruta_imagen = '/tmp/noticia.png'
         with open(ruta_imagen, 'rb') as imagen:
             empresa = {
-                'encargado':[1],
+                'encargado': [1],
                 'nombre_empresa': "Empresa",
                 'codigo_postal': '99390',
                 'municipio': 15,
@@ -442,8 +444,10 @@ class TestEditarEmpresa(TestCase):
         crear_usuario(usuario="root", correo="root@root.com",
                       contra="12345678", superusuario=True, staff=True)
         self.client.login(username='root', password='12345678')
-        area_conocimiento = crear_area_conocimiento("Ingeniería", "Sobre ingeniería")
-        self.categoria=crear_categoria("Software", area_conocimiento, "Sobre software")
+        area_conocimiento = crear_area_conocimiento(
+            "Ingeniería", "Sobre ingeniería")
+        self.categoria = crear_categoria(
+            "Software", area_conocimiento, "Sobre software")
         tipo_empresa = crear_tipo_usuario("Empresa")
         self.usuario_encargado = crear_usuario(
             usuario="encargado",
@@ -454,15 +458,15 @@ class TestEditarEmpresa(TestCase):
         )
         self.empresa = crear_empresa(
             encargado=self.usuario_encargado,
-            nombre_empresa= "Empresa",
-            codigo_postal= '99390',
-            municipio= 19,
-            especialidades= [self.categoria],
-            colonia= 'Alamitos',
-            calle= 'Mezquite',
-            numero_exterior= '29',
-            acerca_de= 'Info',
-            imagen= "/tmp/noticia.png"
+            nombre_empresa="Empresa",
+            codigo_postal='99390',
+            municipio=19,
+            especialidades=[self.categoria],
+            colonia='Alamitos',
+            calle='Mezquite',
+            numero_exterior='29',
+            acerca_de='Info',
+            imagen="/tmp/noticia.png"
         )
 
     def test_editar_empresa_datos_incorrectos(self):
@@ -470,7 +474,8 @@ class TestEditarEmpresa(TestCase):
             "encargado": " "
         }
         self.client.post(
-            f"/administracion/empresas/editar/{self.empresa.pk}", empresaEditada)
+            f"/administracion/empresas/editar/{self.empresa.pk}",
+            empresaEditada)
         self.assertEquals(
             Empresa.objects.get(pk=self.empresa.pk).nombre_empresa, "Empresa")
 
@@ -478,7 +483,7 @@ class TestEditarEmpresa(TestCase):
         ruta_imagen = '/tmp/noticia.png'
         with open(ruta_imagen, 'rb') as imagen:
             empresa = {
-                'encargado':[1],
+                'encargado': [1],
                 'nombre_empresa': "Empresa modificada",
                 'codigo_postal': '99390',
                 'municipio': 19,
@@ -492,13 +497,14 @@ class TestEditarEmpresa(TestCase):
             self.client.post(
                 f"/administracion/empresas/editar/{self.empresa.pk}", empresa)
             self.assertEquals(
-                Empresa.objects.get(pk=self.empresa.pk).nombre_empresa, "Empresa modificada")
+                Empresa.objects.get(
+                    pk=self.empresa.pk).nombre_empresa, "Empresa modificada")
 
     def test_editar_empresa_localizacon_incorrecta(self):
         ruta_imagen = '/tmp/noticia.png'
         with open(ruta_imagen, 'rb') as imagen:
             empresa = {
-                'encargado':[1],
+                'encargado': [1],
                 'nombre_empresa': "Empresa modificada",
                 'codigo_postal': '99393',
                 'municipio': 19,
@@ -512,7 +518,8 @@ class TestEditarEmpresa(TestCase):
             self.client.post(
                 f"/administracion/empresas/editar/{self.empresa.pk}", empresa)
             self.assertEquals(
-                Empresa.objects.get(pk=self.empresa.pk).nombre_empresa, "Empresa")
+                Empresa.objects.get(
+                    pk=self.empresa.pk).nombre_empresa, "Empresa")
 
 
 class TestEliminarEmpresa(TestCase):
@@ -521,8 +528,10 @@ class TestEliminarEmpresa(TestCase):
         crear_usuario(usuario="root", correo="root@root.com",
                       contra="12345678", superusuario=True, staff=True)
         self.client.login(username='root', password='12345678')
-        area_conocimiento = crear_area_conocimiento("Ingeniería", "Sobre ingeniería")
-        self.categoria=crear_categoria("Software", area_conocimiento, "Sobre software")
+        area_conocimiento = crear_area_conocimiento(
+            "Ingeniería", "Sobre ingeniería")
+        self.categoria = crear_categoria(
+            "Software", area_conocimiento, "Sobre software")
         tipo_empresa = crear_tipo_usuario("Empresa")
         self.usuario_encargado = crear_usuario(
             usuario="encargado",
@@ -533,15 +542,15 @@ class TestEliminarEmpresa(TestCase):
         )
         self.empresa = crear_empresa(
             encargado=self.usuario_encargado,
-            nombre_empresa= "Empresa",
-            codigo_postal= '99390',
-            municipio= 19,
-            especialidades= [self.categoria],
-            colonia= 'Alamitos',
-            calle= 'Mezquite',
-            numero_exterior= '29',
-            acerca_de= 'Info',
-            imagen= "/tmp/noticia.png"
+            nombre_empresa="Empresa",
+            codigo_postal='99390',
+            municipio=19,
+            especialidades=[self.categoria],
+            colonia='Alamitos',
+            calle='Mezquite',
+            numero_exterior='29',
+            acerca_de='Info',
+            imagen="/tmp/noticia.png"
         )
 
     def test_eliminar_empresa(self):
