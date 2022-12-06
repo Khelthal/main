@@ -9,6 +9,7 @@ from usuarios.models import TipoUsuario
 from vinculacion.models import Categoria, Noticia
 from vinculacion.helpers import (
     get_author,
+    get_author_id_or_redirect,
     get_publications,
     get_user_specific_data)
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView
@@ -525,12 +526,8 @@ def investigaciones_google(request):
         investigador = get_object_or_404(Investigador, user=request.user)
         parsed = urlparse(request.POST["profile-url"])
         arguments = parse_qs(parsed.query)
-        try:
-            user_id = arguments['user'][0]
-        except Exception:
-            messages.error(
-                request, "No se encontró el perfil de google scholar")
-            return redirect("vinculacion:investigaciones_lista")
+
+        user_id = get_author_id_or_redirect(arguments, request)
 
         author = get_author(user_id)
 
