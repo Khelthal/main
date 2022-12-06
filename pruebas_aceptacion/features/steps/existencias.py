@@ -5,7 +5,6 @@ from helpers.instituciones_educativas_helpers import crear_institucion_educativa
 from helpers.vinculacion_helpers import crear_area_conocimiento, crear_categoria, crear_noticia
 from helpers.investigadores_helpers import crear_nivel_investigador, crear_investigador
 from helpers.empresas_helpers import crear_empresa
-from vinculacion.models import AreaConocimiento
 import navegador
 
 @given(u'dado que existe la categoría "{categoria_nombre}" del área "{area_nombre}')
@@ -29,13 +28,11 @@ def step_impl(context, nombre_empresa, encargado):
         encargado=usuario_encargado,
         nombre_empresa= nombre_empresa,
         codigo_postal= '99390',
-        latitud=0,
-        longitud=0,
         municipio= 19,
         especialidades= [categoria],
-        colonia= 'Durazno',
-        calle= 'Frutas',
-        numero_exterior= '229',
+        colonia= 'Alamitos',
+        calle= 'Mezquite',
+        numero_exterior= '29',
         acerca_de= 'Info',
         imagen= "/tmp/noticia.png"
     )
