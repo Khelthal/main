@@ -9,6 +9,8 @@ from investigadores.models import (
     SolicitudTrabajo)
 from usuarios.models import User
 from django.utils import timezone
+from django.shortcuts import redirect
+from django.contrib import messages
 
 
 def get_author(user_id):
@@ -53,6 +55,16 @@ def get_publications(author):
         })
 
     return publicaciones
+
+
+def get_author_id_or_redirect(arguments, request):
+    try:
+        user_id = arguments['user'][0]
+        return user_id
+    except Exception:
+        messages.error(
+            request, "No se encontró el perfil de google scholar")
+        return redirect("vinculacion:investigaciones_lista")
 
 
 def get_user_specific_data(usuario):
