@@ -29,7 +29,8 @@ urlpatterns = [
     # Formularios
     path(
         'formularios/investigador',
-        login_required(views.InvestigadorSolicitud.as_view()), name='investigador_form'),
+        login_required(views.InvestigadorSolicitud.as_view()),
+        name='investigador_form'),
     path(
         'formularios/investigador/actualizar',
         views.InvestigadorActualizar.as_view(),

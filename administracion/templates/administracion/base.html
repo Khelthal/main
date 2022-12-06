@@ -71,7 +71,7 @@
               </a>
             </li>
 
-            <li id="tablas" class="sidebar-item  has-sub">
+            <li id="tablas" name="tablas" class="sidebar-item  has-sub">
               <a href="#" class='sidebar-link'>
                 <i class="bi bi-grid-1x2-fill"></i>
                 <span>Tablas</span>
@@ -95,7 +95,7 @@
                 <li class="submenu-item ">
                   <a href="{% url 'administracion:investigaciones_lista' %}">Investigaciones</a>
                 </li>
-                <li class="submenu-item ">
+                <li class="submenu-item " name="noticias">
                   <a href="{% url 'administracion:noticias_lista' %}">Noticias</a>
                 </li>
               </ul>

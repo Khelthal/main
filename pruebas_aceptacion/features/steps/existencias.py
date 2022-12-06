@@ -2,12 +2,18 @@ from behave import given
 from selenium import webdriver
 from helpers.usuarios_helpers import crear_tipo_usuario, crear_usuario
 from helpers.instituciones_educativas_helpers import crear_institucion_educativa
-from helpers.vinculacion_helpers import crear_area_conocimiento, crear_categoria
+from helpers.vinculacion_helpers import crear_area_conocimiento, crear_categoria, crear_noticia
 from helpers.investigadores_helpers import crear_nivel_investigador, crear_investigador
+import navegador
+
+
+@given(u'que existe una noticia llamada "{titulo_noticia}"')
+def step_impl(context, titulo_noticia):
+    escritor = crear_usuario("escritor","escritor@escritor.com","12345678")
+    context.noticia = crear_noticia(titulo_noticia,"Contenido",escritor,"/noticias/noticia.png")
 
 @given(u'que existe una solicitud de una institución educativa llamada "{nombre_institucion}"')
 def step_impl(context, nombre_institucion):
-    context.driver = webdriver.Chrome()
     context.tipo_institucion = crear_tipo_usuario("Institucion")
     context.tipo_investigador = crear_tipo_usuario("Investigador")
     context.usuario_institucion = crear_usuario(

@@ -355,7 +355,7 @@ def solicitudIngresoLista(request):
         {"solicitudes": solicitudes})
 
 
-class UsuarioEliminar(DeleteView):
+class UsuarioEliminar(LoginRequiredMixin, DeleteView):
     model = User
     success_url = reverse_lazy('vinculacion:index')
     template_name = "vinculacion/confirm_delete.html"
@@ -454,14 +454,18 @@ def crearSolicitudIngreso(request, institucion_id):
 
 @login_required
 def contestarSolicitudIngreso(request, investigador_id, respuesta):
-
-    investigador = Investigador.objects.get(pk=investigador_id)
+    investigador = get_object_or_404(Investigador, pk=investigador_id)
+    solicitud = get_object_or_404(SolicitudIngreso, investigador=investigador)
 
     if respuesta == 1:
+        messages.success(
+            request, "Se ha aceptado la solicitud del investigador")
         institucion = InstitucionEducativa.objects.get(encargado=request.user)
         institucion.miembros.add(investigador)
+    else:
+        messages.error(
+            request, "Se ha rechazado la solicitud del investigador")
 
-    solicitud = SolicitudIngreso.objects.get(investigador=investigador)
     solicitud.delete()
 
     return redirect("vinculacion:institucion_educativa_solicitudes")
