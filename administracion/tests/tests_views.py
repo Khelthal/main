@@ -408,6 +408,25 @@ class TestCrearEmpresa(TestCase):
 
             self.assertEquals(Empresa.objects.count(), 1)
 
+    def test_crear_empresa_localizacion_invalida(self):
+        ruta_imagen = '/tmp/noticia.png'
+        with open(ruta_imagen, 'rb') as imagen:
+            empresa = {
+                'encargado':[1],
+                'nombre_empresa': "Empresa",
+                'codigo_postal': '99390',
+                'municipio': 15,
+                'especialidades': [1],
+                'colonia': 'Alamos',
+                'calle': 'Mezquites',
+                'numero_exterior': '229',
+                'acerca_de': 'Info',
+                'imagen': imagen
+            }
+            self.client.post("/administracion/empresas/nuevo", empresa)
+
+            self.assertEquals(Empresa.objects.count(), 0)
+
 
 class TestEditarEmpresa(TestCase):
     def setUp(self):
