@@ -4,10 +4,11 @@ from helpers.usuarios_helpers import crear_tipo_usuario, crear_usuario
 from helpers.instituciones_educativas_helpers import crear_institucion_educativa
 from helpers.vinculacion_helpers import crear_area_conocimiento, crear_categoria
 from helpers.investigadores_helpers import crear_nivel_investigador, crear_investigador
+import navegador
 
 @given(u'que existe una solicitud de una institución educativa llamada "{nombre_institucion}"')
 def step_impl(context, nombre_institucion):
-    context.driver = webdriver.Chrome()
+    context.driver = navegador.get_navegador()
     context.tipo_institucion = crear_tipo_usuario("Institucion")
     context.tipo_investigador = crear_tipo_usuario("Investigador")
     context.usuario_institucion = crear_usuario(
