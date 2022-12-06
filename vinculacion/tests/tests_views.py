@@ -1,6 +1,7 @@
 from django.test import TestCase
 from usuarios.models import User, TipoUsuario
 from investigadores.models import Investigador, NivelInvestigador
+from empresas.models import Empresa
 from instituciones_educativas.models import InstitucionEducativa
 from django.test import TestCase
 from investigadores.models import (
@@ -9,8 +10,9 @@ from investigadores.models import (
     SolicitudTrabajo)
 from usuarios.models import User, TipoUsuario
 from django.urls import reverse
-from helpers.usuarios_helpers import crear_usuario
-from helpers.vinculacion_helpers import crear_noticia
+from helpers.usuarios_helpers import crear_usuario, crear_tipo_usuario
+from helpers.vinculacion_helpers import crear_noticia, crear_area_conocimiento, crear_categoria
+from helpers.investigadores_helpers import crear_nivel_investigador, crear_investigador
 
 
 class TestCrearSolicitud(TestCase):
@@ -342,48 +344,133 @@ class TestResponderSolicitud(TestCase):
         self.assertEquals(r.status_code, 404)
 
 
-class TestActualizarCuenta(TestCase):
+class TestActualizarCuentaInvestigador(TestCase):
     def setUp(self):
-        usuario = User.objects.create_user(
-            username='prueba-vista', password='12345')
-        usuario.save()
-        self.client.login(username='prueba-vista', password='12345')
+        self.usuario = User.objects.create_user(
+            username='prueba-investigador', password='12345')
+        self.usuario.save()
+        self.client.login(
+            username='prueba-investigador', password='12345')
+        crear_nivel_investigador(1, "Nivel 1")
 
-    def test_vista_actualizar_perfil(self):
+    def test_actualizar_perfil(self):
         response = self.client.get('/perfil')
         self.assertEqual(response.status_code, 200)
 
-    def test_vista_actualizar_perfil_investigador(self):
-        response = self.client.get('/formularios/investigador')
-        self.assertEqual(response.status_code, 200)
+    def test_actualizar_perfil_investigador_datos_correctos(self):
+        ruta_imagen = '/tmp/noticia.png'
+        with open(ruta_imagen, 'rb') as imagen:
+            datos = {'curp': 'AUCJ011020HZSGRVA1', 'codigo_postal': '99390', 'municipio': 19,
+                     'colonia': 'Alamitos', 'calle': 'Mezquite', 'numero_exterior': '29',
+                     'acerca_de': 'Info', 'imagen': imagen}
+            self.client.post('/formularios/investigador', datos)
+            self.assertEquals(
+                Investigador.objects.count(), 1)
 
-    def test_vista_actualizar_perfil_empresa(self):
-        response = self.client.get('/formularios/empresa')
-        self.assertEqual(response.status_code, 200)
+    def test_actualizar_perfil_investigador_direccion_invalida(self):
+        ruta_imagen = '/tmp/noticia.png'
+        with open(ruta_imagen, 'rb') as imagen:
+            datos = {'curp': 'AUCJ011020HZSGRVA1', 'codigo_postal': '99393', 'municipio': 15,
+                     'colonia': 'Durazno', 'calle': 'Frutas', 'numero_exterior': '229',
+                     'acerca_de': 'Info', 'imagen': imagen}
+            self.client.post('/formularios/investigador', datos)
+            self.assertEquals(
+                Investigador.objects.count(), 0)
 
-    def test_vista_actualizar_perfil_institucion_educativa(self):
-        response = self.client.get('/formularios/institucion_educativa')
-        self.assertEqual(response.status_code, 200)
 
-    def test_vista_actualizar_perfil_sin_login(self):
-        self.client.logout()
-        response = self.client.get('/perfil')
-        self.assertEqual(response.status_code, 302)
+class TestActualizarCuentaEmpresa(TestCase):
+    def setUp(self):
+        self.usuario = User.objects.create_user(
+            username='prueba-empresa', password='12345')
+        self.usuario.save()
+        self.client.login(
+            username='prueba-empresa', password='12345')
+        area = crear_area_conocimiento("Ingeniería", "Las ingenierías")
+        crear_categoria("Software", area, "El software")
 
-    def test_vista_actualizar_perfil_investigador_sin_login(self):
-        self.client.logout()
-        response = self.client.get('/formularios/investigador')
-        self.assertEqual(response.status_code, 302)
+    def test_actualizar_perfil_empresa_datos_correctos(self):
+        ruta_imagen = '/tmp/noticia.png'
+        with open(ruta_imagen, 'rb') as imagen:
+            datos = {'nombre_empresa': 'Empresa', 'codigo_postal': '99390', 'municipio': 19,
+                     "especialidades": [1], 'colonia': 'Alamitos', 'calle': 'Mezquite',
+                     'numero_exterior': '29', 'acerca_de': 'Info', 'imagen': imagen}
+            self.client.post('/formularios/empresa', datos)
+            self.assertEquals(
+                Empresa.objects.count(), 1)
 
-    def test_vista_actualizar_perfil_empresa_sin_login(self):
-        self.client.logout()
-        response = self.client.get('/formularios/empresa')
-        self.assertEqual(response.status_code, 302)
+    def test_actualizar_perfil_empresa_direccion_invalida(self):
+        ruta_imagen = '/tmp/noticia.png'
+        with open(ruta_imagen, 'rb') as imagen:
+            datos = {
+                'nombre_empresa': 'Empresa',
+                'codigo_postal': '99390',
+                'municipio': 19,
+                "especialidades": [1],
+                'colonia': 'Durazno',
+                'calle': 'Frutas',
+                'numero_exterior': '229',
+                'acerca_de': 'Info',
+                'imagen': imagen
+            }
+            self.client.post(
+                '/formularios/empresa',
+                datos
+            )
+            self.assertEquals(
+                Empresa.objects.count(), 0)
 
-    def test_vista_actualizar_perfil_institucion_educativa_sin_login(self):
-        self.client.logout()
-        response = self.client.get('/formularios/institucion_educativa')
-        self.assertEqual(response.status_code, 302)
+
+class TestActualizarCuentaInstitucionEducativa(TestCase):
+    def setUp(self):
+        self.usuario = User.objects.create_user(
+            username='prueba-institucion', password='12345')
+        self.usuario.save()
+        self.client.login(
+            username='prueba-institucion', password='12345')
+        area = crear_area_conocimiento("Ingeniería", "Las ingenierías")
+        crear_categoria("Software", area, "El software")
+        nivel = crear_nivel_investigador(1, "Uno")
+        tipo_investigador = crear_tipo_usuario("Investigador")
+        usuario_investigador = crear_usuario(
+            "usuario-investigador",
+            "inv@inv.com",
+            "12345678",
+            tipo_investigador
+        )
+        crear_investigador(
+            usuario=usuario_investigador,
+            nivel=nivel,
+            curp="AUCJ011020HZSGRVA1",
+            latitud=0,
+            longitud=0,
+            codigo_postal=99390,
+            municipio=20,
+            colonia="Alamitos",
+            calle="Mezquite",
+            numero_exterior=29,
+            acerca_de="Soy un investigador"
+        )
+
+    def test_actualizar_perfil_institucion_datos_correctos(self):
+        ruta_imagen = '/tmp/noticia.png'
+        with open(ruta_imagen, 'rb') as imagen:
+            datos = {'nombre_institucion': 'Institucion', 'codigo_postal': '99390', 'municipio': 19,
+                     "especialidades": [1], 'miembros':[2], 'colonia': 'Alamitos', 'calle': 'Mezquite',
+                     'numero_exterior': '29', 'acerca_de': 'Info', 'imagen': imagen}
+            respuesta = self.client.post('/formularios/institucion_educativa', datos)
+            print(respuesta.content)
+            self.assertEquals(
+                InstitucionEducativa.objects.count(), 1)
+
+    def test_actualizar_perfil_institucion_direccion_invalida(self):
+        ruta_imagen = '/tmp/noticia.png'
+        with open(ruta_imagen, 'rb') as imagen:
+            datos = {'nombre_institucion': 'Institucion', 'codigo_postal': '99350', 'municipio': 19,
+                     "especialidades": [1], 'miembros':[2], 'colonia': 'Durazno', 'calle': 'Frutas',
+                     'numero_exterior': '239', 'acerca_de': 'Info', 'imagen': imagen}
+            self.client.post('/formularios/institucion_educativa', datos)
+            self.assertEquals(
+                InstitucionEducativa.objects.count(), 0)
 
 
 class TestVistaHistorialTrabajos(TestCase):
@@ -613,6 +700,7 @@ class TestInstitucionEducativaMiembros(TestCase):
                 InstitucionEducativa.objects.get(
                     pk=self.institucion.pk).miembros.all()),
             0)
+
 
 class TestConsultarNoticias (TestCase):
     def setUp(self):
