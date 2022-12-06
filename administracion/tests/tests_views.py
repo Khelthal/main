@@ -2,10 +2,11 @@ from django.test import TestCase
 from usuarios.models import User, TipoUsuario
 from investigadores.models import Investigador, NivelInvestigador
 from empresas.models import Empresa
+from vinculacion.models import Noticia
 from instituciones_educativas.models import InstitucionEducativa
 from helpers.instituciones_educativas_helpers import crear_institucion_educativa
 from helpers.usuarios_helpers import crear_usuario, crear_tipo_usuario
-from helpers.vinculacion_helpers import crear_area_conocimiento, crear_categoria
+from helpers.vinculacion_helpers import crear_area_conocimiento, crear_categoria, crear_noticia
 from helpers.investigadores_helpers import crear_investigador, crear_nivel_investigador
 
 
@@ -276,3 +277,90 @@ class TestSolicitudInstitucionEducativa (TestCase):
 
         self.assertEquals(
             InstitucionEducativa.objects.count(), 0)
+
+
+class TestCrearNoticia(TestCase):
+    def setUp(self):
+        crear_usuario(usuario="root", correo="root@root.com",
+                      contra="12345678", superusuario=True, staff=True)
+        self.client.login(username='root', password='12345678')
+        self.escritor = crear_usuario(
+            "escritor", "escritor@escritor.com", "12345678")
+
+    def test_crear_noticia_datos_incorrectos(self):
+        noticia = {
+            "titulo": "",
+            "contenido": "",
+            "escritor": "",
+            "imagen": ""
+        }
+        self.client.post("/administracion/noticias/nuevo", noticia)
+        self.assertEquals(Noticia.objects.count(), 0)
+
+    def test_crear_noticia_datos_correctos(self):
+        ruta_imagen = '/tmp/noticia.png'
+        with open(ruta_imagen, 'rb') as imagen:
+            noticia = {
+                "titulo": "Noticia",
+                "contenido": "Contenido",
+                "escritor": 2,
+                "imagen": imagen
+            }
+            self.client.post("/administracion/noticias/nuevo", noticia)
+
+            self.assertEquals(Noticia.objects.count(), 1)
+
+
+class TestEditarNoticia(TestCase):
+    def setUp(self):
+        crear_usuario(usuario="root", correo="root@root.com",
+                      contra="12345678", superusuario=True, staff=True)
+        self.client.login(username='root', password='12345678')
+        self.escritor = crear_usuario(
+            "escritor", "escritor@escritor.com", "12345678", aprobado=True, superusuario=True, staff=True)
+        self.noticia = crear_noticia(
+            "Noticia", "Contenido", self.escritor, "/noticias/noticia.png")
+
+    def test_editar_noticia_datos_incorrectos(self):
+        noticiaEditada = {
+            "titulo": "",
+            "contenido": "",
+            "escritor": "",
+            "imagen": ""
+        }
+        self.client.post(
+            f"/administracion/noticias/editar/{self.noticia.pk}", noticiaEditada)
+        self.assertEquals(
+            Noticia.objects.get(pk=self.noticia.pk).titulo, "Noticia")
+
+    def test_editar_noticia_datos_correctos(self):
+        ruta_imagen = '/tmp/noticia.png'
+        with open(ruta_imagen, 'rb') as imagen:
+            noticia = {
+                "titulo": "Noticia modificada",
+                "contenido": "Contenido",
+                "escritor": 2,
+                "imagen": imagen
+            }
+            self.client.post(
+                f"/administracion/noticias/editar/{self.noticia.pk}", noticia)
+
+            self.assertEquals(
+                Noticia.objects.get(pk=self.noticia.pk).titulo, "Noticia modificada")
+
+
+class TestEliminarNoticia(TestCase):
+
+    def setUp(self):
+        crear_usuario(usuario="root", correo="root@root.com",
+                      contra="12345678", superusuario=True, staff=True)
+        self.client.login(username='root', password='12345678')
+        self.escritor = crear_usuario(
+            "escritor", "escritor@escritor.com", "12345678")
+        self.noticia = crear_noticia(
+            "Noticia", "Contenido", self.escritor, "/noticias/noticia.png")
+
+    def test_eliminar_noticia(self):
+        self.client.post(
+            f"/administracion/noticias/eliminar/{self.noticia.pk}")
+        self.assertEquals(Noticia.objects.count(), 0)
