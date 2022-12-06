@@ -164,7 +164,7 @@ class TestCRUDInvestigador(TestCase):
         self.assertEquals(Investigador.objects.count(), 0)
 
 
-class TestSolicitudEmpres(TestCase):
+class TestSolicitudEmpresa(TestCase):
 
     def setUp(self):
         self.usuario = User.objects.create(
@@ -364,3 +364,22 @@ class TestEliminarNoticia(TestCase):
         self.client.post(
             f"/administracion/noticias/eliminar/{self.noticia.pk}")
         self.assertEquals(Noticia.objects.count(), 0)
+
+
+class TestDashboard(TestCase):
+    def setUp(self):
+        self.usuario = User.objects.create(
+            username='testuser',
+            aprobado=True,
+            is_staff=True,
+            is_superuser=True,
+            is_active=True,
+            email="test@test.com",
+        )
+        self.usuario.set_password("12345")
+        self.usuario.save()
+        self.client.login(username='testuser', password='12345')
+
+    def test_dashboard(self):
+        r = self.client.get("/administracion/")
+        self.assertEquals(r.status_code, 200)

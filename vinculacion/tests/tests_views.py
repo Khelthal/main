@@ -1,14 +1,11 @@
 from django.test import TestCase
 from usuarios.models import User, TipoUsuario
-from investigadores.models import Investigador, NivelInvestigador
 from empresas.models import Empresa
 from instituciones_educativas.models import InstitucionEducativa
-from django.test import TestCase
 from investigadores.models import (
     Investigador,
     NivelInvestigador,
     SolicitudTrabajo)
-from usuarios.models import User, TipoUsuario
 from django.urls import reverse
 from helpers.usuarios_helpers import crear_usuario, crear_tipo_usuario
 from helpers.vinculacion_helpers import crear_noticia, crear_area_conocimiento, crear_categoria
@@ -718,3 +715,65 @@ class TestConsultarNoticias (TestCase):
     def test_consultar_detalle_noticia(self):
         respuesta = self.client.get(f"/noticias/{self.noticia.pk}")
         self.assertEquals(respuesta.status_code, 200)
+
+
+class TestConsultarUsuarios(TestCase):
+    def setUp(self):
+        nivel = NivelInvestigador.objects.create(
+            nivel=1,
+            descripcion="XD"
+        )
+        usuario = User.objects.create(
+            username="rootardo",
+            aprobado=True,
+            email="root@tardo.com",
+            is_active=True,
+            tipo_usuario=TipoUsuario.objects.get(tipo="Investigador")
+        )
+        usuario_inst = User.objects.create(
+            username="wow",
+            aprobado=True,
+            email="wow@tardo.com",
+            is_active=True,
+            tipo_usuario=TipoUsuario.objects.get(tipo="Institucion Educativa")
+        )
+        usuario.set_password("12345678")
+        usuario.save()
+        Investigador.objects.create(
+            nivel=nivel,
+            acerca_de="a",
+            calle="Esmeralda",
+            codigo_postal=98613,
+            colonia="Las joyas",
+            curp="BEGE010204HZSLNLA5",
+            latitud=0,
+            longitud=0,
+            municipio=16,
+            numero_exterior=35,
+            user=usuario
+        )
+        InstitucionEducativa.objects.create(
+            calle="Esmeralda",
+            codigo_postal=98613,
+            colonia="Las joyas",
+            latitud=0,
+            longitud=0,
+            municipio=16,
+            numero_exterior=35,
+            acerca_de="asd",
+            encargado=usuario_inst,
+            nombre_institucion="Gokuuu"
+        )
+        self.client.login(username='rootardo', password='12345678')
+
+    def test_consultar_investigadores(self):
+        r = self.client.get("/investigadores")
+        self.assertEquals(r.status_code, 200)
+
+    def test_consultar_empresas(self):
+        r = self.client.get("/empresas")
+        self.assertEquals(r.status_code, 200)
+
+    def test_consultar_instituciones_educativas(self):
+        r = self.client.get("/instituciones_educativas/")
+        self.assertEquals(r.status_code, 200)
