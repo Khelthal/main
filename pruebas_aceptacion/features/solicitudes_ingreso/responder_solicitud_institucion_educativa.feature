@@ -15,7 +15,7 @@ Característica: Responder solicitud de una institución educativa
 	Dado que existe una solicitud de una institución educativa llamada "prueba-institucion"
         Y que ingreso al sistema en el dominio "/administracion/instituciones_educativas/solicitud"
         Y inicio sesión como administrador con el usuario "root" y contraseña "prueba"
-        Y busco el registro de "prueba-institucion" en la tabla de "solicitudes de instituciones"
-        Cuando hago clic en "rechazar"
+        Y busco el registro de "prueba-institucion"
+        Cuando hago clic en la opción "rechazar"
         Y confirmo mi decisión
         Entonces se muestra el mensaje "Institución Educativa eliminada correctamente"

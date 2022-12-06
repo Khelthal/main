@@ -3,11 +3,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
 
-@given(u'relleno el campo de "{campo}" con "{valor}" en el formulario')
-def step_impl(context, campo, valor):
-    campo = campo.replace(" ", "_")
-    context.driver.find_element(By.NAME, campo).clear()
-    context.driver.find_element(By.NAME, campo).send_keys(valor)
+@given(u'relleno el campo de "{nombre_campo}" con "{valor}" en el formulario')
+def step_impl(context, nombre_campo, valor):
+    nombre_campo = nombre_campo.replace(" ", "_")
+    campo = context.driver.find_element(By.NAME, nombre_campo)
+    campo.clear()
+    campo.send_keys(valor)
 
 
 @given(u'elijo "{opcion}" en el campo de "{campo}" en el formulario')
@@ -26,6 +27,11 @@ def step_impl(context, campo):
     campoEncontrado = context.driver.find_element(By.NAME, campo)
     assert campoEncontrado == context.driver.switch_to.active_element
 
+@then(u'se me indica que el campo de "{campo}" es obligatorio')
+def step_impl(context, campo):
+    campo = campo.replace(" ", "_")
+    campoEncontrado = context.driver.find_element(By.NAME, campo)
+    assert "is-invalid" in campoEncontrado.get_attribute('class').split()
 
 @then(u'se me muestra el mensaje de error "{mensaje}"')
 def step_impl(context, mensaje):
