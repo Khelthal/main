@@ -5,7 +5,8 @@ from instituciones_educativas.models import InstitucionEducativa
 from investigadores.models import (
     Investigador,
     NivelInvestigador,
-    SolicitudTrabajo)
+    SolicitudTrabajo,
+    Investigacion)
 from django.urls import reverse
 from helpers.usuarios_helpers import crear_usuario, crear_tipo_usuario
 from helpers.vinculacion_helpers import crear_noticia, crear_area_conocimiento, crear_categoria
@@ -1032,3 +1033,40 @@ class TestConsultaPerfilPublico(TestCase):
         r = self.client.get(
             f"/investigadores/{self.usuario_investigador.pk}")
         self.assertEquals(r.status_code, 200)
+
+
+class TestImportarInvestigacionesGoogleScholar(TestCase):
+    def setUp(self):
+        tipo_investigador = crear_tipo_usuario("Investigador")
+        usuario_investigador = crear_usuario(usuario="prueba-investigador", correo="prueba@prueba.com",
+                    contra="12345678", tipo=tipo_investigador, aprobado=True)
+        self.client.login(username="prueba-investigador", password="12345678")
+        nivel_1 = crear_nivel_investigador(1, "Nivel 1")
+        self.investigador = crear_investigador(
+            usuario=usuario_investigador,
+            nivel=nivel_1,
+            curp="AUCJ011020HZSGRVA1",
+            codigo_postal=99390,
+            municipio=19,
+            colonia="Alamitos",
+            calle="Mezquite",
+            numero_exterior=29,
+            acerca_de="Soy un investigador"
+        )
+
+    def test_perfil_investigaciones(self):
+        self.client.get("/perfil/investigaciones")
+
+    def test_importar_investigaciones_google_scholar(self):
+        datos = {
+            "profile-url":"https://scholar.google.com/citations?hl=en&user=YGnk7uoAAAAJ"
+        }
+        self.client.post("/perfil/investigaciones/fetch", datos)
+        self.assertEqual(Investigacion.objects.count(),1)
+
+    def test_importar_investigaciones_google_scholar_perfil_inexistente(self):
+        datos = {
+            "profile-url":"link_perfil"
+        }
+        self.client.post("/perfil/investigaciones/fetch", datos)
+        self.assertEqual(Investigacion.objects.count(),0)
