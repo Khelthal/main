@@ -1,4 +1,5 @@
 from vinculacion.models import AreaConocimiento, Categoria, Noticia
+from investigadores.models import Investigador, SolicitudTrabajo
 
 
 def crear_area_conocimiento(nombre, descripcion):
@@ -27,3 +28,14 @@ def crear_noticia(titulo, contenido, escritor, imagen):
         imagen=imagen
     )
     return noticia
+
+def crear_solicitud_trabajo(titulo, descripcion, usuario_a_vincular,
+usuario_solicitante):
+    solicitud_trabajo = SolicitudTrabajo.objects.create(
+        titulo=titulo,
+        descripcion=descripcion,
+        usuario_a_vincular=usuario_a_vincular,
+        usuario_solicitante=usuario_solicitante,
+        estado="E",
+    )
+    return solicitud_trabajo
