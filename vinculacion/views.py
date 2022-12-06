@@ -560,7 +560,9 @@ def investigaciones_google(request):
                 investigacion.save()
             except Exception:
                 continue
-
+    
+    messages.success(
+                request, "Carga de investigaciones exitosa")
     return redirect("vinculacion:investigaciones_lista")
 
 
