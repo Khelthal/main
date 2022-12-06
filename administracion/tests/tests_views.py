@@ -466,6 +466,26 @@ class TestEditarEmpresa(TestCase):
             self.assertEquals(
                 Empresa.objects.get(pk=self.empresa.pk).nombre_empresa, "Empresa modificada")
 
+    def test_editar_empresa_localizacon_incorrecta(self):
+        ruta_imagen = '/tmp/noticia.png'
+        with open(ruta_imagen, 'rb') as imagen:
+            empresa = {
+                'encargado':[1],
+                'nombre_empresa': "Empresa modificada",
+                'codigo_postal': '99393',
+                'municipio': 19,
+                'especialidades': [1],
+                'colonia': 'Durazno',
+                'calle': 'Frutas',
+                'numero_exterior': '295',
+                'acerca_de': 'Info',
+                'imagen': imagen
+            }
+            self.client.post(
+                f"/administracion/empresas/editar/{self.empresa.pk}", empresa)
+            self.assertEquals(
+                Empresa.objects.get(pk=self.empresa.pk).nombre_empresa, "Empresa")
+
 
 class TestEliminarEmpresa(TestCase):
 
