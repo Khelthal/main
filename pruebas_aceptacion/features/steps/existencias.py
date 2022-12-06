@@ -5,7 +5,13 @@ from helpers.instituciones_educativas_helpers import crear_institucion_educativa
 from helpers.vinculacion_helpers import crear_area_conocimiento, crear_categoria, crear_noticia
 from helpers.investigadores_helpers import crear_nivel_investigador, crear_investigador
 from helpers.empresas_helpers import crear_empresa
+from vinculacion.models import AreaConocimiento
 import navegador
+
+@given(u'dado que existe la categoría "{categoria_nombre}" del área "{area_nombre}')
+def step_impl(context, categoria_nombre, area_nombre):
+    context.area = crear_area_conocimiento(area_nombre, "area")
+    context.categoria = crear_categoria(categoria_nombre, context.area, "categoria")
 
 @given(u'que existe una empresa llamada "{nombre_empresa}" con el encargado "{encargado}"')
 def step_impl(context, nombre_empresa, encargado):
