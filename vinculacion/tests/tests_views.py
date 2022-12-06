@@ -11,6 +11,7 @@ from helpers.usuarios_helpers import crear_usuario, crear_tipo_usuario
 from helpers.vinculacion_helpers import crear_noticia, crear_area_conocimiento, crear_categoria
 from helpers.investigadores_helpers import crear_nivel_investigador, crear_investigador
 from helpers.instituciones_educativas_helpers import crear_institucion_educativa
+from helpers.empresas_helpers import crear_empresa
 
 class TestCrearSolicitud(TestCase):
 
@@ -614,6 +615,72 @@ class TestActualizarPerfilInstitucionEducativa(TestCase):
             'acerca_de':"Soy una institución loca"
         }
         respuesta = self.client.post("/formularios/institucion_educativa/actualizar",datos)
+        self.assertEqual(respuesta.status_code, 200)
+
+
+class TestActualizarPerfilEmpresa(TestCase):
+    def setUp(self):
+        tipo_empresa = crear_tipo_usuario("Empresa")
+        usuario_encargado = crear_usuario(usuario='prueba-empresa', correo="prueba@prueba.com",
+                    contra='12345', tipo=tipo_empresa, aprobado=True)
+        usuario_encargado.save()
+        self.client.login(
+            username='prueba-empresa', password='12345')
+        area_conocimiento = crear_area_conocimiento("Ingeniería", "Sobre ingeniería")
+        categoria=crear_categoria("Software", area_conocimiento, "Sobre software")
+        self.empresa = crear_empresa(
+            encargado=usuario_encargado,
+            nombre_empresa= "Empresa",
+            codigo_postal= '99390',
+            municipio= 19,
+            especialidades= [categoria],
+            colonia= 'Alamitos',
+            calle= 'Mezquite',
+            numero_exterior= '29',
+            acerca_de= 'Info',
+            imagen= "/tmp/noticia.png"
+        )
+
+    def test_actualizar_perfil_empresa_datos_correctos(self):
+        datos = {
+            'nombre_empresa':"Empresa Prueba",
+            'especialidades':[1],
+            'codigo_postal':99390,
+            'municipio':19,
+            'colonia':"Alamitos",
+            'calle':"Mezquite",
+            'numero_exterior':29,
+            'acerca_de':"Soy una empresa loca"
+        }
+        respuesta = self.client.post("/formularios/empresa/actualizar",datos)
+        self.assertEqual(respuesta.status_code, 302)
+
+    def test_actualizar_perfil_empresa_datos_incorrectos(self):
+        datos = {
+            'nombre_empresa':"Empresa Prueba",
+            'especialidades':[1],
+            'codigo_postal':99390,
+            'municipio':19,
+            'colonia':"Alamitos",
+            'calle':"Mezquite",
+            'numero_exterior':29,
+            'acerca_de':" "
+        }
+        respuesta = self.client.post("/formularios/empresa/actualizar",datos)
+        self.assertEqual(respuesta.status_code, 200)
+
+    def test_actualizar_perfil_empresa_localizacion_invalida(self):
+        datos = {
+            'nombre_empresa':"Empresa Prueba",
+            'especialidades':[1],
+            'codigo_postal':99395,
+            'municipio':16,
+            'colonia':"Alamenios",
+            'calle':"Rock",
+            'numero_exterior':20,
+            'acerca_de':"Soy una empresa loca"
+        }
+        respuesta = self.client.post("/formularios/empresa/actualizar",datos)
         self.assertEqual(respuesta.status_code, 200)
 
 
