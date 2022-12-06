@@ -341,7 +341,7 @@ class TestResponderSolicitud(TestCase):
         self.assertEquals(r.status_code, 404)
 
 
-class TestActualizarCuentaInvestigador(TestCase):
+class TestSolicitarIngresoInvestigador(TestCase):
     def setUp(self):
         self.usuario = User.objects.create_user(
             username='prueba-investigador', password='12345')
@@ -350,11 +350,11 @@ class TestActualizarCuentaInvestigador(TestCase):
             username='prueba-investigador', password='12345')
         crear_nivel_investigador(1, "Nivel 1")
 
-    def test_actualizar_perfil(self):
+    def test_solicitar_ingreso(self):
         response = self.client.get('/perfil')
         self.assertEqual(response.status_code, 200)
 
-    def test_actualizar_perfil_investigador_datos_correctos(self):
+    def test_solicitar_ingreso_investigador_datos_correctos(self):
         ruta_imagen = '/tmp/noticia.png'
         with open(ruta_imagen, 'rb') as imagen:
             datos = {'curp': 'AUCJ011020HZSGRVA1', 'codigo_postal': '99390', 'municipio': 19,
@@ -364,7 +364,7 @@ class TestActualizarCuentaInvestigador(TestCase):
             self.assertEquals(
                 Investigador.objects.count(), 1)
 
-    def test_actualizar_perfil_investigador_direccion_invalida(self):
+    def test_solicitar_ingreso_investigador_direccion_invalida(self):
         ruta_imagen = '/tmp/noticia.png'
         with open(ruta_imagen, 'rb') as imagen:
             datos = {'curp': 'AUCJ011020HZSGRVA1', 'codigo_postal': '99393', 'municipio': 15,
@@ -375,7 +375,7 @@ class TestActualizarCuentaInvestigador(TestCase):
                 Investigador.objects.count(), 0)
 
 
-class TestActualizarCuentaEmpresa(TestCase):
+class TestSolicitarIngresoEmpresa(TestCase):
     def setUp(self):
         self.usuario = User.objects.create_user(
             username='prueba-empresa', password='12345')
@@ -385,7 +385,7 @@ class TestActualizarCuentaEmpresa(TestCase):
         area = crear_area_conocimiento("Ingeniería", "Las ingenierías")
         crear_categoria("Software", area, "El software")
 
-    def test_actualizar_perfil_empresa_datos_correctos(self):
+    def test_solicitar_ingreso_empresa_datos_correctos(self):
         ruta_imagen = '/tmp/noticia.png'
         with open(ruta_imagen, 'rb') as imagen:
             datos = {'nombre_empresa': 'Empresa', 'codigo_postal': '99390', 'municipio': 19,
@@ -395,7 +395,7 @@ class TestActualizarCuentaEmpresa(TestCase):
             self.assertEquals(
                 Empresa.objects.count(), 1)
 
-    def test_actualizar_perfil_empresa_direccion_invalida(self):
+    def test_solicitar_ingreso_empresa_direccion_invalida(self):
         ruta_imagen = '/tmp/noticia.png'
         with open(ruta_imagen, 'rb') as imagen:
             datos = {
@@ -417,7 +417,7 @@ class TestActualizarCuentaEmpresa(TestCase):
                 Empresa.objects.count(), 0)
 
 
-class TestActualizarCuentaInstitucionEducativa(TestCase):
+class TestSolicitarIngresoInstitucionEducativa(TestCase):
     def setUp(self):
         self.usuario = User.objects.create_user(
             username='prueba-institucion', password='12345')
@@ -448,25 +448,29 @@ class TestActualizarCuentaInstitucionEducativa(TestCase):
             acerca_de="Soy un investigador"
         )
 
-    def test_actualizar_perfil_institucion_datos_correctos(self):
+    def test_solicitar_ingreso_institucion_datos_correctos(self):
         ruta_imagen = '/tmp/noticia.png'
         with open(ruta_imagen, 'rb') as imagen:
             datos = {'nombre_institucion': 'Institucion', 'codigo_postal': '99390', 'municipio': 19,
-                     "especialidades": [1], 'miembros':[2], 'colonia': 'Alamitos', 'calle': 'Mezquite',
+                     "especialidades": [1], 'miembros': [2], 'colonia': 'Alamitos', 'calle': 'Mezquite',
                      'numero_exterior': '29', 'acerca_de': 'Info', 'imagen': imagen}
-            respuesta = self.client.post('/formularios/institucion_educativa', datos)
+            respuesta = self.client.post(
+                '/formularios/institucion_educativa', datos)
             self.assertEquals(
                 InstitucionEducativa.objects.count(), 1)
 
-    def test_actualizar_perfil_institucion_direccion_invalida(self):
+    def test_solicitar_ingreso_institucion_direccion_invalida(self):
         ruta_imagen = '/tmp/noticia.png'
         with open(ruta_imagen, 'rb') as imagen:
             datos = {'nombre_institucion': 'Institucion', 'codigo_postal': '99350', 'municipio': 19,
-                     "especialidades": [1], 'miembros':[2], 'colonia': 'Durazno', 'calle': 'Frutas',
+                     "especialidades": [1], 'miembros': [2], 'colonia': 'Durazno', 'calle': 'Frutas',
                      'numero_exterior': '239', 'acerca_de': 'Info', 'imagen': imagen}
             self.client.post('/formularios/institucion_educativa', datos)
             self.assertEquals(
                 InstitucionEducativa.objects.count(), 0)
+
+
+class TestActualizarPerfilInvestigador(TestCase):
 
 
 class TestVistaHistorialTrabajos(TestCase):
