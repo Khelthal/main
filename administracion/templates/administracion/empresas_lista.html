@@ -20,7 +20,7 @@
       {% endfor %}
     </div>
     <div class="card-body">
-      <a href="{% url 'administracion:empresas_nuevo' %}"><span class="badge bg-success">Crear</span></a>
+      <a name="crear" href="{% url 'administracion:empresas_nuevo' %}"><span class="badge bg-success">Crear</span></a>
     </div>
   </div>
 
@@ -47,9 +47,9 @@
             <td>{{empresa.encargado.username}}</td>
             <td>{{empresa.nombre_empresa}}</td>
             <td>
-              <a href="{% url 'administracion:empresas_editar' empresa.pk %}"><span
+              <a id="editar" href="{% url 'administracion:empresas_editar' empresa.pk %}"><span
                   class="badge bg-info">Editar</span></a>
-              <a href="{% url 'administracion:empresas_eliminar' empresa.pk %}"><span
+              <a id="eliminar" href="{% url 'administracion:empresas_eliminar' empresa.pk %}"><span
                   class="badge bg-danger">Eliminar</span></a>
             </td>
           </tr>
