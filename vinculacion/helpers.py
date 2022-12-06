@@ -83,9 +83,8 @@ def get_user_specific_data(usuario):
     return usuario_data
 # Cambiar estados de trabajo
 
-
-def cancelar_trabajo(request, solicitud):
-    if request.user.pk == solicitud.usuario_a_vincular.pk:
+def cancelar_trabajo(pk, solicitud):
+    if pk == solicitud.usuario_a_vincular.pk:
         solicitud.estado_investigador = "C"
         solicitud.estado = "C"
         solicitud.fecha_finalizado = datetime.now()
@@ -102,7 +101,7 @@ def cancelar_trabajo(request, solicitud):
             correos)
         solicitud.save()
 
-    elif request.user.pk == solicitud.usuario_solicitante.pk:
+    elif pk == solicitud.usuario_solicitante.pk:
         solicitud.estado_empleador = "C"
         solicitud.estado = "C"
         solicitud.fecha_finalizado = datetime.now()
@@ -119,8 +118,8 @@ def cancelar_trabajo(request, solicitud):
         solicitud.save()
 
 
-def finalizar_trabajo(request, solicitud):
-    if request.user.pk == solicitud.usuario_a_vincular.pk:
+def finalizar_trabajo(pk, solicitud):
+    if pk == solicitud.usuario_a_vincular.pk:
         solicitud.estado_investigador = "F"
         solicitud.estado_empleador = "E"
         empleador = User.objects.filter(
@@ -134,7 +133,7 @@ def finalizar_trabajo(request, solicitud):
             "El trabajo ha sido finalizado por el investigador",
             correos)
         solicitud.save()
-    elif request.user.pk == solicitud.usuario_solicitante.pk:
+    elif pk == solicitud.usuario_solicitante.pk:
         solicitud.estado_empleador = "F"
         solicitud.estado = "F"
         empleador = User.objects.filter(
@@ -150,8 +149,8 @@ def finalizar_trabajo(request, solicitud):
         solicitud.save()
 
 
-def rechazar_trabajo(request, solicitud):
-    if request.user.pk == solicitud.usuario_solicitante.pk:
+def rechazar_trabajo(pk, solicitud):
+    if pk == solicitud.usuario_solicitante.pk:
         solicitud.estado_empleador = "R"
         solicitud.estado_investigador = "E"
         empleador = User.objects.filter(
@@ -168,8 +167,8 @@ def rechazar_trabajo(request, solicitud):
         solicitud.save()
 
 
-def trabajo_en_proceso(request, solicitud):
-    if request.user.pk == solicitud.usuario_a_vincular.pk:
+def trabajo_en_proceso(pk, solicitud):
+    if pk == solicitud.usuario_a_vincular.pk:
         solicitud.estado_investigador = "P"
         solicitud.estado = "P"
         empleador = User.objects.filter(
@@ -185,8 +184,8 @@ def trabajo_en_proceso(request, solicitud):
         solicitud.save()
 
 
-def trabajo_en_revision(request, solicitud):
-    if request.user.pk == solicitud.usuario_solicitante.pk:
+def trabajo_en_revision(pk, solicitud):
+    if pk == solicitud.usuario_solicitante.pk:
         solicitud.estado_empleador = "E"
         empleador = User.objects.filter(
             pk=solicitud.usuario_solicitante.pk).first()
@@ -199,7 +198,7 @@ def trabajo_en_revision(request, solicitud):
             "El trabajo ha sido colocado en revision por el solicitante",
             correos)
         solicitud.save()
-    elif request.user.pk == solicitud.usuario_a_vincular.pk:
+    elif pk == solicitud.usuario_a_vincular.pk:
         solicitud.estado_investigador = "E"
         empleador = User.objects.filter(
             pk=solicitud.usuario_solicitante.pk).first()
@@ -226,4 +225,8 @@ def enviar_correo_estado(trabajo_pk, subject, message, remitentes):
         from_email=settings.EMAIL_HOST_USER,
         to=remitentes)
     correo.attach_alternative(contenido, "text/html")
-    correo.send()
+    try:
+        correo.send()
+        return True
+    except:
+        return False

@@ -4,6 +4,7 @@ from helpers.usuarios_helpers import crear_tipo_usuario, crear_usuario
 from helpers.instituciones_educativas_helpers import crear_institucion_educativa
 from helpers.vinculacion_helpers import crear_area_conocimiento, crear_categoria, crear_noticia
 from helpers.investigadores_helpers import crear_nivel_investigador, crear_investigador
+import navegador
 
 
 @given(u'que existe una noticia llamada "{titulo_noticia}"')

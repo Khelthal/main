@@ -15,7 +15,7 @@
       <h4 class="card-title">Empresas</h4>
     </div>
     <div class="card-body">
-      <table class="table" id="table1">
+      <table class="table" id="table1" name="solicitudes-de-empresas">
         <thead>
           <tr>
             <th>Encargado</th>
@@ -29,9 +29,9 @@
             <td>{{empresa.encargado.username}}</td>
             <td>{{empresa.nombre_empresa}}</td>
             <td>
-              <a href="{% url 'administracion:aprobar_perfil' empresa.encargado.pk %}"><span
+              <a id="aprobar" href="{% url 'administracion:aprobar_perfil' empresa.encargado.pk %}"><span
                   class="badge bg-success">Aprobar</span></a>
-              <a href="{% url 'administracion:empresas_eliminar' empresa.pk %}"><span
+              <a id="rechazar" href="{% url 'administracion:empresas_eliminar' empresa.pk %}"><span
                   class="badge bg-danger">Rechazar</span></a>
             </td>
           </tr>

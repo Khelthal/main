@@ -4,7 +4,14 @@ from investigadores.models import (
     SolicitudTrabajo,
     NivelInvestigador,
     Investigador)
-from empresas.models import Empresa
+from vinculacion.helpers import (
+    cancelar_trabajo,
+    finalizar_trabajo,
+    rechazar_trabajo,
+    trabajo_en_proceso,
+    trabajo_en_revision,
+    enviar_correo_estado
+    )
 
 
 class TestSmoke(TestCase):
@@ -20,20 +27,6 @@ class TestCambioEstados(TestCase):
         self.usuario2 = User.objects.create_user(
             username='testuser2', password='12345', email="test2@mail.com")
         self.usuario2.save()
-
-        empresa = Empresa.objects.create(
-            encargado=self.usuario2,
-            nombre_empresa="Empresa",
-            latitud=0,
-            longitud=0,
-            codigo_postal="12345",
-            municipio=1,
-            colonia="Colonia",
-            calle="Calle",
-            numero_exterior="1",
-            acerca_de="Acerca de asdasdasdasdasdasdasd",
-        )
-        empresa.save()
 
         nivelinvestigadores = NivelInvestigador.objects.create(
             nivel=1,
@@ -56,7 +49,7 @@ class TestCambioEstados(TestCase):
         )
         self.investigador.save()
 
-        solicitud = SolicitudTrabajo.objects.create(
+        self.solicitud = SolicitudTrabajo.objects.create(
             titulo="Titulo",
             usuario_a_vincular=self.investigador,
             usuario_solicitante=self.usuario2,
@@ -67,10 +60,56 @@ class TestCambioEstados(TestCase):
             fecha='2020-01-01',
             fecha_finalizado='2020-01-01',
         )
-        solicitud.save()
+        self.solicitud.save()
 
+    # Cancelar trabajo
     def test_cancelar_estado_empleado(self):
-        self.client.login(username='testuser', password='12345')
-        self.client.post('/perfil/trabajos/cambiar_estado/1/C', follow=True)
-        solicitud = SolicitudTrabajo.objects.get(pk=1)
-        self.assertEqual(solicitud.estado, 'C')
+        cancelar_trabajo(self.solicitud.usuario_a_vincular.pk, self.solicitud)
+        self.assertEqual(self.solicitud.estado, 'C')
+
+    def test_cancelar_estado_empleador(self):
+        cancelar_trabajo(self.solicitud.usuario_solicitante.pk, self.solicitud)
+        self.assertEqual(self.solicitud.estado, 'C')
+
+    # Finalizar trabajo
+    def test_finalizar_estado_empleado(self):
+        self.solicitud.estado = 'P'
+        finalizar_trabajo(self.solicitud.usuario_a_vincular.pk, self.solicitud)
+        self.assertEqual(self.solicitud.estado, 'P')
+        self.assertEqual(self.solicitud.estado_investigador, 'F')
+
+    def test_finalizar_estado_empleador(self):
+        self.solicitud.estado = 'P'
+        finalizar_trabajo(
+            self.solicitud.usuario_solicitante.pk, self.solicitud)
+        self.assertEqual(self.solicitud.estado, 'F')
+
+    # Rechazar trabajo
+    def test_rechazar_estado_empleador(self):
+        rechazar_trabajo(self.solicitud.usuario_solicitante.pk, self.solicitud)
+        self.assertEqual(self.solicitud.estado_empleador, 'R')
+
+    # Trabajo en proceso
+    def test_trabajo_en_proceso(self):
+        trabajo_en_proceso(
+            self.solicitud.usuario_a_vincular.pk, self.solicitud)
+        self.assertEqual(self.solicitud.estado, 'P')
+
+    # Trabajo en revision
+    def test_trabajo_en_revision_empleado(self):
+        trabajo_en_revision(
+            self.solicitud.usuario_a_vincular.pk, self.solicitud)
+        self.assertEqual(self.solicitud.estado_investigador, 'E')
+
+    def test_trabajo_en_revision_empleador(self):
+        trabajo_en_revision(
+            self.solicitud.usuario_solicitante.pk, self.solicitud)
+        self.assertEqual(self.solicitud.estado_empleador, 'E')
+
+    # Envio de correo
+    def test_envio_correo(self):
+        resultado = enviar_correo_estado(
+            self.solicitud.pk, "Test",
+            "Este es un mensaje de prueba",
+            ["mail@mail.com"])
+        self.assertTrue(resultado, True)

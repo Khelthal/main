@@ -38,8 +38,8 @@ class FormInvestigador(forms.ModelForm):
         super(FormInvestigador, self).__init__(*args, **kwargs)
         self.fields["user"].queryset = User.objects.filter(
             tipo_usuario__isnull=True)
-        self.fields["user"].widget.attrs['class'] = 'choices form-select'
-        self.fields["nivel"].widget.attrs['class'] = 'choices form-select'
+        self.fields["user"].widget.attrs['class'] = 'form-select'
+        self.fields["nivel"].widget.attrs['class'] = 'form-select'
         self.fields["curp"].widget.attrs['class'] = 'form-control'
         self.fields["curp"].widget.attrs['placeholder'] = 'Ingresa tu CURP'
         self.fields["codigo_postal"].widget.attrs['class'] = 'form-control'
@@ -72,7 +72,7 @@ class FormInvestigadorUpdate(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FormInvestigadorUpdate, self).__init__(*args, **kwargs)
         self.fields["nivel"].widget.attrs['class'] = (
-            'choices form-select')
+            'form-select')
         self.fields["curp"].widget.attrs['class'] = (
             'form-control')
         self.fields["curp"].widget.attrs['placeholder'] = (
@@ -156,7 +156,7 @@ class FormEmpresa(forms.ModelForm):
         self.fields["encargado"].queryset = User.objects.filter(
             tipo_usuario__isnull=True)
         self.fields["encargado"].widget.attrs['class'] = (
-            'choices form-select')
+            'form-select')
         self.fields["nombre_empresa"].widget.attrs['class'] = (
             'form-control')
         self.fields["especialidades"].widget.attrs['class'] = (
@@ -240,7 +240,7 @@ class FormInstitucionEducativa(forms.ModelForm):
         self.fields["encargado"].queryset = User.objects.filter(
             tipo_usuario__isnull=True)
         self.fields["encargado"].widget.attrs['class'] = (
-            'choices form-select')
+            'form-select')
         self.fields["nombre_institucion"].widget.attrs['class'] = (
             'form-control')
         self.fields["especialidades"].widget.attrs['class'] = (
@@ -326,7 +326,7 @@ class FormCategoria(forms.ModelForm):
             'nombre': forms.TextInput(
                 attrs={'class': 'form-control'}),
             'area_conocimiento': forms.Select(
-                attrs={'class': 'choices form-select'}),
+                attrs={'class': 'form-select'}),
             'descripcion': forms.Textarea(
                 attrs={'class': 'form-control'}),
         }
@@ -341,9 +341,9 @@ class FormInvestigacion(forms.ModelForm):
             'titulo': forms.TextInput(
                 attrs={'class': 'form-control'}),
             'categorias': forms.SelectMultiple(
-                attrs={'class': 'choices form-select multiple-remove'}),
+                attrs={'class': 'form-select multiple-remove'}),
             'autores': forms.SelectMultiple(
-                attrs={'class': 'choices form-select multiple-remove'}),
+                attrs={'class': 'form-select multiple-remove'}),
             'contenido': forms.Textarea(
                 attrs={'class': 'form-control'}),
         }

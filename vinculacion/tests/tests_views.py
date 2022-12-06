@@ -487,13 +487,13 @@ class TestVistaHistorialTrabajos(TestCase):
     def test_vista_historial_trabajos_sin_login(self):
         self.client.logout()
         response = self.client.get('/perfil/trabajos/historial')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 302)
 
     def test_vista_historial_trabajos_sin_investigador(self):
         usuario = User.objects.get(username='testuser')
         usuario.delete()
         response = self.client.get('/perfil/trabajos/historial')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 302)
 
 
 class TestVistaTrabajosEnCurso(TestCase):
@@ -510,13 +510,13 @@ class TestVistaTrabajosEnCurso(TestCase):
     def test_vista_trabajos_en_curso_sin_login(self):
         self.client.logout()
         response = self.client.get('/perfil/trabajos')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 302)
 
     def test_vista_trabajos_en_curso_sin_investigador(self):
         usuario = User.objects.get(username='testuser')
         usuario.delete()
         response = self.client.get('/perfil/trabajos')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 302)
 
 
 class TestVistaRechazarSolicitud(TestCase):
