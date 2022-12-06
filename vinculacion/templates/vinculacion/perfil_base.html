@@ -30,7 +30,7 @@
           {% endif %}
           {% if user.tipo_usuario.tipo == "Investigador" %}
             <li class="nav-item">
-              <a class="nav-link" id="investigaciones" href="{% url 'vinculacion:investigaciones_lista' %}">Investigaciones</a>
+              <a name="investigaciones" class="nav-link" id="investigaciones" href="{% url 'vinculacion:investigaciones_lista' %}">Investigaciones</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" id="solicitudes_trabajo" href="{% url 'vinculacion:solicitudes_trabajo_lista' %}">Solicitudes de colaboración</a>
