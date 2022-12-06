@@ -7,19 +7,13 @@ from investigadores.models import (
     NivelInvestigador,
     SolicitudTrabajo,
     Investigacion)
-from vinculacion.models import (
-    Categoria,)
-from django.urls import reverse
-from helpers.usuarios_helpers import crear_usuario, crear_tipo_usuario
-from helpers.vinculacion_helpers import (crear_noticia,
-crear_area_conocimiento,
-crear_categoria,
-crear_solicitud_trabajo)
-from helpers.investigadores_helpers import crear_nivel_investigador, crear_investigador
 from django.urls import reverse
 from helpers.usuarios_helpers import crear_usuario, crear_tipo_usuario
 from helpers.vinculacion_helpers import (
-    crear_noticia, crear_area_conocimiento, crear_categoria)
+    crear_noticia,
+    crear_area_conocimiento,
+    crear_categoria,
+    crear_solicitud_trabajo)
 from helpers.investigadores_helpers import (
     crear_nivel_investigador, crear_investigador)
 from helpers.instituciones_educativas_helpers import (
@@ -1089,8 +1083,8 @@ class TestConsultaInvestigacionNueva(TestCase):
             aprobado=True,
             is_active=True,
             email="test2@test.com",
-            tipo_usuario=TipoUsuario.objects.get(tipo=
-                                                "Investigador")
+            tipo_usuario=TipoUsuario.objects.get(
+                tipo="Investigador")
         )
         self.nivel = NivelInvestigador.objects.create(
             nivel=1,
@@ -1117,14 +1111,14 @@ class TestConsultaInvestigacionNueva(TestCase):
         self.categoria = crear_categoria("Software", self.area, "El software")
 
     def test_crear_investigacion_status_code(self):
-        self.client.login(username=
-                        self.usuario_investigador.username, password='12345678')
+        self.client.login(
+            username=self.usuario_investigador.username, password='12345678')
         r = self.client.get("/formularios/investigacion")
         self.assertEquals(r.status_code, 200)
 
     def test_crear_investigacion(self):
-        self.client.login(username=
-                        self.usuario_investigador.username, password='12345678')
+        self.client.login(
+            username=self.usuario_investigador.username, password='12345678')
         r = self.client.post("/formularios/investigacion", {
             "titulo": "Investigacion de prueba",
             "categoria": [7],
@@ -1134,8 +1128,8 @@ class TestConsultaInvestigacionNueva(TestCase):
         self.assertEquals(r.status_code, 200)
 
     def test_crea_investigacion_autor_no_existe(self):
-        self.client.login(username=
-                        self.usuario_investigador.username, password='12345678')
+        self.client.login(
+            username=self.usuario_investigador.username, password='12345678')
         r = self.client.post("/formularios/investigacion", {
             "titulo": "Investigacion de prueba",
             "categoria": self.categoria.pk,
@@ -1143,6 +1137,7 @@ class TestConsultaInvestigacionNueva(TestCase):
             "contenido": "Contenido de prueba"
         })
         self.assertEquals(r.status_code, 200)
+
 
 class cambioEstadoTest(TestCase):
     def setUp(self):
@@ -1160,7 +1155,7 @@ class cambioEstadoTest(TestCase):
             "12345678",
             self.tipo_investigador
         )
-        self.investigador= crear_investigador(
+        self.investigador = crear_investigador(
             usuario=self.usuario_investigador,
             nivel=self.nivel,
             curp="AUCJ011020HZSGRVA1",
@@ -1197,45 +1192,45 @@ class cambioEstadoTest(TestCase):
         self.solicitud_trabajo.save()
 
     def test_cambio_estado_p(self):
-        self.client.login(username=
-                        self.usuario_investigador.username, password='12345678')
-        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/P")
+        self.client.login(
+            username=self.usuario_investigador.username, password='12345678')
+        r = self.client.post(
+            f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/P")
         self.assertEquals(r.status_code, 302)
 
     def test_cambio_estado_c(self):
-        self.client.login(username=
-                        self.usuario_investigador.username, password='12345678')
-        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/C")
+        self.client.login(
+            username=self.usuario_investigador.username, password='12345678')
+        r = self.client.post(
+            f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/C")
         self.assertEquals(r.status_code, 302)
 
     def test_cambio_estado_f(self):
-        self.client.login(username=
-                        self.usuario_investigador.username, password='12345678')
-        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/F")
-        self.assertEquals(r.status_code, 302)
-    
-    def test_cambio_estado_r(self):
-        self.client.login(username=
-                        self.usuario_investigador.username, password='12345678')
-        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/R")
+        self.client.login(
+            username=self.usuario_investigador.username, password='12345678')
+        r = self.client.post(
+            f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/F")
         self.assertEquals(r.status_code, 302)
 
-    def test_cambio_estado_p(self):
-        self.client.login(username=
-                        self.usuario_contratador.username, password='12345678')
-        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/P")
+    def test_cambio_estado_r(self):
+        self.client.login(
+            username=self.usuario_investigador.username, password='12345678')
+        r = self.client.post(
+            f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/R")
         self.assertEquals(r.status_code, 302)
 
     def test_cambio_estado_e(self):
-        self.client.login(username=
-                        self.usuario_contratador.username, password='12345678')
-        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/E")
+        self.client.login(
+            username=self.usuario_contratador.username, password='12345678')
+        r = self.client.post(
+            f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/E")
         self.assertEquals(r.status_code, 302)
 
     def test_cambio_estado_no_valido(self):
-        self.client.login(username=
-                        self.usuario_contratador.username, password='12345678')
-        r = self.client.post(f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/Z")
+        self.client.login(
+            username=self.usuario_contratador.username, password='12345678')
+        r = self.client.post(
+            f"/perfil/trabajos/cambiar_estado/{self.solicitud_trabajo.pk}/Z")
         self.assertEquals(r.status_code, 302)
 
 
