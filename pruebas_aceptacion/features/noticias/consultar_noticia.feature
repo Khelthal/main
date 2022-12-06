@@ -1,4 +1,4 @@
-Característica: Consultar una notiica
+Característica: Consultar una noticia
 	Como visitante
 	Quiero consultar una noticia
 	Para ver el contenido de la noticia
