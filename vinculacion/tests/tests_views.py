@@ -531,6 +531,92 @@ class TestActualizarPerfilInvestigador(TestCase):
         self.assertEqual(respuesta.status_code, 200)
 
 
+class TestActualizarPerfilInstitucionEducativa(TestCase):
+    def setUp(self):
+        tipo_institucion = crear_tipo_usuario("Institucion Educativa")
+        self.usuario_institucion = crear_usuario(usuario='prueba-institucion', correo="prueba@prueba.com",
+                    contra='12345', tipo=tipo_institucion, aprobado=True)
+        self.usuario_institucion.save()
+        self.client.login(
+            username='prueba-institucion', password='12345')
+        tipo_investigador = crear_tipo_usuario("Investigador")
+        usuario_investigador = crear_usuario(
+            "Investigador", "prueba-investigador@prueba.com", "prueba", tipo_investigador, aprobado=True)
+        area_conocimiento = crear_area_conocimiento("Ingeniería", "Sobre ingeniería")
+        categoria = crear_categoria("Software", area_conocimiento, "Sobre software")
+        nivel_1 = crear_nivel_investigador(1, "Nivel 1")
+        investigador = crear_investigador(
+            usuario=usuario_investigador,
+            nivel=nivel_1,
+            curp="AUCJ011020HZSGRVA1",
+            latitud=0,
+            longitud=0,
+            codigo_postal=99390,
+            municipio=19,
+            colonia="Alamitos",
+            calle="Mezquite",
+            numero_exterior=29,
+            acerca_de="Soy un investigador"
+        )
+        self.institucion_educativa = crear_institucion_educativa(
+            encargado=self.usuario_institucion,
+            nombre_institucion="Institución Prueba",
+            especialidades=[categoria],
+            miembros=[investigador],
+            codigo_postal=99390,
+            municipio=19,
+            colonia="Alamitos",
+            calle="Mezquite",
+            numero_exterior=29,
+            acerca_de="Soy una institución"
+        )
+
+    def test_actualizar_perfil_institucion_datos_correctos(self):
+        datos = {
+            'nombre_institucion':"Institución Prueba",
+            'especialidades':[1],
+            'miembros':[2],
+            'codigo_postal':99390,
+            'municipio':19,
+            'colonia':"Alamitos",
+            'calle':"Mezquite",
+            'numero_exterior':29,
+            'acerca_de':"Soy una institución loca"
+        }
+        respuesta = self.client.post("/formularios/institucion_educativa/actualizar",datos)
+        self.assertEqual(respuesta.status_code, 302)
+
+    def test_actualizar_perfil_institucion_datos_incorrectos(self):
+        datos = {
+            'nombre_institucion':"Institución Prueba",
+            'especialidades':[1],
+            'miembros':[2],
+            'codigo_postal':99390,
+            'municipio':19,
+            'colonia':"Alamitos",
+            'calle':"Mezquite",
+            'numero_exterior':29,
+            'acerca_de':" "
+        }
+        respuesta = self.client.post("/formularios/institucion_educativa/actualizar",datos)
+        self.assertEqual(respuesta.status_code, 200)
+
+    def test_actualizar_perfil_institucion_localizacion_invalida(self):
+        datos = {
+            'nombre_institucion':"Institución Prueba",
+            'especialidades':[1],
+            'miembros':[2],
+            'codigo_postal':99393,
+            'municipio':13,
+            'colonia':"Duro",
+            'calle':"Mezquitestes",
+            'numero_exterior':298,
+            'acerca_de':"Soy una institución loca"
+        }
+        respuesta = self.client.post("/formularios/institucion_educativa/actualizar",datos)
+        self.assertEqual(respuesta.status_code, 200)
+
+
 class TestVistaHistorialTrabajos(TestCase):
     def setUp(self):
         usuario = User.objects.create_user(
