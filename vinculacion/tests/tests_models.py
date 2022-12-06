@@ -1,16 +1,14 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from vinculacion.models import AreaConocimiento, Categoria, Noticia
+from vinculacion.models import AreaConocimiento, Categoria
 from helpers.usuarios_helpers import crear_usuario
 from helpers.vinculacion_helpers import crear_noticia
 from django.db.utils import IntegrityError
-from django.test import TestCase
 from investigadores.models import (
     Investigador,
     NivelInvestigador,
     SolicitudTrabajo)
 from usuarios.models import User, TipoUsuario
-from django.core.exceptions import ValidationError
 
 
 class TestSolicitudTrabajoModel(TestCase):

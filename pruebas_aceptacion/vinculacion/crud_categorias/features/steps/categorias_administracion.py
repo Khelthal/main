@@ -1,5 +1,5 @@
 import time
-from behave import given, when
+from behave import given, when, then
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -102,7 +102,7 @@ def step_impl(context):
 
 
 @given(u'que deseo modificar una categoría logeo como administrador ' +
-       '"{usuarioC}" con la password "{passwordC}" '+
+       '"{usuarioC}" con la password "{passwordC}" ' +
        'en la categoria "{id_categoria}"')
 def step_impl(context, usuarioC, passwordC, id_categoria):
     driver = webdriver.Firefox()

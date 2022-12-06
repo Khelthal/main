@@ -83,6 +83,7 @@ def get_user_specific_data(usuario):
     return usuario_data
 # Cambiar estados de trabajo
 
+
 def cancelar_trabajo(pk, solicitud):
     if pk == solicitud.usuario_a_vincular.pk:
         solicitud.estado_investigador = "C"
@@ -228,5 +229,5 @@ def enviar_correo_estado(trabajo_pk, subject, message, remitentes):
     try:
         correo.send()
         return True
-    except:
+    except Exception:
         return False

@@ -27,11 +27,13 @@ def step_impl(context, campo):
     campoEncontrado = context.driver.find_element(By.NAME, campo)
     assert campoEncontrado == context.driver.switch_to.active_element
 
+
 @then(u'se me indica que el campo de "{campo}" es obligatorio')
 def step_impl(context, campo):
     campo = campo.replace(" ", "_")
     campoEncontrado = context.driver.find_element(By.NAME, campo)
     assert "is-invalid" in campoEncontrado.get_attribute('class').split()
+
 
 @then(u'se me muestra el mensaje de error "{mensaje}"')
 def step_impl(context, mensaje):

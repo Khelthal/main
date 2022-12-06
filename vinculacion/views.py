@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -29,13 +28,6 @@ from instituciones_educativas.models import (
     InstitucionEducativa,
     SolicitudIngreso)
 from django.contrib import messages
-from administracion.helpers import obtener_coordenadas
-from usuarios.models import User, MUNICIPIOS
-import itertools
-from urllib.parse import urlparse, parse_qs
-from . import helpers
-
-
 from administracion.helpers import obtener_coordenadas
 from usuarios.models import User, MUNICIPIOS
 import itertools
@@ -498,7 +490,8 @@ class InvestigadorInvestigaciones(ListView):
 
     def get_queryset(self):
         investigador = get_object_or_404(Investigador, user=self.request.user)
-        return Investigacion.objects.filter(autores__in=[investigador])
+        return Investigacion.objects.filter(
+            autores__in=[investigador]).order_by('titulo')
 
 
 class InvestigadorSolicitudesTrabajo(ListView):
@@ -561,6 +554,8 @@ def investigaciones_google(request):
             except Exception:
                 continue
 
+    messages.success(
+                request, "Carga de investigaciones exitosa")
     return redirect("vinculacion:investigaciones_lista")
 
 
@@ -631,6 +626,7 @@ def rechazar_solicitud(request, pk):
 
     return redirect("vinculacion:solicitudes_trabajo_lista")
 
+
 @login_required
 def trabajos_en_curso(request):
     usuario = get_object_or_404(User, pk=request.user.pk)
@@ -650,6 +646,7 @@ def trabajos_en_curso(request):
         request,
         "vinculacion/trabajos_en_curso.html",
         {"trabajos": trabajos, "page_obj": page_obj})
+
 
 @login_required
 def historial_trabajos(request):
@@ -723,4 +720,3 @@ def cambiar_estado(request, pk, estado):
             "Estado no válido")
 
     return redirect('vinculacion:trabajos_lista')
-

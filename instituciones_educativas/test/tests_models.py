@@ -30,11 +30,11 @@ class InstitucionEducativaTestCase(TestCase):
 
     def test_institucion_educativa(self):
         self.assertEqual(self.institucion.nombre_institucion, "Instituto " +
-        "Tecnológico de Tijuana")
+                         "Tecnológico de Tijuana")
 
     def test_institucion_educativa_str(self):
         self.assertEqual(str(self.institucion), "Instituto " +
-        "Tecnológico de Tijuana")
+                         "Tecnológico de Tijuana")
 
     def test_institucion_educativa_get_longitud(self):
         self.assertEqual(self.institucion.longitud, -117.080000)

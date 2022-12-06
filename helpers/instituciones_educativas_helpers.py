@@ -1,7 +1,10 @@
 from instituciones_educativas.models import InstitucionEducativa
 
 
-def crear_institucion_educativa(encargado, nombre_institucion, especialidades, latitud, longitud, miembros, codigo_postal, municipio, colonia, calle, numero_exterior, acerca_de):
+def crear_institucion_educativa(encargado, nombre_institucion, especialidades,
+                                miembros, codigo_postal, municipio, colonia,
+                                calle, numero_exterior, acerca_de, latitud=0,
+                                longitud=0):
     institucion = InstitucionEducativa.objects.create(
         encargado=encargado,
         nombre_institucion=nombre_institucion,

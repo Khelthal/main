@@ -11,6 +11,7 @@ def step_impl(context, nombre_empresa):
         if nombre_texto == nombre_empresa:
             context.nombre_texto = nombre_texto
 
+
 @then(u'se muestra la empresa llamada "{nombre_empresa}"')
 def step_impl(context, nombre_empresa):
     assert context.nombre_texto == nombre_empresa

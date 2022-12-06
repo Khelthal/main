@@ -3,7 +3,8 @@ from django.core.exceptions import ValidationError
 from empresas.models import Empresa
 from usuarios.models import User, TipoUsuario
 from helpers.empresas_helpers import crear_empresa
-from helpers.vinculacion_helpers import crear_area_conocimiento, crear_categoria
+from helpers.vinculacion_helpers import (
+    crear_area_conocimiento, crear_categoria)
 from helpers.usuarios_helpers import crear_tipo_usuario, crear_usuario
 
 
@@ -67,8 +68,11 @@ class TestEmpresa(TestCase):
             empresa.full_clean()
 
     def test_nombre_empresa_str(self):
-        area_conocimiento = crear_area_conocimiento("Ingeniería", "Sobre ingeniería")
-        categoria = crear_categoria("Software", area_conocimiento, "Sobre software")
+        area_conocimiento = crear_area_conocimiento(
+            "Ingeniería",
+            "Sobre ingeniería")
+        categoria = crear_categoria(
+            "Software", area_conocimiento, "Sobre software")
         tipo_empresa = crear_tipo_usuario("Empresa")
         usuario_encargado = crear_usuario(
             usuario="encargado",
@@ -79,14 +83,14 @@ class TestEmpresa(TestCase):
         )
         self.empresa = crear_empresa(
             encargado=usuario_encargado,
-            nombre_empresa= "Empresa",
-            codigo_postal= '99390',
-            municipio= 19,
-            especialidades= [categoria],
-            colonia= 'Alamitos',
-            calle= 'Mezquite',
-            numero_exterior= '29',
-            acerca_de= 'Info',
-            imagen= "/tmp/noticia.png"
+            nombre_empresa="Empresa",
+            codigo_postal='99390',
+            municipio=19,
+            especialidades=[categoria],
+            colonia='Alamitos',
+            calle='Mezquite',
+            numero_exterior='29',
+            acerca_de='Info',
+            imagen="/tmp/noticia.png"
         )
         self.assertEquals(str(self.empresa), "Empresa")

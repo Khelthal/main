@@ -13,7 +13,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.views.generic import TemplateView
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 User = get_user_model()
 
 
@@ -28,7 +28,9 @@ class RegistrarView(SuccessMessageMixin, CreateView):
     form_class = UserForm
     success_url = reverse_lazy('usuarios:login')
     template_name = 'auth/registrar.html'
-    success_message = "Un correo se le acaba de ser enviado para que pueda confirmar su correo electrónico, por favor verifiquelo para poder activar su cuenta. Recuerde revisar la carpeta de Spam"
+    success_message = "Un correo se le acaba de ser enviado para " + \
+        "que pueda confirmar su correo electrónico, por favor verifiquelo " + \
+        "para poder activar su cuenta. Recuerde revisar la carpeta de Spam"
 
     def form_valid(self, form):
         user = form.save(commit=False)
@@ -50,7 +52,8 @@ class RegistrarView(SuccessMessageMixin, CreateView):
 
         )
 
-        mail_subject = 'Activar cuenta Sistema Estatal de Investigadores de Zacatecas'
+        mail_subject = 'Activar cuenta Sistema Estatal de" + \
+        " Investigadores de Zacatecas'
         mail_to = user.email
         email = EmailMessage(
             mail_subject,
@@ -83,6 +86,7 @@ class ActivarCuentaView(TemplateView):
 
         else:
             messages.error(
-                request, "Error al activar la cuenta, contacta al administrador")
+                request,
+                "Error al activar la cuenta, contacta al administrador")
 
         return redirect('usuarios:login')
