@@ -36,16 +36,16 @@
       <table class="table" id="table1" name="empresas">
         <thead>
           <tr>
-            <th>Encargado</th>
             <th>Nombre empresa</th>
+            <th>Encargado</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           {% for empresa in empresas %}
           <tr>
-            <td>{{empresa.encargado.username}}</td>
             <td>{{empresa.nombre_empresa}}</td>
+            <td>{{empresa.encargado.username}}</td>
             <td>
               <a id="editar" href="{% url 'administracion:empresas_editar' empresa.pk %}"><span
                   class="badge bg-info">Editar</span></a>
