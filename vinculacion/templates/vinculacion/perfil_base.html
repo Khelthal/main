@@ -13,7 +13,7 @@
             <a class="nav-link" id="perfil" href="{% url 'vinculacion:perfil' %}">Perfil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" {% if user.tipo_usuario.tipo == "Investigador" %}
+            <a name="actualizar" class="nav-link" {% if user.tipo_usuario.tipo == "Investigador" %}
               href="{% url 'vinculacion:investigador_actualizar' %}" {% elif user.tipo_usuario.tipo == "Empresa" %}
               href="{% url 'vinculacion:empresa_actualizar' %}" {% else %}
               href="{% url 'vinculacion:institucion_educativa_actualizar' %}" {% endif %}
