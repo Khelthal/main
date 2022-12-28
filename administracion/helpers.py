@@ -1,5 +1,8 @@
 import requests
 import json
+from django.template.loader import get_template
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 from usuarios.models import MUNICIPIOS
 
 
@@ -8,6 +11,20 @@ class Coordenadas:
         self.latitud = latitud
         self.longitud = longitud
 
+def enviar_correo_respuesta_solicitud_ingreso(subject, message, remitentes, respuesta, usuario, sitio):
+    template = get_template("correo_solicitud_ingreso.html")
+    contenido = template.render({"usuario":usuario, "respuesta": respuesta, "sitio": sitio})
+    correo = EmailMultiAlternatives(
+        subject=subject,
+        body=message,
+        from_email=settings.EMAIL_HOST_USER,
+        to=remitentes)
+    correo.attach_alternative(contenido, "text/html")
+    try:
+        correo.send()
+        return True
+    except Exception:
+        return False
 
 def obtener_coordenadas(cleaned_data):
     return Coordenadas(0.0, 0.0)
