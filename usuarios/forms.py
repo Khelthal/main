@@ -16,12 +16,12 @@ class UserForm(forms.ModelForm):
         widgets = {
             'username': forms.TextInput(
                 attrs={
-                    'class': 'form-control form-control-xl',
+                    'class': 'form-control form-control-l',
                     'placeholder': 'Nombre de usuario'
                 }),
             'email': forms.EmailInput(
                 attrs={
-                    'class': 'form-control form-control-xl',
+                    'class': 'form-control form-control-l',
                     'placeholder': 'Correo electrónico'
                 }),
         }
@@ -40,6 +40,6 @@ class UserForm(forms.ModelForm):
     def clean_password(self, *args, **kwargs):
         if self.data['password'] != self.data['repassword']:
             raise forms.ValidationError(
-                'Las contraseñas son diferentes; favor de verificar')
+                'Las contraseñas no coinciden.')
 
         return self.data['password']

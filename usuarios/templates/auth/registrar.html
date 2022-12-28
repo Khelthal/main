@@ -16,13 +16,13 @@
 
     <div class="row h-100">
       <div class="col-lg-5 col-12">
-        <div id="auth-left">
-          <div class="auth-logo d-flex justify-content-center">
+        <div style="padding: 2.5rem 10%;">
+          <div class="mb-3 d-flex justify-content-center">
             <a href="{% url 'vinculacion:dashboard' %}"><img src="{% static 'img/Logocozcyt.jpg' %}"
-                alt="Logo" style="height: 90px;"></a>
+                alt="Logo" style="height: 70px;"></a>
           </div>
-          <h1 class="auth-title">Registro</h1>
-          <p class="auth-subtitle mb-5">Bienvenido al Sistema Estatal de Investigadores del Estado de Zacatecas</p>
+          <h3>Registro</h3>
+          <p class="mb-3" style="font-size: 1.1rem">Bienvenido al Sistema Estatal de Investigadores de Zacatecas</p>
 
           {% for message in messages %}
           {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
@@ -35,7 +35,7 @@
           <form method="POST">
             {% csrf_token%}
 
-            <div class="form-group position-relative has-icon-left mb-4">
+            <div class="form-group position-relative has-icon-left mb-3">
               {{form.email}}
               <div class="form-control-icon">
                 <i class="bi bi-envelope"></i>
@@ -45,7 +45,7 @@
               {% endfor %}
             </div>
 
-            <div class="form-group position-relative has-icon-left mb-4">
+            <div class="form-group position-relative has-icon-left mb-3">
               {{form.username}}
               <div class="form-control-icon">
                 <i class="bi bi-person"></i>
@@ -55,8 +55,8 @@
             <div class="alert alert-danger">{{error}}</div>
             {% endfor %}
 
-            <div class="form-group position-relative has-icon-left mb-4">
-              <input type="password" class="form-control form-control-xl" name="password" placeholder="Contraseña">
+            <div class="form-group position-relative has-icon-left mb-3">
+              <input type="password" class="form-control form-control-l" name="password" placeholder="Contraseña">
               <div class="form-control-icon">
                 <i class="bi bi-shield-lock"></i>
               </div>
@@ -65,8 +65,8 @@
             <div class="alert alert-danger">{{error}}</div>
             {% endfor %}
 
-            <div class="form-group position-relative has-icon-left mb-4">
-              <input type="password" class="form-control form-control-xl" name="repassword"
+            <div class="form-group position-relative has-icon-left mb-3">
+              <input type="password" class="form-control form-control-l" name="repassword"
                 placeholder="Confirmar contraseña">
               <div class="form-control-icon">
                 <i class="bi bi-shield-lock"></i>
@@ -76,10 +76,10 @@
             <div class="alert alert-danger">{{error}}</div>
             {% endfor %}
 
-            <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Crear cuenta</button>
+            <button class="btn btn-primary btn-block shadow-lg mt-3">Crear cuenta</button>
 
           </form>
-          <div class="text-center mt-5 text-lg fs-4">
+          <div class="text-center mt-4 text-lg fs-5">
             <p class='text-gray-600'>¿Ya tiene una cuenta? <a href="{% url 'usuarios:login' %}"
                 class="font-bold">Iniciar sesión</a>.</p>
           </div>

@@ -20,7 +20,7 @@ class InstitucionEducativa(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
     nombre_institucion = models.CharField(max_length=80)
-    especialidades = models.ManyToManyField(Categoria)
+    especialidades = models.ManyToManyField(Categoria, blank=True)
     latitud = models.FloatField()
     longitud = models.FloatField()
     miembros = models.ManyToManyField(Investigador, blank=True)

@@ -160,7 +160,7 @@ class FormEmpresa(forms.ModelForm):
         self.fields["nombre_empresa"].widget.attrs['class'] = (
             'form-control')
         self.fields["especialidades"].widget.attrs['class'] = (
-            'form-select multiple-remove')
+            'form-select choices multiple-remove')
         self.fields["codigo_postal"].widget.attrs['class'] = (
             'form-control')
         self.fields["codigo_postal"].widget.attrs['placeholder'] = (
@@ -200,7 +200,7 @@ class FormEmpresaUpdate(forms.ModelForm):
         self.fields["nombre_empresa"].widget.attrs['class'] = (
             'form-control')
         self.fields["especialidades"].widget.attrs['class'] = (
-            'form-select multiple-remove')
+            'form-select choices multiple-remove')
         self.fields["codigo_postal"].widget.attrs['class'] = (
             'form-control')
         self.fields["codigo_postal"].widget.attrs['placeholder'] = (
@@ -244,9 +244,9 @@ class FormInstitucionEducativa(forms.ModelForm):
         self.fields["nombre_institucion"].widget.attrs['class'] = (
             'form-control')
         self.fields["especialidades"].widget.attrs['class'] = (
-            'form-select multiple-remove')
+            'form-select choices multiple-remove')
         self.fields["miembros"].widget.attrs['class'] = (
-            'form-select multiple-remove')
+            'form-select choices multiple-remove')
         self.fields["codigo_postal"].widget.attrs['class'] = (
             'form-control')
         self.fields["codigo_postal"].widget.attrs['placeholder'] = (
@@ -286,9 +286,9 @@ class FormInstitucionEducativaUpdate(forms.ModelForm):
         self.fields["nombre_institucion"].widget.attrs['class'] = (
             'form-control')
         self.fields["especialidades"].widget.attrs['class'] = (
-            'form-select multiple-remove')
+            'form-select choices multiple-remove')
         self.fields["miembros"].widget.attrs['class'] = (
-            'form-select multiple-remove')
+            'form-select choices multiple-remove')
         self.fields["codigo_postal"].widget.attrs['class'] = (
             'form-control')
         self.fields["codigo_postal"].widget.attrs['placeholder'] = (
