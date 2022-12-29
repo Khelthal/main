@@ -19,7 +19,7 @@ class Empresa(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
     nombre_empresa = models.CharField(max_length=80)
-    especialidades = models.ManyToManyField(Categoria)
+    especialidades = models.ManyToManyField(Categoria, blank=True)
     latitud = models.FloatField()
     longitud = models.FloatField()
     codigo_postal = models.CharField(max_length=5, validators=[cp_validator])

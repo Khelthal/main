@@ -22,6 +22,10 @@ class LoginView(LoginView):
     template_name = 'auth/login.html'
     form_class = AuthenticationForm
 
+    def form_invalid(self, form):
+        print(form.errors)
+        return super().form_invalid(form)
+
 
 class RegistrarView(SuccessMessageMixin, CreateView):
     model = User

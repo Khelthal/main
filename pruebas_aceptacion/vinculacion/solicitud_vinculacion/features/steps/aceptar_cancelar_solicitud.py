@@ -1,13 +1,13 @@
 import time
 from behave import given, when, then
-from selenium import webdriver
 from selenium.webdriver.common.by import By
+from pruebas_aceptacion.features.steps.navegador import navegador
 
 
 @given(u'que tengo una solicitud de trabajo e ingrso a "{link}" ' +
        'con el usuario "{usuarioC}" y la password "{passwordC}"')
 def step_impl(context, link, usuarioC, passwordC):
-    driver = webdriver.Firefox()
+    driver = navegador.get_navegador()
     driver.get('http://127.0.0.1:8000/usuarios/login')
     time.sleep(3)
 

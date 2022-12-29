@@ -1,4 +1,4 @@
-from selenium import webdriver
+import navegador
 from selenium.webdriver.common.by import By
 from investigadores.models import (
     Investigador,
@@ -7,7 +7,7 @@ from usuarios.models import User, TipoUsuario
 
 
 def prepare_test_data(context):
-    context.driver = webdriver.Firefox()
+    context.driver = navegador.get_navegador()
     context.tipo_investigador = TipoUsuario.objects.create(
         tipo="Investigador")
     context.usuario_investigador = User.objects.create(

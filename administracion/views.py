@@ -7,6 +7,7 @@ from empresas.models import Empresa
 from vinculacion.models import Categoria
 from instituciones_educativas.models import InstitucionEducativa
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+from django.contrib.sites.shortcuts import get_current_site
 from administracion.forms import (
     FormCategoria,
     FormEmpresa,
@@ -20,7 +21,7 @@ from administracion.forms import (
     FormUser,
 )
 from django.contrib import messages
-from administracion.helpers import obtener_coordenadas
+from administracion.helpers import obtener_coordenadas, enviar_correo_respuesta_solicitud_ingreso
 import datetime
 
 
@@ -83,6 +84,15 @@ def aprobar_perfil(request, pk):
     usuario.aprobado = True
     usuario.save()
     messages.success(request, "Solicitud aceptada")
+    sitio = get_current_site(request)
+    enviar_correo_respuesta_solicitud_ingreso(
+        "Respuesta de solicitud de ingreso",
+        "Su solicitud a sido aprobada por un administrador",
+        [usuario.email],
+        True,
+        usuario,
+        sitio
+    )
 
     return redirect('administracion:dashboard')
 
@@ -218,10 +228,21 @@ class InvestigadorEliminar(DeleteView):
     extra_context = {"nombre_modelo": "investigador"}
 
     def post(self, request, *args, **kwargs):
+
         investigador = self.get_object()
+        sitio = get_current_site(self.request)
+        enviar_correo_respuesta_solicitud_ingreso(
+            "Respuesta de solicitud de ingreso",
+            "Su solicitud a sido rechazada por un administrador",
+            [investigador.user.email],
+            False,
+            investigador.user,
+            sitio
+        )
         investigador.user.tipo_usuario = None
         investigador.user.aprobado = False
         investigador.user.save()
+
 
         messages.success(self.request, "Investigador eliminado correctamente")
         return self.delete(request, *args, **kwargs)
@@ -312,7 +333,17 @@ class EmpresaEliminar(DeleteView):
     extra_context = {"nombre_modelo": "empresa"}
 
     def post(self, request, *args, **kwargs):
+
         empresa = self.get_object()
+        sitio = get_current_site(self.request)
+        enviar_correo_respuesta_solicitud_ingreso(
+            "Respuesta de solicitud de ingreso",
+            "Su solicitud a sido rechazada por un administrador",
+            [empresa.encargado.email],
+            False,
+            empresa.encargado,
+            sitio
+        )
         empresa.encargado.tipo_usuario = None
         empresa.encargado.aprobado = False
         empresa.encargado.save()
@@ -411,6 +442,15 @@ class InstitucionEducativaEliminar(DeleteView):
 
     def post(self, request, *args, **kwargs):
         institucion_educativa = self.get_object()
+        sitio = get_current_site(self.request)
+        enviar_correo_respuesta_solicitud_ingreso(
+            "Respuesta de solicitud de ingreso",    
+            "Su solicitud a sido rechazada por un administrador",
+            [institucion_educativa.encargado.email],
+            False,
+            institucion_educativa.encargado,
+            sitio
+        )
         institucion_educativa.encargado.tipo_usuario = None
         institucion_educativa.encargado.aprobado = False
         institucion_educativa.encargado.save()

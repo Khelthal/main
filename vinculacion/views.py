@@ -364,7 +364,7 @@ class UsuarioEliminar(LoginRequiredMixin, DeleteView):
 
 @login_required
 def investigadores_lista(request):
-    investigadores = list(Investigador.objects.all())
+    investigadores = list(Investigador.objects.filter(user__aprobado=True))
     investigadores.sort(
         key=lambda investigador: SolicitudTrabajo.objects.filter(
             usuario_a_vincular=investigador, estado="F").count(), reverse=True)
@@ -397,7 +397,7 @@ def investigador_perfil(request, investigador_id):
 
 @login_required
 def empresas_lista(request):
-    empresas = Empresa.objects.all()
+    empresas = Empresa.objects.filter(encargado__aprobado=True)
     return render(
         request,
         "vinculacion/empresas_lista.html",
@@ -406,7 +406,8 @@ def empresas_lista(request):
 
 @login_required
 def instituciones_educativas_lista(request):
-    instituciones = InstitucionEducativa.objects.all()
+    instituciones = InstitucionEducativa.objects.filter(
+        encargado__aprobado=True)
     if (request.user.tipo_usuario
             and request.user.tipo_usuario.tipo == "Investigador"):
         investigador = Investigador.objects.get(user=request.user)

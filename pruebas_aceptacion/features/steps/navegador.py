@@ -2,4 +2,4 @@ from selenium import webdriver
 
 
 def get_navegador():
-    return webdriver.Firefox()
+    return webdriver.Chrome()
