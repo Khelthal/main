@@ -2,7 +2,7 @@ from django.urls import path
 from django.contrib.auth.decorators import login_required
 import instituciones_educativas.views as views
 
-app_name = "instituciones_educativa"
+app_name = 'instituciones_educativas'
 
 urlpatterns = [
     path(
@@ -16,21 +16,24 @@ urlpatterns = [
     path(
         'institucion_educativa/solicitud_ingreso',
         views.solicitud_ingreso_lista,
-        name="institucion_educativa_solicitudes"),
+        name='institucion_educativa_solicitudes'),
     path(
         'instituciones_educativas/', views.instituciones_educativas_lista,
-        name="instituciones_educativas_lista"),
+        name='instituciones_educativas_lista'),
     path(
         'investigador/solicitud_ingreso/<int:institucion_id>',
-        views.crear_solicitud_ingreso, name='crear_solicitud_ingreso'),
+        views.crear_solicitud_ingreso,
+        name='crear_solicitud_ingreso'),
     path(
         'institucion_educativa/solicitud_ingreso/' +
         '<int:investigador_id>/<int:respuesta>',
-        views.contestarSolicitudIngreso, name='contestar_solicitud_ingreso'),
+        views.contestarSolicitudIngreso,
+        name='contestar_solicitud_ingreso'),
     path(
         'institucion_educativa/miembros/eliminar/<int:investigador_id>',
-        views.miembro_eliminar, name='miembro_eliminar'),
+        views.miembro_eliminar,
+        name='miembro_eliminar'),
     path(
         'institucion_educativa/miembros', views.miembrosLista,
-        name="institucion_educativa_miembros"),
+        name='institucion_educativa_miembros'),
 ]
