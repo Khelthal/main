@@ -11,6 +11,9 @@ urlpatterns = [
         name='empresa_form'),
     path(
         'formularios/empresa/actualizar',
-        views.EmpresaActualizar.as_view(), name='empresa_actualizar'),
-    path('empresas', views.empresas_lista, name="empresas_lista"),
+        views.EmpresaActualizar.as_view(),
+        name='empresa_actualizar'),
+    path(
+        'empresas', views.empresas_lista,
+        name='empresas_lista'),
 ]
