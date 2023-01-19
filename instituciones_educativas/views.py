@@ -132,7 +132,7 @@ def crear_solicitud_ingreso(request, institucion_id):
         request,
         "Solicitud de ingreso a la institución "+str(institucion)+" enviada")
 
-    return redirect("vinculacion:instituciones_educativas_lista")
+    return redirect("instituciones_educativas:instituciones_educativas_lista")
 
 
 @login_required
@@ -151,7 +151,7 @@ def contestar_solicitud_ingreso(request, investigador_id, respuesta):
 
     solicitud.delete()
 
-    return redirect("vinculacion:institucion_educativa_solicitudes")
+    return redirect("instituciones_educativas:institucion_educativa_solicitudes")
 
 
 @login_required
@@ -171,4 +171,4 @@ def miembro_eliminar(request, investigador_id):
     investigador = Investigador.objects.get(pk=investigador_id)
     institucion.miembros.remove(investigador)
 
-    return redirect("vinculacion:institucion_educativa_miembros")
+    return redirect("instituciones_educativas:institucion_educativa_miembros")

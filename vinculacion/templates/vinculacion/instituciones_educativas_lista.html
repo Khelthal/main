@@ -31,7 +31,7 @@
               <li class="list-group-item">
                 <a href="" class="btn btn-primary">Contactar</a>
                 {% if user.tipo_usuario.tipo == "Investigador" and institucion_educativa.es_posible_solicitar == True%}
-                  <a href="{% url 'vinculacion:crear_solicitud_ingreso' institucion_educativa.pk %}" class="btn btn-info">Solicitar ingreso</a>
+                  <a href="{% url 'instituciones_educativas:crear_solicitud_ingreso' institucion_educativa.pk %}" class="btn btn-info">Solicitar ingreso</a>
                 {% endif %}
               </li>
               {% if user.tipo_usuario.tipo == "Investigador" and institucion_educativa.es_miembro == True%}

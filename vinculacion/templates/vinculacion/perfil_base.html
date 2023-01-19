@@ -16,16 +16,16 @@
             <a name="actualizar" class="nav-link" {% if user.tipo_usuario.tipo == "Investigador" %}
               href="{% url 'investigadores:investigador_actualizar' %}" {% elif user.tipo_usuario.tipo == "Empresa" %}
               href="{% url 'empresas:empresa_actualizar' %}" {% else %}
-              href="{% url 'vinculacion:institucion_educativa_actualizar' %}" {% endif %}
+              href="{% url 'instituciones_educativas:institucion_educativa_actualizar' %}" {% endif %}
               id="actualizar_datos">Actualizar
               datos</a>
           </li>
           {% if user.tipo_usuario.tipo == "Institucion Educativa"%}
             <li class="nav-item">
-              <a class="nav-link" id="solicitudes" href="{% url 'vinculacion:institucion_educativa_solicitudes' %}">Solicitudes de ingreso</a>
+              <a class="nav-link" id="solicitudes" href="{% url 'instituciones_educativas:institucion_educativa_solicitudes' %}">Solicitudes de ingreso</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="miembros" href="{% url 'vinculacion:institucion_educativa_miembros' %}">Miembros</a>
+              <a class="nav-link" id="miembros" href="{% url 'instituciones_educativas:institucion_educativa_miembros' %}">Miembros</a>
             </li>
           {% endif %}
           {% if user.tipo_usuario.tipo == "Investigador" %}
