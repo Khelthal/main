@@ -23,6 +23,9 @@ import usuarios.views as views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('vinculacion.urls')),
+    path('', include('investigadores.urls')),
+    path('', include('empresas.urls')),
+    path('', include('instituciones_educativas.urls')),
     path('usuarios/', include('usuarios.urls')),
     path('administracion/', include('administracion.urls')),
     path(

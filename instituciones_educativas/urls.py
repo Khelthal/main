@@ -27,13 +27,13 @@ urlpatterns = [
     path(
         'institucion_educativa/solicitud_ingreso/' +
         '<int:investigador_id>/<int:respuesta>',
-        views.contestarSolicitudIngreso,
+        views.contestar_solicitud_ingreso,
         name='contestar_solicitud_ingreso'),
     path(
         'institucion_educativa/miembros/eliminar/<int:investigador_id>',
         views.miembro_eliminar,
         name='miembro_eliminar'),
     path(
-        'institucion_educativa/miembros', views.miembrosLista,
+        'institucion_educativa/miembros', views.miembros_lista,
         name='institucion_educativa_miembros'),
 ]
