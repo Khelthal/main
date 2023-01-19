@@ -1,3 +1,4 @@
+import asyncio
 from scholarly import scholarly, ProxyGenerator
 from investigadores.models import Investigador
 from empresas.models import Empresa
@@ -9,8 +10,6 @@ from investigadores.models import (
     SolicitudTrabajo)
 from usuarios.models import User
 from django.utils import timezone
-from django.shortcuts import redirect
-from django.contrib import messages
 
 
 def get_author(user_id):
@@ -24,7 +23,15 @@ def get_author(user_id):
         return None
 
 
-def get_publications(author):
+async def fetch_publication(publication_raw):
+    try:
+        publication = scholarly.fill(publication_raw)
+        return publication
+    except Exception:
+        return None
+
+
+async def get_publications(author):
     pg = ProxyGenerator()
     pg.FreeProxies()
     scholarly.use_proxy(pg)
@@ -32,10 +39,15 @@ def get_publications(author):
     publicaciones = []
 
     for publication in author["publications"]:
-        try:
-            publication = scholarly.fill(publication)
-        except Exception:
-            pass
+        p = asyncio.create_task(fetch_publication(publication))
+        publicaciones.append(p)
+
+    res = await asyncio.gather(*publicaciones)
+    publicaciones = []
+
+    for publication in res:
+        if not publication:
+            continue
 
         titulo = publication.get("bib", {}).get("title")
 
@@ -55,16 +67,6 @@ def get_publications(author):
         })
 
     return publicaciones
-
-
-def get_author_id_or_redirect(arguments, request):
-    try:
-        user_id = arguments['user'][0]
-        return user_id
-    except Exception:
-        messages.error(
-            request, "No se encontró el perfil de google scholar")
-        return redirect("vinculacion:investigaciones_lista")
 
 
 def get_user_specific_data(usuario):

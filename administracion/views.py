@@ -10,18 +10,27 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.contrib.sites.shortcuts import get_current_site
 from administracion.forms import (
     FormCategoria,
-    FormEmpresa,
-    FormEmpresaUpdate,
-    FormInstitucionEducativa,
-    FormInstitucionEducativaUpdate,
-    FormInvestigacion,
-    FormInvestigador,
-    FormInvestigadorUpdate,
     FormNoticia,
     FormUser,
 )
+from investigadores.forms import (
+    FormInvestigador,
+    FormInvestigadorUpdate,
+    FormInvestigacion,
+)
+from empresas.forms import (
+    FormEmpresa,
+    FormEmpresaUpdate,
+)
+from instituciones_educativas.forms import (
+    FormInstitucionEducativa,
+    FormInstitucionEducativaUpdate,
+)
 from django.contrib import messages
-from administracion.helpers import obtener_coordenadas, enviar_correo_respuesta_solicitud_ingreso
+from administracion.helpers import (
+    obtener_coordenadas,
+    enviar_correo_respuesta_solicitud_ingreso
+)
 import datetime
 
 
@@ -243,7 +252,6 @@ class InvestigadorEliminar(DeleteView):
         investigador.user.aprobado = False
         investigador.user.save()
 
-
         messages.success(self.request, "Investigador eliminado correctamente")
         return self.delete(request, *args, **kwargs)
 
@@ -444,7 +452,7 @@ class InstitucionEducativaEliminar(DeleteView):
         institucion_educativa = self.get_object()
         sitio = get_current_site(self.request)
         enviar_correo_respuesta_solicitud_ingreso(
-            "Respuesta de solicitud de ingreso",    
+            "Respuesta de solicitud de ingreso",
             "Su solicitud a sido rechazada por un administrador",
             [institucion_educativa.encargado.email],
             False,

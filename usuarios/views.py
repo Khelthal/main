@@ -28,7 +28,6 @@ class LoginView(LoginView):
     form_class = AuthenticationForm
 
     def form_invalid(self, form):
-        print(form.errors)
         return super().form_invalid(form)
 
 
@@ -127,7 +126,7 @@ def password_reset_request(request):
                             [user.email], fail_silently=False)
                     except BadHeaderError:
                         return HttpResponse('Invalid header found.')
-                    return redirect("/password_reset/done/")
+            return redirect(reverse_lazy("password_reset_done"))
     password_reset_form = PasswordResetForm()
     return render(
         request=request,
