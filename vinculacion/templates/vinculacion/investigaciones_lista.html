@@ -10,7 +10,7 @@
         <h4>Agregar investigación</h4>
       </div>
       <div class="card-body">
-        <a href="{% url 'vinculacion:investigacion_nuevo' %}"><span class="badge bg-success">Crear</span></a>
+        <a href="{% url 'investigadores:investigacion_nuevo' %}"><span class="badge bg-success">Crear</span></a>
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@
         <h4>Cargar investigaciones desde google scholar</h4>
       </div>
       <div class="card-body">
-        <form class="form form-vertical" method="POST" action="{% url 'vinculacion:investigaciones_fetch' %}">
+        <form class="form form-vertical" method="POST" action="{% url 'investigadores:investigaciones_fetch' %}">
           {% csrf_token %}
           <div class="form-body">
             <div class="row">

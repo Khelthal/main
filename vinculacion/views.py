@@ -52,7 +52,7 @@ def dashboard(request):
     #         ) for investigacion in Investigacion.objects.filter(
     #             autores=u.pk)]))),
     #     "municipio": u.municipio,
-    #     "url": reverse_lazy("vinculacion:investigador_perfil", args=[u.pk])
+    #     "url": reverse_lazy("investigadores:investigador_perfil", args=[u.pk])
     # } for u in investigadores])
     # usuarios.extend([{
     #     "username": u.encargado.username,
@@ -167,7 +167,7 @@ class CrearSolicitudTrabajo(LoginRequiredMixin, CreateView):
             self.request,
             "Solicitud de trabajo a el investigador " +
             str(investigador)+" enviada")
-        return redirect("vinculacion:investigador_perfil", investigador_id)
+        return redirect("investigadores:investigador_perfil", investigador_id)
 
 
 @login_required
@@ -186,7 +186,7 @@ def aceptar_solicitud(request, pk):
     solicitud.save()
     messages.success(request, "La solicitud ha sido aceptada")
 
-    return redirect("vinculacion:solicitudes_trabajo_lista")
+    return redirect("investigadores:solicitudes_trabajo_lista")
 
 
 @login_required
@@ -206,7 +206,7 @@ def rechazar_solicitud(request, pk):
     solicitud.save()
     messages.success(request, "La solicitud ha sido rechazada")
 
-    return redirect("vinculacion:solicitudes_trabajo_lista")
+    return redirect("investigadores:solicitudes_trabajo_lista")
 
 
 @login_required

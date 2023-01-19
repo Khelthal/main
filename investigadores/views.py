@@ -132,7 +132,7 @@ class InvestigadorSolicitudesTrabajo(ListView):
 class InvestigacionNuevo(CreateView):
     model = Investigacion
     form_class = FormInvestigacion
-    success_url = reverse_lazy('vinculacion:investigaciones_lista')
+    success_url = reverse_lazy('investigadores:investigaciones_lista')
     template_name = "vinculacion/formulario_perfil.html"
 
     def form_valid(self, form):
@@ -154,14 +154,14 @@ def investigaciones_google(request):
         except Exception:
             messages.error(
                 request, "No se encontró el perfil de google scholar")
-            return redirect("vinculacion:investigaciones_lista")
+            return redirect("investigadores:investigaciones_lista")
 
         author = get_author(user_id)
 
         if author is None:
             messages.error(
                 request, "No se encontró el perfil de google scholar")
-            return redirect("vinculacion:investigaciones_lista")
+            return redirect("investigadores:investigaciones_lista")
 
         publicaciones = asyncio.run(get_publications(author))
 
@@ -182,7 +182,7 @@ def investigaciones_google(request):
 
     messages.success(
                 request, "Carga de investigaciones exitosa")
-    return redirect("vinculacion:investigaciones_lista")
+    return redirect("investigadores:investigaciones_lista")
 
 
 def investigador_perfil(request, investigador_id):

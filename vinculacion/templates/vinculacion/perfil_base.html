@@ -14,7 +14,7 @@
           </li>
           <li class="nav-item">
             <a name="actualizar" class="nav-link" {% if user.tipo_usuario.tipo == "Investigador" %}
-              href="{% url 'vinculacion:investigador_actualizar' %}" {% elif user.tipo_usuario.tipo == "Empresa" %}
+              href="{% url 'investigadores:investigador_actualizar' %}" {% elif user.tipo_usuario.tipo == "Empresa" %}
               href="{% url 'vinculacion:empresa_actualizar' %}" {% else %}
               href="{% url 'vinculacion:institucion_educativa_actualizar' %}" {% endif %}
               id="actualizar_datos">Actualizar
@@ -30,10 +30,10 @@
           {% endif %}
           {% if user.tipo_usuario.tipo == "Investigador" %}
             <li class="nav-item">
-              <a name="investigaciones" class="nav-link" id="investigaciones" href="{% url 'vinculacion:investigaciones_lista' %}">Investigaciones</a>
+              <a name="investigaciones" class="nav-link" id="investigaciones" href="{% url 'investigadores:investigaciones_lista' %}">Investigaciones</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="solicitudes_trabajo" href="{% url 'vinculacion:solicitudes_trabajo_lista' %}">Solicitudes de colaboración</a>
+              <a class="nav-link" id="solicitudes_trabajo" href="{% url 'investigadores:solicitudes_trabajo_lista' %}">Solicitudes de colaboración</a>
             </li>
           {% endif %}
           <li class="nav-item">
