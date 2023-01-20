@@ -155,4 +155,18 @@ urlpatterns = [
           'noticias/eliminar/<int:pk>',
           views.NoticiaEliminar.as_view(),
           name='noticias_eliminar'),
+
+    # Misc
+    path(
+          'contacto/editar',
+          views.ContactoEditar.as_view(),
+          name='contacto'),
+    path(
+          'acerca_de/editar',
+          views.AcercaDeEditar.as_view(),
+          name='acerca_de'),
+    path(
+          'convocatoria/editar',
+          views.CambiarEstadoConvocatoria.as_view(),
+          name='toggle_convocatoria'),
 ]

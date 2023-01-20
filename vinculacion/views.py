@@ -18,6 +18,11 @@ from empresas.models import Empresa
 from instituciones_educativas.models import (
     InstitucionEducativa,
 )
+from administracion.models import (
+    Convocatoria,
+    AcercaDe,
+    Contacto
+)
 from usuarios.models import User, MUNICIPIOS
 import itertools
 from . import helpers
@@ -115,7 +120,13 @@ def perfil(request):
         return redirect("administracion:dashboard")
 
     if not usuario.tipo_usuario:
-        return render(request, "vinculacion/perfil_seleccionar.html")
+        if Convocatoria.objects.all()[0].activa:
+            return render(request, "vinculacion/perfil_seleccionar.html")
+        else:
+            messages.error(
+                request,
+                "La convocatoria se encuentra cerrada por el momento")
+            return redirect("investigadores:investigadores_lista")
 
     if not usuario.aprobado:
         return render(request, "vinculacion/perfil_pendiente.html")
@@ -302,3 +313,29 @@ def cambiar_estado(request, pk, estado):
             "Estado no válido")
 
     return redirect('vinculacion:trabajos_lista')
+
+
+@login_required
+def contacto(request):
+    contacto = Contacto.objects.all()[0]
+    return render(
+        request,
+        "vinculacion/info.html",
+        {
+            "info_titulo": "Contacto",
+            "info": contacto
+        }
+    )
+
+
+@login_required
+def acerca_de(request):
+    acerca_de = AcercaDe.objects.all()[0]
+    return render(
+        request,
+        "vinculacion/info.html",
+        {
+            "info_titulo": "Acerca de",
+            "info": acerca_de
+        }
+    )

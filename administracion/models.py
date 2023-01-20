@@ -1,3 +1,13 @@
-# from django.db import models
+from django.db import models
 
-# Create your models here.
+
+class Convocatoria(models.Model):
+    activa = models.BooleanField()
+
+
+class Contacto(models.Model):
+    datos = models.TextField()
+
+
+class AcercaDe(models.Model):
+    datos = models.TextField()

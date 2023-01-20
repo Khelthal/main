@@ -62,4 +62,4 @@
 <script src="{% static 'dist/assets/js/extensions/form-element-select.js' %}"></script>
 {% endblock %}
 
-{% block marcar_activo %}tablas{% endblock %}
+{% block marcar_activo %}{% if menu_activo %}{{menu_activo}}{% else %}tablas{% endif %}{% endblock %}

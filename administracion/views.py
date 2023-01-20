@@ -9,13 +9,21 @@ from empresas.models import Empresa
 from vinculacion.models import Categoria
 from instituciones_educativas.models import InstitucionEducativa
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+from django.views import View
 from django.contrib.sites.shortcuts import get_current_site
 from administracion.forms import (
     FormCategoria,
     FormNoticia,
     FormUser,
+    FormContacto,
+    FormAcercaDe
 )
 from administracion.user_tests import user_is_staff_member
+from administracion.models import (
+    Convocatoria,
+    Contacto,
+    AcercaDe
+)
 from investigadores.forms import (
     FormInvestigador,
     FormInvestigadorUpdate,
@@ -701,3 +709,64 @@ class NoticiaEliminar(UserPassesTestMixin, DeleteView):
     def post(self, request, *args, **kwargs):
         messages.success(self.request, "Noticia eliminada correctamente")
         return self.delete(request, *args, **kwargs)
+
+
+# Misc
+
+class ContactoEditar(UserPassesTestMixin, UpdateView):
+    model = Contacto
+    form_class = FormContacto
+    success_url = reverse_lazy('administracion:dashboard')
+    template_name = "administracion/formulario.html"
+    extra_context = {"accion": "Editar",
+                     "nombre_modelo": "información de contacto",
+                     "formulario_archivos": False,
+                     "menu_activo": "contacto"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
+
+    def get_object(self):
+        return Contacto.objects.all()[0]
+
+    def form_valid(self, form):
+        form.save()
+
+        messages.success(self.request, "Información de contacto actualizada")
+        return redirect(self.success_url)
+
+
+class AcercaDeEditar(UserPassesTestMixin, UpdateView):
+    model = AcercaDe
+    form_class = FormAcercaDe
+    success_url = reverse_lazy('administracion:dashboard')
+    template_name = "administracion/formulario.html"
+    extra_context = {"accion": "Editar",
+                     "nombre_modelo": "acerca de",
+                     "formulario_archivos": False,
+                     "menu_activo": "acerca_de"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
+
+    def get_object(self):
+        return AcercaDe.objects.all()[0]
+
+    def form_valid(self, form):
+        form.save()
+
+        messages.success(self.request, "Información acerca de actualizada")
+        return redirect(self.success_url)
+
+
+class CambiarEstadoConvocatoria(UserPassesTestMixin, View):
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
+
+    def post(self, request):
+        convocatoria = Convocatoria.objects.all()[0]
+        convocatoria.activa = not convocatoria.activa
+        convocatoria.save()
+        print(convocatoria.activa)
+        return redirect("administracion:dashboard")

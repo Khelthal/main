@@ -43,4 +43,14 @@ urlpatterns = [
         'perfil/trabajos/cambiar_estado/<int:pk>/<str:estado>',
         views.cambiar_estado,
         name='cambiar_estado_solicitud'),
+
+    # Misc
+    path(
+        'contacto',
+        views.contacto,
+        name='contacto'),
+    path(
+        'acerca_de',
+        views.acerca_de,
+        name='acerca_de'),
 ]

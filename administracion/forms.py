@@ -1,4 +1,5 @@
 from django import forms
+from administracion.models import Contacto, AcercaDe
 from usuarios.models import User
 from vinculacion.models import Categoria, Noticia
 
@@ -52,4 +53,28 @@ class FormNoticia(forms.ModelForm):
                 attrs={'class': 'form-control'}),
             'escritor': forms.Select(
                 attrs={'class': 'form-select'}),
+        }
+
+
+class FormContacto(forms.ModelForm):
+    class Meta:
+        model = Contacto
+        fields = "__all__"
+
+        widgets = {
+            'datos': forms.Textarea(
+                attrs={'class': 'form-control'}
+            )
+        }
+
+
+class FormAcercaDe(forms.ModelForm):
+    class Meta:
+        model = AcercaDe
+        fields = "__all__"
+
+        widgets = {
+            'datos': forms.Textarea(
+                attrs={'class': 'form-control'}
+            )
         }
