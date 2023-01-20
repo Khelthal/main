@@ -10,7 +10,11 @@
 
         <div class="d-flex align-items-center overflow-auto">
           <div class="avatar avatar-xl">
+            {% if usuario_data.imagen %}
             <img src="{{MEDIA_URL}}/{{usuario_data.imagen}}" alt="Face 1">
+            {% else %}
+            <img src="{% static 'dist/assets/images/faces/1.jpg' %}" alt="Avatar">
+            {% endif %}
           </div>
           <div class="ms-3 name">
             <h5 class="font-bold">{{user.username|capfirst}}</h5>

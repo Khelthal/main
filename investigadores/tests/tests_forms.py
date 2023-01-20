@@ -1,5 +1,5 @@
 from django.test import TestCase
-from administracion.forms import FormInvestigador, FormInvestigadorBase
+from investigadores.forms import FormInvestigador, FormInvestigadorBase
 from usuarios.models import User
 from investigadores.models import NivelInvestigador
 

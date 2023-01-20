@@ -1,18 +1,23 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import CreateView, UpdateView
 from administracion.helpers import obtener_coordenadas
+from administracion.user_tests import user_is_visitant
 from empresas.models import Empresa
 from empresas.forms import FormEmpresaUpdate
 from usuarios.models import TipoUsuario
 
 
-class EmpresaSolicitud(CreateView):
+class EmpresaSolicitud(UserPassesTestMixin, CreateView):
     model = Empresa
     form_class = FormEmpresaUpdate
     template_name = "vinculacion/formulario.html"
     extra_context = {"formulario_archivos": True}
+
+    def test_func(self):
+        return user_is_visitant(self.request.user)
 
     def form_valid(self, form):
         empresa = form.save(commit=False)
@@ -40,7 +45,7 @@ class EmpresaSolicitud(CreateView):
         return redirect('vinculacion:perfil')
 
 
-class EmpresaActualizar(UpdateView):
+class EmpresaActualizar(LoginRequiredMixin, UpdateView):
     model = Empresa
     form_class = FormEmpresaUpdate
     template_name = "vinculacion/formulario_perfil.html"

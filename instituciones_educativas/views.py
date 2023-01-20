@@ -1,8 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import CreateView, UpdateView
 from administracion.helpers import obtener_coordenadas
+from administracion.user_tests import user_is_visitant
 from investigadores.models import Investigador
 from instituciones_educativas.models import (
     InstitucionEducativa,
@@ -12,11 +14,14 @@ from instituciones_educativas.forms import FormInstitucionEducativaUpdate
 from usuarios.models import TipoUsuario
 
 
-class InstitucionEducativaSolicitud(CreateView):
+class InstitucionEducativaSolicitud(UserPassesTestMixin, CreateView):
     model = InstitucionEducativa
     form_class = FormInstitucionEducativaUpdate
     template_name = "vinculacion/formulario.html"
     extra_context = {"formulario_archivos": True}
+
+    def test_func(self):
+        return user_is_visitant(self.request.user)
 
     def form_valid(self, form):
         institucion_educativa = form.save(commit=False)
@@ -45,7 +50,7 @@ class InstitucionEducativaSolicitud(CreateView):
         return redirect('vinculacion:perfil')
 
 
-class InstitucionEducativaActualizar(UpdateView):
+class InstitucionEducativaActualizar(LoginRequiredMixin, UpdateView):
     model = InstitucionEducativa
     form_class = FormInstitucionEducativaUpdate
     template_name = "vinculacion/formulario_perfil.html"
@@ -151,7 +156,8 @@ def contestar_solicitud_ingreso(request, investigador_id, respuesta):
 
     solicitud.delete()
 
-    return redirect("instituciones_educativas:institucion_educativa_solicitudes")
+    return redirect(
+        "instituciones_educativas:institucion_educativa_solicitudes")
 
 
 @login_required

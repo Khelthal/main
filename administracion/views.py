@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from vinculacion.models import Noticia
@@ -13,6 +15,7 @@ from administracion.forms import (
     FormNoticia,
     FormUser,
 )
+from administracion.user_tests import user_is_staff_member
 from investigadores.forms import (
     FormInvestigador,
     FormInvestigadorUpdate,
@@ -31,9 +34,10 @@ from administracion.helpers import (
     obtener_coordenadas,
     enviar_correo_respuesta_solicitud_ingreso
 )
-import datetime
+from django.utils import timezone as datetime
 
 
+@user_passes_test(user_is_staff_member)
 def dashboard(request):
     usuarios = User.objects.all()
     usuarios_mes = {}
@@ -88,6 +92,7 @@ def dashboard(request):
         })
 
 
+@user_passes_test(user_is_staff_member)
 def aprobar_perfil(request, pk):
     usuario = User.objects.get(pk=pk)
     usuario.aprobado = True
@@ -108,18 +113,24 @@ def aprobar_perfil(request, pk):
 # Usuarios
 
 
-class UsuarioLista(ListView):
+class UsuarioLista(UserPassesTestMixin, ListView):
     model = User
     template_name = "administracion/usuarios_lista.html"
     context_object_name = "usuarios"
 
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
-class UsuarioNuevo(CreateView):
+
+class UsuarioNuevo(UserPassesTestMixin, CreateView):
     model = User
     form_class = FormUser
     success_url = reverse_lazy('administracion:usuarios_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Crear", "nombre_modelo": "usuario"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def form_valid(self, form):
         form.save()
@@ -127,12 +138,15 @@ class UsuarioNuevo(CreateView):
         return redirect(self.success_url)
 
 
-class UsuarioEditar(UpdateView):
+class UsuarioEditar(UserPassesTestMixin, UpdateView):
     model = User
     form_class = FormUser
     success_url = reverse_lazy('administracion:usuarios_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Editar", "nombre_modelo": "usuario"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def form_valid(self, form):
         form.save()
@@ -140,11 +154,14 @@ class UsuarioEditar(UpdateView):
         return redirect(self.success_url)
 
 
-class UsuarioEliminar(DeleteView):
+class UsuarioEliminar(UserPassesTestMixin, DeleteView):
     model = User
     success_url = reverse_lazy('administracion:usuarios_lista')
     template_name = "administracion/confirm_delete.html"
     extra_context = {"nombre_modelo": "usuario"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def post(self, request, *args, **kwargs):
         messages.success(self.request, "Usuario eliminado correctamente")
@@ -153,21 +170,27 @@ class UsuarioEliminar(DeleteView):
 # Investigadores
 
 
-class InvestigadorLista(ListView):
+class InvestigadorLista(UserPassesTestMixin, ListView):
     model = Investigador
     context_object_name = "investigadores"
     queryset = Investigador.objects.filter(user__aprobado=True)
     template_name = "administracion/investigadores_lista.html"
 
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
-class InvestigadorSolicitud(ListView):
+
+class InvestigadorSolicitud(UserPassesTestMixin, ListView):
     model = Investigador
     context_object_name = "investigadores"
     queryset = Investigador.objects.filter(user__aprobado=False)
     template_name = "administracion/investigadores_solicitud.html"
 
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
-class InvestigadorNuevo(CreateView):
+
+class InvestigadorNuevo(UserPassesTestMixin, CreateView):
     model = Investigador
     form_class = FormInvestigador
     success_url = reverse_lazy('administracion:investigadores_lista')
@@ -175,6 +198,9 @@ class InvestigadorNuevo(CreateView):
     extra_context = {"accion": "Crear",
                      "nombre_modelo": "investigador",
                      "formulario_archivos": True}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def form_valid(self, form):
         investigador = form.save(commit=False)
@@ -200,7 +226,7 @@ class InvestigadorNuevo(CreateView):
         return redirect(self.success_url)
 
 
-class InvestigadorEditar(UpdateView):
+class InvestigadorEditar(UserPassesTestMixin, UpdateView):
     model = Investigador
     form_class = FormInvestigadorUpdate
     success_url = reverse_lazy('administracion:investigadores_lista')
@@ -208,6 +234,9 @@ class InvestigadorEditar(UpdateView):
     extra_context = {"accion": "Editar",
                      "nombre_modelo": "investigador",
                      "formulario_archivos": True}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def form_valid(self, form):
         investigador = form.save(commit=False)
@@ -230,11 +259,14 @@ class InvestigadorEditar(UpdateView):
         return redirect(self.success_url)
 
 
-class InvestigadorEliminar(DeleteView):
+class InvestigadorEliminar(UserPassesTestMixin, DeleteView):
     model = Investigador
     success_url = reverse_lazy('administracion:investigadores_lista')
     template_name = "administracion/confirm_delete.html"
     extra_context = {"nombre_modelo": "investigador"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def post(self, request, *args, **kwargs):
 
@@ -258,27 +290,36 @@ class InvestigadorEliminar(DeleteView):
 # Empresas
 
 
-class EmpresaLista(ListView):
+class EmpresaLista(UserPassesTestMixin, ListView):
     model = Empresa
     context_object_name = "empresas"
     queryset = Empresa.objects.filter(encargado__aprobado=True)
     template_name = "administracion/empresas_lista.html"
 
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
-class EmpresaSolicitud(ListView):
+
+class EmpresaSolicitud(UserPassesTestMixin, ListView):
     model = Empresa
     context_object_name = "empresas"
     queryset = Empresa.objects.filter(encargado__aprobado=False)
     template_name = "administracion/empresas_solicitud.html"
 
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
-class EmpresaNuevo(CreateView):
+
+class EmpresaNuevo(UserPassesTestMixin, CreateView):
     model = Empresa
     form_class = FormEmpresa
     success_url = reverse_lazy('administracion:empresas_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Crear",
                      "nombre_modelo": "empresa", "formulario_archivos": True}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def form_valid(self, form):
         empresa = form.save(commit=False)
@@ -305,13 +346,16 @@ class EmpresaNuevo(CreateView):
         return redirect(self.success_url)
 
 
-class EmpresaEditar(UpdateView):
+class EmpresaEditar(UserPassesTestMixin, UpdateView):
     model = Empresa
     form_class = FormEmpresaUpdate
     success_url = reverse_lazy('administracion:empresas_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Editar",
                      "nombre_modelo": "empresa", "formulario_archivos": True}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def form_valid(self, form):
         empresa = form.save(commit=False)
@@ -334,11 +378,14 @@ class EmpresaEditar(UpdateView):
         return redirect(self.success_url)
 
 
-class EmpresaEliminar(DeleteView):
+class EmpresaEliminar(UserPassesTestMixin, DeleteView):
     model = Empresa
     success_url = reverse_lazy('administracion:empresas_lista')
     template_name = "administracion/confirm_delete.html"
     extra_context = {"nombre_modelo": "empresa"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def post(self, request, *args, **kwargs):
 
@@ -362,21 +409,27 @@ class EmpresaEliminar(DeleteView):
 # Instituciones Educativas
 
 
-class InstitucionEducativaLista(ListView):
+class InstitucionEducativaLista(UserPassesTestMixin, ListView):
     model = InstitucionEducativa
     context_object_name = "instituciones_educativas"
     queryset = InstitucionEducativa.objects.filter(encargado__aprobado=True)
     template_name = "administracion/instituciones_educativas_lista.html"
 
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
-class InstitucionEducativaSolicitud(ListView):
+
+class InstitucionEducativaSolicitud(UserPassesTestMixin, ListView):
     model = InstitucionEducativa
     context_object_name = "instituciones_educativas"
     queryset = InstitucionEducativa.objects.filter(encargado__aprobado=False)
     template_name = "administracion/instituciones_educativas_solicitud.html"
 
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
-class InstitucionEducativaNuevo(CreateView):
+
+class InstitucionEducativaNuevo(UserPassesTestMixin, CreateView):
     model = InstitucionEducativa
     form_class = FormInstitucionEducativa
     success_url = reverse_lazy('administracion:instituciones_educativas_lista')
@@ -384,6 +437,9 @@ class InstitucionEducativaNuevo(CreateView):
     extra_context = {"accion": "Crear",
                      "nombre_modelo": "institución educativa",
                      "formulario_archivos": True}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def form_valid(self, form):
         institucion_educativa = form.save(commit=False)
@@ -411,7 +467,7 @@ class InstitucionEducativaNuevo(CreateView):
         return redirect(self.success_url)
 
 
-class InstitucionEducativaEditar(UpdateView):
+class InstitucionEducativaEditar(UserPassesTestMixin, UpdateView):
     model = InstitucionEducativa
     form_class = FormInstitucionEducativaUpdate
     success_url = reverse_lazy('administracion:instituciones_educativas_lista')
@@ -419,6 +475,9 @@ class InstitucionEducativaEditar(UpdateView):
     extra_context = {"accion": "Editar",
                      "nombre_modelo": "institución educativa",
                      "formulario_archivos": True}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def form_valid(self, form):
         institucion_educativa = form.save(commit=False)
@@ -442,11 +501,14 @@ class InstitucionEducativaEditar(UpdateView):
         return redirect(self.success_url)
 
 
-class InstitucionEducativaEliminar(DeleteView):
+class InstitucionEducativaEliminar(UserPassesTestMixin, DeleteView):
     model = InstitucionEducativa
     success_url = reverse_lazy('administracion:instituciones_educativas_lista')
     template_name = "administracion/confirm_delete.html"
     extra_context = {"nombre_modelo": "institución educativa"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def post(self, request, *args, **kwargs):
         institucion_educativa = self.get_object()
@@ -470,18 +532,24 @@ class InstitucionEducativaEliminar(DeleteView):
 # Categorias
 
 
-class CategoriaLista(ListView):
+class CategoriaLista(UserPassesTestMixin, ListView):
     model = Categoria
     context_object_name = "categorias"
     template_name = "administracion/categorias_lista.html"
 
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
-class CategoriaNuevo(CreateView):
+
+class CategoriaNuevo(UserPassesTestMixin, CreateView):
     model = Categoria
     form_class = FormCategoria
     success_url = reverse_lazy('administracion:categorias_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Crear", "nombre_modelo": "categoria"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def form_valid(self, form):
         form.save()
@@ -489,12 +557,15 @@ class CategoriaNuevo(CreateView):
         return redirect(self.success_url)
 
 
-class CategoriaEditar(UpdateView):
+class CategoriaEditar(UserPassesTestMixin, UpdateView):
     model = Categoria
     form_class = FormCategoria
     success_url = reverse_lazy('administracion:categorias_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Editar", "nombre_modelo": "categoria"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def form_valid(self, form):
         form.save()
@@ -502,11 +573,14 @@ class CategoriaEditar(UpdateView):
         return redirect(self.success_url)
 
 
-class CategoriaEliminar(DeleteView):
+class CategoriaEliminar(UserPassesTestMixin, DeleteView):
     model = Categoria
     success_url = reverse_lazy('administracion:categorias_lista')
     template_name = "administracion/confirm_delete.html"
     extra_context = {"nombre_modelo": "categoria"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def post(self, request, *args, **kwargs):
         messages.success(self.request, "Categoría eliminada correctamente")
@@ -515,18 +589,24 @@ class CategoriaEliminar(DeleteView):
 # Investigaciones
 
 
-class InvestigacionLista(ListView):
+class InvestigacionLista(UserPassesTestMixin, ListView):
     model = Investigacion
     context_object_name = "investigaciones"
     template_name = "administracion/investigaciones_lista.html"
 
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
-class InvestigacionNuevo(CreateView):
+
+class InvestigacionNuevo(UserPassesTestMixin, CreateView):
     model = Investigacion
     form_class = FormInvestigacion
     success_url = reverse_lazy('administracion:investigaciones_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Crear", "nombre_modelo": "investigacion"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def form_valid(self, form):
         form.save()
@@ -535,12 +615,15 @@ class InvestigacionNuevo(CreateView):
         return redirect(self.success_url)
 
 
-class InvestigacionEditar(UpdateView):
+class InvestigacionEditar(UserPassesTestMixin, UpdateView):
     model = Investigacion
     form_class = FormInvestigacion
     success_url = reverse_lazy('administracion:investigaciones_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Editar", "nombre_modelo": "investigacion"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def form_valid(self, form):
         form.save()
@@ -549,30 +632,39 @@ class InvestigacionEditar(UpdateView):
         return redirect(self.success_url)
 
 
-class InvestigacionEliminar(DeleteView):
+class InvestigacionEliminar(UserPassesTestMixin, DeleteView):
     model = Investigacion
     success_url = reverse_lazy('administracion:investigaciones_lista')
     template_name = "administracion/confirm_delete.html"
     extra_context = {"nombre_modelo": "investigacion"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def post(self, request, *args, **kwargs):
         messages.success(self.request, "Investigación eliminada correctamente")
         return self.delete(request, *args, **kwargs)
 
 
-class NoticiaLista(ListView):
+class NoticiaLista(UserPassesTestMixin, ListView):
     model = Noticia
     context_object_name = "noticias"
     template_name = "administracion/noticias_lista.html"
 
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
-class NoticiaNueva(CreateView):
+
+class NoticiaNueva(UserPassesTestMixin, CreateView):
     model = Noticia
     form_class = FormNoticia
     success_url = reverse_lazy('administracion:noticias_lista')
     template_name = "administracion/formulario.html"
     extra_context = {"accion": "Crear",
                      "nombre_modelo": "noticia", "formulario_archivos": True}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def form_valid(self, form):
         form.save()
@@ -580,7 +672,7 @@ class NoticiaNueva(CreateView):
         return redirect(self.success_url)
 
 
-class NoticiaEditar(UpdateView):
+class NoticiaEditar(UserPassesTestMixin, UpdateView):
     model = Noticia
     form_class = FormNoticia
     success_url = reverse_lazy('administracion:noticias_lista')
@@ -588,17 +680,23 @@ class NoticiaEditar(UpdateView):
     extra_context = {"accion": "Crear",
                      "nombre_modelo": "noticia", "formulario_archivos": True}
 
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
+
     def form_valid(self, form):
         form.save()
         messages.success(self.request, "Noticia actualizada correctamente")
         return redirect(self.success_url)
 
 
-class NoticiaEliminar(DeleteView):
+class NoticiaEliminar(UserPassesTestMixin, DeleteView):
     model = Noticia
     success_url = reverse_lazy('administracion:noticias_lista')
     template_name = "administracion/confirm_delete.html"
     extra_context = {"nombre_modelo": "noticia"}
+
+    def test_func(self):
+        return user_is_staff_member(self.request.user)
 
     def post(self, request, *args, **kwargs):
         messages.success(self.request, "Noticia eliminada correctamente")

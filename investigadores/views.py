@@ -4,7 +4,9 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from administracion.helpers import obtener_coordenadas
+from administracion.user_tests import user_is_visitant
 from investigadores.models import (
     Investigador,
     Investigacion,
@@ -24,11 +26,14 @@ from usuarios.models import TipoUsuario
 from urllib.parse import urlparse, parse_qs
 
 
-class InvestigadorSolicitud(CreateView):
+class InvestigadorSolicitud(UserPassesTestMixin, CreateView):
     model = Investigador
     form_class = FormInvestigadorBase
     template_name = "vinculacion/formulario.html"
     extra_context = {"formulario_archivos": True}
+
+    def test_func(self):
+        return user_is_visitant(self.request.user)
 
     def form_valid(self, form):
         investigador = form.save(commit=False)
@@ -56,7 +61,7 @@ class InvestigadorSolicitud(CreateView):
         return redirect('vinculacion:perfil')
 
 
-class InvestigadorActualizar(UpdateView):
+class InvestigadorActualizar(LoginRequiredMixin, UpdateView):
     model = Investigador
     form_class = FormInvestigadorBase
     template_name = "vinculacion/formulario_perfil.html"
@@ -106,7 +111,7 @@ def investigadores_lista(request):
         {"investigadores": zip(investigadores, categorias)})
 
 
-class InvestigadorInvestigaciones(ListView):
+class InvestigadorInvestigaciones(LoginRequiredMixin, ListView):
     paginate_by = 10
     model = Investigacion
     template_name = "vinculacion/investigaciones_lista.html"
@@ -117,7 +122,7 @@ class InvestigadorInvestigaciones(ListView):
             autores__in=[investigador]).order_by('titulo')
 
 
-class InvestigadorSolicitudesTrabajo(ListView):
+class InvestigadorSolicitudesTrabajo(LoginRequiredMixin, ListView):
     paginate_by = 10
     model = SolicitudTrabajo
     template_name = "vinculacion/solicitudes_trabajo_lista.html"
@@ -129,7 +134,7 @@ class InvestigadorSolicitudesTrabajo(ListView):
             estado='E').order_by('fecha')
 
 
-class InvestigacionNuevo(CreateView):
+class InvestigacionNuevo(LoginRequiredMixin, CreateView):
     model = Investigacion
     form_class = FormInvestigacion
     success_url = reverse_lazy('investigadores:investigaciones_lista')
@@ -143,6 +148,7 @@ class InvestigacionNuevo(CreateView):
         return redirect(self.success_url)
 
 
+@login_required
 def investigaciones_google(request):
     if request.method == "POST":
         investigador = get_object_or_404(Investigador, user=request.user)
@@ -185,6 +191,7 @@ def investigaciones_google(request):
     return redirect("investigadores:investigaciones_lista")
 
 
+@login_required
 def investigador_perfil(request, investigador_id):
     investigador = Investigador.objects.get(pk=investigador_id)
     investigaciones = Investigacion.objects.filter(autores__in=[investigador])

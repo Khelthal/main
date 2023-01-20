@@ -1,5 +1,4 @@
 from django.urls import path
-from django.contrib.auth.decorators import login_required
 import instituciones_educativas.views as views
 
 app_name = 'instituciones_educativas'
@@ -7,7 +6,7 @@ app_name = 'instituciones_educativas'
 urlpatterns = [
     path(
         'formularios/institucion_educativa',
-        login_required(views.InstitucionEducativaSolicitud.as_view()),
+        views.InstitucionEducativaSolicitud.as_view(),
         name='institucion_educativa_form'),
     path(
         'formularios/institucion_educativa/actualizar',
