@@ -27,7 +27,10 @@
                   </p>
                   {% if investigador.user != user%}
                     <a href="{% url 'vinculacion:solicitud_trabajo_nueva' investigador.pk%}" class="btn btn-primary block">Solicitar trabajo</a>
-                  {% endif %}  
+                  {% endif %}
+                  {% if investigador.link_google_scholar %}
+                    <a target="_blank" href="{{investigador.link_google_scholar}}"><span class="badge bg-info">Google Scholar</span></a>
+                  {% endif %}
               </div>
           </div>
         </div>

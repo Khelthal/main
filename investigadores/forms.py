@@ -119,6 +119,8 @@ class FormInvestigadorBase(forms.ModelForm):
             'Ingresa una breve descripción tuya')
         self.fields["imagen"].widget.attrs['class'] = (
             'form-control')
+        self.fields["link_google_scholar"].widget.attrs['class'] = (
+            'form-control')
 
 
 class FormInvestigacion(forms.ModelForm):

@@ -9,3 +9,9 @@ curp_validador = RegexValidator(
     message='El CURP no tiene un formato válido',
     code='curp_invalido'
 )
+
+google_scholar_link_valdador = RegexValidator(
+    regex=r"^https://scholar.google.com/citations\?user=",
+    message="Link de Google Scholar inválido",
+    code="link_google_scholar_invalido"
+)
