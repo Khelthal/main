@@ -2,7 +2,7 @@ from pathlib import Path
 from django.db import models
 from vinculacion.models import Categoria
 from usuarios.models import User, MUNICIPIOS
-from investigadores.validators import curp_validador
+from investigadores.validators import curp_validador, google_scholar_link_valdador
 from administracion.validators import cp_validator
 
 
@@ -34,10 +34,10 @@ class Investigador(models.Model):
     latitud = models.FloatField()
     longitud = models.FloatField()
     codigo_postal = models.CharField(
-                                    max_length=5,
-                                    validators=[cp_validator])
+        max_length=5,
+        validators=[cp_validator])
     municipio = models.IntegerField(
-                                    choices=MUNICIPIOS)
+        choices=MUNICIPIOS)
     colonia = models.CharField(max_length=100)
     calle = models.CharField(max_length=100)
     numero_exterior = models.PositiveIntegerField()
@@ -51,6 +51,12 @@ class Investigador(models.Model):
         blank=True,
         null=True,
         default=None)
+    link_google_scholar = models.CharField(
+        max_length=200,
+        null=True,
+        blank=True,
+        verbose_name="Link de su perfil en Google Scholar",
+        validators=[google_scholar_link_valdador])
 
     def __str__(self):
         return self.user.username

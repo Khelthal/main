@@ -19,6 +19,9 @@
           <div class="ms-3 name">
             <h5 class="font-bold">{{user.username|capfirst}}</h5>
             <h6 class="text-muted mb-0">{{user.email}}</h6>
+            {% if user.tipo_usuario.tipo == "Investigador" and usuario_data.link_google_scholar %}
+              <a target="_blank" href="{{usuario_data.link_google_scholar}}"><span class="badge bg-info">Google Scholar</span></a>
+            {% endif %}
           </div>
         </div>
 
