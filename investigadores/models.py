@@ -64,8 +64,8 @@ class Investigador(models.Model):
 
 class Investigacion(models.Model):
     titulo = models.CharField(max_length=500)
-    categorias = models.ManyToManyField(Categoria)
-    autores = models.ManyToManyField(Investigador)
+    categorias = models.ManyToManyField(Categoria, blank=True)
+    autores = models.ManyToManyField(Investigador, blank=True)
     contenido = models.TextField()
 
     def __str__(self):
