@@ -112,7 +112,7 @@ def password_reset_request(request):
                     email_template_name = "auth/password_reset_email.txt"
                     c = {
                         "email": user.email,
-                        'domain': 'secyt.cozcyt.gob.mx/SDHJKssd283764',
+                        'domain': get_current_site(request),
                         'site_name': 'Sistema Estatal de Investigadores',
                         "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                         "user": user,
