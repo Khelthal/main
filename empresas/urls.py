@@ -13,6 +13,6 @@ urlpatterns = [
         views.EmpresaActualizar.as_view(),
         name='empresa_actualizar'),
     path(
-        'empresas', views.empresas_lista,
+        'empresas', views.EmpresaLista.as_view(),
         name='empresas_lista'),
 ]
