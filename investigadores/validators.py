@@ -1,4 +1,5 @@
 from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 
 curp_validador = RegexValidator(
     regex=(
@@ -15,3 +16,8 @@ google_scholar_link_valdador = RegexValidator(
     message="Link de Google Scholar inválido",
     code="link_google_scholar_invalido"
 )
+
+def limiteTamanioArchivo(archivo):
+    limite = 2e6
+    if archivo.size > limite:
+        raise ValidationError('Archivo demasiado grande. El tamaño del archivo no debería exceder de 2 MB.')

@@ -25,12 +25,19 @@
                   <p class="card-text" style="text-align:justify; text-justify:inter-word">
                       {{investigador.acerca_de}}
                   </p>
-                  {% if investigador.user != user%}
-                    <a href="{% url 'vinculacion:solicitud_trabajo_nueva' investigador.pk%}" class="btn btn-primary block">Solicitar trabajo</a>
-                  {% endif %}
-                  {% if investigador.link_google_scholar %}
-                    <a target="_blank" href="{{investigador.link_google_scholar}}"><span class="badge bg-info">Google Scholar</span></a>
-                  {% endif %}
+                  <p class="card-text">
+                    {% if investigador.link_google_scholar %}
+                      <a target="_blank" href="{{investigador.link_google_scholar}}"><span class="badge bg-info">Google Scholar</span></a>
+                    {% endif %}
+                    {% if investigador.curriculum_vitae %}
+                      <a target="_blank" href="{% url 'investigadores:mostrar_cv' investigador.pk%}" class="badge bg-secondary">Curriculum Vitae</a>
+                    {% endif %}
+                  </p>
+                  <p class="card-text">
+                    {% if investigador.user != user%}
+                      <a href="{% url 'vinculacion:solicitud_trabajo_nueva' investigador.pk%}" class="btn btn-primary">Solicitar trabajo</a>
+                    {% endif %}
+                  </p>
               </div>
           </div>
         </div>
