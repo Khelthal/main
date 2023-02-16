@@ -134,9 +134,9 @@ class FormInvestigacion(forms.ModelForm):
             'titulo': forms.TextInput(
                 attrs={'class': 'form-control'}),
             'categorias': forms.SelectMultiple(
-                attrs={'class': 'form-select multiple-remove'}),
+                attrs={'class': 'form-select choices multiple-remove'}),
             'autores': forms.SelectMultiple(
-                attrs={'class': 'form-select multiple-remove'}),
+                attrs={'class': 'form-select choices multiple-remove'}),
             'contenido': forms.Textarea(
                 attrs={'class': 'form-control'}),
         }

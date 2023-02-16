@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, get_object_or_404
@@ -119,6 +120,10 @@ def instituciones_educativas_lista(request):
             if investigador in institucion.miembros.all():
                 institucion.es_miembro = True
                 institucion.es_posible_solicitar = False
+
+    paginator = Paginator(instituciones, 10)
+    page_number = request.GET.get('page')
+    instituciones = paginator.get_page(page_number)
 
     return render(
         request,

@@ -27,7 +27,7 @@
 
   <div class="row w-75">
 
-    {% for investigador, categorias in investigadores %}
+    {% for investigador in object_list %}
     <div class="col-md-6">
       <div class="card">
         <div class="row no-gutters">
@@ -44,13 +44,9 @@
             <div class="card-body">
               <h5 class="card-title">{{investigador.user.username|capfirst}}</h5>
               <p class="card-text">
-                {% for i in "x"|ljust:investigador.nivel.nivel %}
-                <i class="fa fa-star"></i>
-                {% endfor %}
               </p>
             </div>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item">Especialidades: {{categorias|join:", "}}</li>
               <li class="list-group-item"><a href="{% url 'investigadores:investigador_perfil' investigador.pk%}" class="btn btn-primary">Ver perfil</a></li>
             </ul>
           </div>
@@ -58,6 +54,26 @@
       </div>
     </div>
     {% endfor %}
+
+    <div class="d-flex justify-content-center mt-3">
+    <ul class="pagination pagination-primary">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+            </a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{page_obj.previous_page_number}}</a></li>
+        {% endif %}
+
+        <li class="page-item active"><a class="page-link" href="#">{{page_obj.number}}</a></li>
+
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{page_obj.next_page_number}}</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+            </a></li>
+        {% endif %}
+    </ul>
+    </div>
 
   </div>
 

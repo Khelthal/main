@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.shortcuts import redirect, get_object_or_404, render
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView
 from administracion.helpers import obtener_coordenadas
 from administracion.user_tests import user_is_visitant
 from empresas.models import Empresa
@@ -76,10 +76,10 @@ class EmpresaActualizar(LoginRequiredMixin, UpdateView):
         return redirect('vinculacion:perfil')
 
 
-@login_required
-def empresas_lista(request):
-    empresas = Empresa.objects.filter(encargado__aprobado=True)
-    return render(
-        request,
-        "vinculacion/empresas_lista.html",
-        {"empresas": empresas})
+class EmpresaLista(LoginRequiredMixin, ListView):
+    paginate_by = 10
+    model = Empresa
+    template_name = "vinculacion/empresas_lista.html"
+
+    def get_queryset(self):
+        return Empresa.objects.filter(encargado__aprobado=True)

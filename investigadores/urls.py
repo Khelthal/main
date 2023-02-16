@@ -16,7 +16,7 @@ urlpatterns = [
         name='investigador_actualizar'),
     path(
         'investigadores',
-        views.investigadores_lista,
+        views.InvestigadorLista.as_view(),
         name='investigadores_lista'),
     path(
         'perfil/investigaciones', views.InvestigadorInvestigaciones.as_view(),

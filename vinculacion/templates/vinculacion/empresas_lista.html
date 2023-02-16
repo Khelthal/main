@@ -11,13 +11,13 @@
 
   <h1 class="titulo-seccion">Empresas</h1>
 
-  {% if not empresas %}
+  {% if not object_list %}
     <div class="alert alert-secondary">No existen empresas</div>
   {% endif %}
 
   <div class="row w-75">
 
-    {% for empresa in empresas %}
+    {% for empresa in object_list %}
     <div class="col-md-6">
       <div class="card empresa">
         <div class="row no-gutters">
@@ -39,6 +39,26 @@
       </div>
     </div>
     {% endfor %}
+
+    <div class="d-flex justify-content-center mt-3">
+    <ul class="pagination pagination-primary">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+            </a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{page_obj.previous_page_number}}</a></li>
+        {% endif %}
+
+        <li class="page-item active"><a class="page-link" href="#">{{page_obj.number}}</a></li>
+
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{page_obj.next_page_number}}</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+            </a></li>
+        {% endif %}
+    </ul>
+    </div>
 
   </div>
 
