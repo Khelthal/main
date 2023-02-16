@@ -22,6 +22,9 @@
             {% if user.tipo_usuario.tipo == "Investigador" and usuario_data.link_google_scholar %}
               <a target="_blank" href="{{usuario_data.link_google_scholar}}"><span class="badge bg-info">Google Scholar</span></a>
             {% endif %}
+            {% if user.tipo_usuario.tipo == "Investigador" and usuario_data.curriculum_vitae %}
+              <a target="_blank" href="{% url 'investigadores:mostrar_cv' user.pk%}" class="badge bg-secondary">Curriculum Vitae</a>
+            {% endif %}
           </div>
         </div>
 

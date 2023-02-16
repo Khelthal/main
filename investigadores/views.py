@@ -24,6 +24,8 @@ from vinculacion.helpers import (
 )
 from usuarios.models import TipoUsuario
 from urllib.parse import urlparse, parse_qs
+from django.http import FileResponse
+import os
 
 
 class InvestigadorSolicitud(UserPassesTestMixin, CreateView):
@@ -203,3 +205,9 @@ def investigador_perfil(request, investigador_id):
             "investigador": investigador,
             "investigaciones_lista": investigaciones
         })
+
+
+def mostrar_cv(request, investigador_id):
+    investigador = get_object_or_404(Investigador, user=investigador_id)
+    filepath = os.path.join('media', '{0}'.format(investigador.curriculum_vitae.name))
+    return FileResponse(open(filepath, 'rb'), content_type='application/pdf')

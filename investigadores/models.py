@@ -2,8 +2,9 @@ from pathlib import Path
 from django.db import models
 from vinculacion.models import Categoria
 from usuarios.models import User, MUNICIPIOS
-from investigadores.validators import curp_validador, google_scholar_link_valdador
+from investigadores.validators import curp_validador, google_scholar_link_valdador, limiteTamanioArchivo
 from administracion.validators import cp_validator
+from django.core.validators import FileExtensionValidator
 
 
 class NivelInvestigador(models.Model):
@@ -20,6 +21,12 @@ def rutaImagenInvestigador(instance, filename):
         instance.user.pk,
         extension)
 
+
+def rutaCVInvestigador(instance, filename):
+    extension = Path(filename).suffix
+    return 'usuarios/investigadores/CVs/{0}{1}'.format(
+        instance.curp,
+        extension)
 
 class Investigador(models.Model):
     user = models.OneToOneField(
@@ -57,6 +64,14 @@ class Investigador(models.Model):
         blank=True,
         verbose_name="Link de su perfil en Google Scholar",
         validators=[google_scholar_link_valdador])
+    curriculum_vitae = models.FileField(
+        upload_to=rutaCVInvestigador,
+        verbose_name="Curriculum Vitae",
+        blank=True,
+        null=True,
+        default=None,
+        validators=[FileExtensionValidator( ['pdf'] ), limiteTamanioArchivo ]
+    )
 
     def __str__(self):
         return self.user.username

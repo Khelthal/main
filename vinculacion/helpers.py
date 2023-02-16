@@ -77,7 +77,8 @@ def get_user_specific_data(usuario):
         usuario_data = {
             'email': usuario_investigador.user.email,
             'imagen': usuario_investigador.imagen,
-            'link_google_scholar': usuario_investigador.link_google_scholar
+            'link_google_scholar': usuario_investigador.link_google_scholar,
+            'curriculum_vitae': usuario_investigador.curriculum_vitae
         }
 
     elif tipo_usuario == "empresa":
