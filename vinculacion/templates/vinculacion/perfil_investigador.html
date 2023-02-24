@@ -16,15 +16,15 @@
           <div class="card-body">
             <div class="d-flex align-items-center overflow-auto">
               <div class="avatar avatar-xl">
-                {% if usuario_data.imagen %}
-                <img src="{{MEDIA_URL}}/{{usuario_data.imagen}}" alt="Face 1">
+                {% if investigador.imagen %}
+                <img src="{{MEDIA_URL}}/{{investigador.imagen}}" alt="Face 1">
                 {% else %}
                 <img src="{% static 'dist/assets/images/faces/1.jpg' %}" alt="Avatar">
                 {% endif %}
               </div>
               <div class="ms-3 name">
-                <h5 class="font-bold">{{user.username|capfirst}}</h5>
-                <h6 class="text-muted mb-0">{{user.email}}</h6>
+                <h5 class="font-bold">{{investigador.user.username|capfirst}}</h5>
+                <h6 class="text-muted mb-0">{{investigador.user.email}}</h6>
                 {% if user.tipo_usuario.tipo == "Investigador" and usuario_data.link_google_scholar %}
                   <a target="_blank" href="{{usuario_data.link_google_scholar}}"><span class="badge bg-info">Google Scholar</span></a>
                 {% endif %}
