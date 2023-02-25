@@ -12,8 +12,8 @@ curp_validador = RegexValidator(
 )
 
 google_scholar_link_valdador = RegexValidator(
-    regex=r"^https://scholar.google.com/citations\?user=",
-    message="Link de Google Scholar inválido",
+    regex=r"^https://scholar.google.com/citations",
+    message="Link de Google Scholar inválido. Un link válido tiene la siguiente estructura: https://scholar.google.com/citations?user=",
     code="link_google_scholar_invalido"
 )
 
