@@ -49,7 +49,7 @@ class Investigador(models.Model):
     calle = models.CharField(max_length=100)
     numero_exterior = models.PositiveIntegerField()
     acerca_de = models.TextField(
-        verbose_name="Acerca de",
+        verbose_name="Semblanza",
         max_length=1000,
         default="")
     imagen = models.ImageField(

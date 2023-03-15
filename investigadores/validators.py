@@ -18,6 +18,6 @@ google_scholar_link_valdador = RegexValidator(
 )
 
 def limiteTamanioArchivo(archivo):
-    limite = 2e6
+    limite = 4e6
     if archivo.size > limite:
         raise ValidationError('Archivo demasiado grande. El tamaño del archivo no debería exceder de 2 MB.')
